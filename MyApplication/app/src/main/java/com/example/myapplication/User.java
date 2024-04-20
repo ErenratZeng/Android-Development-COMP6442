@@ -115,5 +115,8 @@ public class User {
         System.out.println("Activity History: " + activityHistory.toString());
     }
 
-
+    // Method to send the message
+    public void sendMessage(String recipientId, String content) {
+        // TODO
+    }
 }
