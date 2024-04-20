@@ -25,15 +25,12 @@ public class User {
         this.password = password;
         this.profilePicture = ""; // TODO
         this.friendsList = new ArrayList<>();
+        this.blockList = new ArrayList<>();
         this.activityHistory = new ArrayList<>();
     }
 
     public User() {
 
-    }
-
-    public void login() {
-        // Login logic here
     }
 
     // Getters and Setters
