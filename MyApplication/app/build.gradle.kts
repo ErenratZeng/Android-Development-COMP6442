@@ -46,17 +46,18 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation("com.amap.api:3dmap:latest.integration")
+
+//    implementation("com.amap.api:3dmap:latest.integration")
     //file tree
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    // 2D map
-    implementation("com.amap.api:map2d:+")
-
-    // 定位功能
-    implementation("com.amap.api:location:+")
-
-    // 搜索功能
-    implementation("com.amap.api:search:+")
+//    // 2D map
+//    implementation("com.amap.api:map2d:+")
+//
+//    // 定位功能
+//    implementation("com.amap.api:location:+")
+//
+//    // 搜索功能
+//    implementation("com.amap.api:search:+")
 
 }
