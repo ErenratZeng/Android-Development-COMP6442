@@ -43,6 +43,14 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="247ff0dd76389d3e8feac674a2f38a76"/>
+        <!--GoogleMap apikey （具体内容写在local.properties里了）-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+        <!--GooglePlay 不知道为啥文档里要加-->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
 
         <activity
