@@ -26,15 +26,6 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/profileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profile"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="274dp"
-        tools:layout_editor_absoluteY="52dp" />
-
-    <Button
         android:id="@+id/dmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,6 +34,19 @@
         app:layout_constraintBottom_toTopOf="@+id/startExerciseButton"
         tools:layout_editor_absoluteX="155dp"
         tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="108dp"
+        android:layout_height="101dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/profile_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
