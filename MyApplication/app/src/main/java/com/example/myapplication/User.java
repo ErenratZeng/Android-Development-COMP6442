@@ -1,6 +1,11 @@
 package com.example.myapplication;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +19,7 @@ public class User {
     private List<String> blockList;  // Blocked users
     private List<String> activityHistory;  // Storing activity IDs for simplicity
 
-    public User(String userId, String username, String password) {
+    public User(String username, String password) {
         this.userId = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
@@ -117,6 +122,29 @@ public class User {
 
     // Method to send the message
     public void sendMessage(String recipientId, String content) {
-        // TODO
+        // Create a file name based on the user IDs involved in the conversation
+        String conversationFileName = "chat_history_" + this.userId + "_" + recipientId + ".txt";
+
+        // Ensure the directory for the chat history exists
+        File directory = new File("ChatHistories");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+
+        // Create a File object
+        File conversationFile = new File(directory, conversationFileName);
+
+        // Append the message to the file with BufferedWriter
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(conversationFile, true))) {
+            // Construct the message with a timestamp
+            String timestamp = new Date().toString(); // Simple string representation of the current Date and Time
+            String messageLine = timestamp + " From " + this.userId + " to " + recipientId + ": " + content + "\n";
+
+            // Write the message to the file
+            writer.write(messageLine);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }

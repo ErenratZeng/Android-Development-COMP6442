@@ -10,7 +10,7 @@ public class Message {
         this.senderId = senderId;
         this.recipientId = recipientId;
         this.messageContent = messageContent;
-        this.timestamp = timestamp;
+        this.timestamp = System.currentTimeMillis();
     }
 
     // Getters and Setters
