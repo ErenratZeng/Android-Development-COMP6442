@@ -2,7 +2,11 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.myapplication.databinding.ActivityChatBinding;
 
@@ -21,7 +25,21 @@ public class ChatActivity extends AppCompatActivity {
         assert receiver != null;
         binding.textName.setText(receiver.getUsername());
 
+
+        ImageView profileButton = findViewById(R.id.imageInfo);
+        profileButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"User Profile",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                intent.putExtra("user", receiver);
+                startActivity(intent);
+            }
+        });
+
     }
+
+
 
     public void setListeners() {
 

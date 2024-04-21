@@ -13,6 +13,7 @@ import java.util.UUID;
 // Make it serializable to pass the data through Intent
 public class User implements Serializable {
     protected String userId;
+    protected String gender;
     protected String username;
     protected String password;
     private String email;
@@ -23,6 +24,7 @@ public class User implements Serializable {
 
     public User(String username, String password) {
         this.userId = UUID.randomUUID().toString();
+        this.gender = gender;
         this.username = username;
         this.password = password;
         this.profilePicture = ""; // TODO
@@ -42,6 +44,14 @@ public class User implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getGender(){
+        return gender;
+    }
+
+    public void setGender(String gender){
+        this.gender = gender;
     }
 
     public String getUsername() {

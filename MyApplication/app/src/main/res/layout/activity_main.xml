@@ -32,8 +32,8 @@
         android:layout_marginBottom="30dp"
         android:text="Message"
         app:layout_constraintBottom_toTopOf="@+id/startExerciseButton"
-        tools:layout_editor_absoluteX="155dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
         android:id="@+id/imageView"

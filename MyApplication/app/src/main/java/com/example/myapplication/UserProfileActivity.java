@@ -1,24 +1,22 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import com.example.myapplication.databinding.ActivityUserProfileBinding;
 
 public class UserProfileActivity extends AppCompatActivity {
+    private ActivityUserProfileBinding binding;
+    private User receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_user_profile);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        binding = ActivityUserProfileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        receiver = getIntent().getSerializableExtra("user", com.example.myapplication.User.class);
+        assert receiver != null;
+
+        binding.textViewFullName.setText(receiver.getUsername());
     }
 }
