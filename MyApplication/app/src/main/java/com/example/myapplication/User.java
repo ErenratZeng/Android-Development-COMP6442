@@ -4,12 +4,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class User {
+// Make it serializable to pass the data through Intent
+public class User implements Serializable {
     protected String userId;
     protected String username;
     protected String password;

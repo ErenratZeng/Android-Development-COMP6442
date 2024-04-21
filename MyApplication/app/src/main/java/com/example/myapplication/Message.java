@@ -1,16 +1,22 @@
 package com.example.myapplication;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 public class Message {
     private String senderId;
     private String recipientId;
     private String messageContent;
-    private long timestamp; // Create timestamp on send
+    private String datetime; // Create timestamp on send
 
     public Message(String senderId, String recipientId, String messageContent, long timestamp) {
         this.senderId = senderId;
         this.recipientId = recipientId;
         this.messageContent = messageContent;
-        this.timestamp = System.currentTimeMillis();
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        this.datetime = myDateObj.format(myFormatObj);
     }
 
     // Getters and Setters
@@ -38,12 +44,9 @@ public class Message {
         this.messageContent = messageContent;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public String getDatetime() {
+        return datetime;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
 
 }

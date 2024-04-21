@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"Message",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                // TODO: change the argument to User and remove the dummy
+                intent.putExtra("user", new User("Alice", "password123"));
                 startActivity(intent);
             }
         });
