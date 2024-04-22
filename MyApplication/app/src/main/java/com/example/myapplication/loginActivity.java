@@ -24,7 +24,9 @@ public class loginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login); // 确保布局文件名正确
+
+        View mainLayout = findViewById(R.id.main);
 
         // Find the Views in the layout
         editTextUserId = findViewById(R.id.editTextUserId);
