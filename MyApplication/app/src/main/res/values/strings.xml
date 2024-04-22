@@ -14,4 +14,7 @@
     <string name="location_permission_denied">location permission denied</string>
     <string name="Distance">Distance</string>
     <string name="_00_00">00:00</string>
+    <string name="map_not_ready" />
+    <string name="map_not_ready_1">map not ready !!</string>
+    <string name="zoom_buttons">zoom buttons</string>
 </resources>

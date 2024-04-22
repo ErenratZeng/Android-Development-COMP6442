@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentActivity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 import android.annotation.SuppressLint;
 import android.location.Location;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.UiSettings;
 import com.example.myapplication.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends AppCompatActivity
@@ -49,6 +52,8 @@ public class MapsActivity extends AppCompatActivity
 
     private FusedLocationProviderClient mFusedLocationClient;
 
+    private UiSettings mUiSettings;
+
     private ActivityMapsBinding binding;
 
     @Override
@@ -63,6 +68,13 @@ public class MapsActivity extends AppCompatActivity
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+    }
+
+    /**
+     * Returns whether the checkbox with the given id is checked.
+     */
+    private boolean isChecked(int id) {
+        return ((CheckBox) findViewById(id)).isChecked();
     }
 
     /**
@@ -84,6 +96,9 @@ public class MapsActivity extends AppCompatActivity
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
 
+        mUiSettings = mMap.getUiSettings();
+        mUiSettings.setZoomControlsEnabled(isChecked(R.id.zoom_buttons_toggle));
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
             mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
@@ -94,6 +109,27 @@ public class MapsActivity extends AppCompatActivity
         } else {
             enableMyLocation();
         }
+    }
+
+    /**
+     * Checks if the map is ready (which depends on whether the Google Play services APK is
+     * available. This should be called prior to calling any methods on GoogleMap.
+     */
+    private boolean checkReady() {
+        if (mMap == null) {
+            Toast.makeText(this, R.string.map_not_ready, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public void setZoomButtonsEnabled(View v) {
+        if (!checkReady()) {
+            return;
+        }
+        // Enables/disables the zoom controls (+/- buttons in the bottom-right of the map for LTR
+        // locale or bottom-left for RTL locale).
+        mUiSettings.setZoomControlsEnabled(((CheckBox) v).isChecked());
     }
 
     /**
