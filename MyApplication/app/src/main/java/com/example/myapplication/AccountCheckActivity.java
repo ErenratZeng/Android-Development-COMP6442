@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.util.Log;
 
 public class AccountCheckActivity extends AppCompatActivity {
 
@@ -18,6 +19,7 @@ public class AccountCheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_check);
+        Log.d("ActivityStatus", "AccountCheckActivity started successfully");
 
         btnYes = (Button) findViewById(R.id.btnYes);  // 强制类型转换确保正确处理
         btnNo = (Button) findViewById(R.id.btnNo);

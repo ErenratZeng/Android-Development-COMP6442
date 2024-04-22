@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FF6200EE"
     android:padding="16dp">
 
     <Button
         android:id="@+id/btnYes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Yes" />
+        android:text="Yes"
+        android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnNo"
@@ -18,3 +21,4 @@
         android:layout_height="wrap_content"
         android:text="No" />
 </LinearLayout>
+
