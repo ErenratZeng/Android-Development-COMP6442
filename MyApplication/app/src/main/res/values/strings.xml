@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="distence">Distence</string>
+    <string name="_0_km">0 km</string>
+    <string name="duration">Duration</string>
+    <string name="_0_min">0 min</string>
+    <string name="calories">Calories</string>
+    <string name="_0_cal">0 cal</string>
+    <string name="distance">distance</string>
+    <string name="start">Start</string>
+    <string name="permission_required_toast">permission required toast</string>
+    <string name="permission_rationale_location">permission rationale location</string>
+    <string name="location_permission_denied">location permission denied</string>
+    <string name="Distance">Distance</string>
+    <string name="_00_00">00:00</string>
+    <string name="map_not_ready" />
+    <string name="map_not_ready_1">map not ready !!</string>
+    <string name="zoom_buttons">zoom buttons</string>
 </resources>
