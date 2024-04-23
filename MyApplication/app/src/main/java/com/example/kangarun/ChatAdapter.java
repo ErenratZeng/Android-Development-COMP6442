@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.kangarun;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.databinding.ReceivedMessageBinding;
-import com.example.myapplication.databinding.SentMessageBinding;
+import com.example.kangarun.databinding.ReceivedMessageBinding;
+import com.example.kangarun.databinding.SentMessageBinding;
 
 import java.util.List;
 

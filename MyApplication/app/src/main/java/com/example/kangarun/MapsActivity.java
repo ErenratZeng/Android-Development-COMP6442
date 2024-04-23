@@ -1,21 +1,18 @@
-package com.example.myapplication;
+package com.example.kangarun;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.Manifest;
-import android.Manifest.permission;
 
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,10 +20,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.UiSettings;
-import com.example.myapplication.databinding.ActivityMapsBinding;
+import com.example.kangarun.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends AppCompatActivity
         implements

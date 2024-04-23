@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.kangarun;
 
 public class AdminUser extends User {
 

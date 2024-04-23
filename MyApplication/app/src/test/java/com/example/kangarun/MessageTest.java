@@ -1,8 +1,7 @@
-package com.example.myapplication;
+package com.example.kangarun;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 public class MessageTest {
     @Test
     public void messageTest() {

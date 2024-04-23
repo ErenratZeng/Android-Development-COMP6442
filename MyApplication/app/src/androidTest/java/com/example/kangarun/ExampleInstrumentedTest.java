@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.kangarun;
 
 import android.content.Context;
 

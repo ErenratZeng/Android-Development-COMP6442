@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.kangarun;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.myapplication.databinding.ActivityChatBinding;
+import com.example.kangarun.databinding.ActivityChatBinding;
 
 public class ChatActivity extends AppCompatActivity {
     private ActivityChatBinding binding;
@@ -21,7 +21,7 @@ public class ChatActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
         binding.imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
-        receiver = getIntent().getSerializableExtra("user", com.example.myapplication.User.class);
+        receiver = getIntent().getSerializableExtra("user", com.example.kangarun.User.class);
         assert receiver != null;
         binding.textName.setText(receiver.getUsername());
 

@@ -1,8 +1,8 @@
-package com.example.myapplication;
+package com.example.kangarun;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.myapplication.databinding.ActivityUserProfileBinding;
+import com.example.kangarun.databinding.ActivityUserProfileBinding;
 
 public class UserProfileActivity extends AppCompatActivity {
     private ActivityUserProfileBinding binding;
@@ -14,7 +14,7 @@ public class UserProfileActivity extends AppCompatActivity {
         binding = ActivityUserProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        receiver = getIntent().getSerializableExtra("user", com.example.myapplication.User.class);
+        receiver = getIntent().getSerializableExtra("user", com.example.kangarun.User.class);
         assert receiver != null;
 
         binding.textViewFullName.setText(receiver.getUsername());

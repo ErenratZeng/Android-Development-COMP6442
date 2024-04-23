@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.kangarun;
 
 import java.io.BufferedWriter;
 import java.io.File;
