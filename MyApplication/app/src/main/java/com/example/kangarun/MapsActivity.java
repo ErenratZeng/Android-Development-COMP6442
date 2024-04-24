@@ -89,6 +89,7 @@ public class MapsActivity extends AppCompatActivity
         startExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Start Exercise!",Toast.LENGTH_SHORT).show();
                 startDrawingPath();
             }
         });
@@ -112,7 +113,7 @@ public class MapsActivity extends AppCompatActivity
                     }
                 }
             }
-        }, 0, 3000);
+        }, 0, 2000);
     }
 
     private void getCurrentLocation() {
