@@ -6,8 +6,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
 
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 import android.annotation.SuppressLint;
@@ -19,10 +22,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.UiSettings;
 import com.example.kangarun.databinding.ActivityMapsBinding;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MapsActivity extends AppCompatActivity
         implements
@@ -52,6 +63,15 @@ public class MapsActivity extends AppCompatActivity
 
     private ActivityMapsBinding binding;
 
+    //    private FusedLocationProviderClient mFusedLocationProviderClient;
+    public static final String TAG = "MapActivity";
+
+    private LatLng mCurrentLocation; //records current location after clicking start exercise button
+
+    private List<LatLng> mPathPoints = new ArrayList<>(); // store all coordinates in path保存路径上的所有坐标点
+    private
+    Polyline mPolyline; // used to draw poly line
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +83,90 @@ public class MapsActivity extends AppCompatActivity
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
+        }
+
+        Button startExerciseButton = findViewById(R.id.start_button);
+        startExerciseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startDrawingPath();
+            }
+        });
+    }
+
+    private void startDrawingPath() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (mMap != null) {
+                    getCurrentLocation();
+                    if (mCurrentLocation != null) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                drawPointOnMap(mCurrentLocation);
+                                updatePath();
+                            }
+                        });
+                    }
+                }
+            }
+        }, 0, 3000);
+    }
+
+    private void getCurrentLocation() {
+        if (mFusedLocationClient != null) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                enableMyLocation();
+            }
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                }
+            });
+        }
+    }
+
+    private void updatePath() {
+        if (mCurrentLocation != null) {
+            mPathPoints.add(mCurrentLocation); // 将当前位置添加到路径坐标列表中
+
+            if (mPathPoints.size() > 1) {
+                if (mPolyline != null) {
+                    mPolyline.remove(); // 清除之前的多段线
+                }
+
+                // 构建多段线
+                PolylineOptions polylineOptions = new PolylineOptions()
+                        .color(Color.BLUE)
+                        .width(5);
+
+                for (LatLng point : mPathPoints) {
+                    polylineOptions.add(point);
+                    System.out.println(point);
+                }
+
+                mPolyline = mMap.addPolyline(polylineOptions);
+            }
+        }
+    }
+
+    private void drawPointOnMap(LatLng point) {
+        if (mMap != null) {
+            mMap.addCircle(new CircleOptions()
+                    .center(point)
+                    .radius(5) // 半径为5米，可根据需要调整
+                    .strokeColor(Color.BLUE)
+                    .fillColor(Color.BLUE));
         }
     }
 
@@ -95,7 +199,8 @@ public class MapsActivity extends AppCompatActivity
         mUiSettings = mMap.getUiSettings();
         mUiSettings.setZoomControlsEnabled(isChecked(R.id.zoom_buttons_toggle));
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
             mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
                 if (location != null) {
