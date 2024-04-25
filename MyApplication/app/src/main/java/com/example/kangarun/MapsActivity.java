@@ -8,10 +8,10 @@ import androidx.core.app.ActivityCompat;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.annotation.SuppressLint;
 import android.location.Location;
@@ -69,10 +69,14 @@ public class MapsActivity extends AppCompatActivity
     private LatLng mCurrentLocation; //records current location after clicking start exercise button
 
     private List<LatLng> mPathPoints = new ArrayList<>(); // store all coordinates in path保存路径上的所有坐标点
-    private
-    Polyline mPolyline; // used to draw poly line
+    private Polyline mPolyline; // used to draw poly line
 
-    @Override
+    private Timer mPathTimer = null; // 用于绘制路径的计时器
+    private Timer mDurationTimer = null; // 用于计时的计时器
+    private long mStartTimeMillis = 0; // 记录开始计时的时间戳
+    private double distance = 0;//记录运动的距离
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
@@ -89,15 +93,24 @@ public class MapsActivity extends AppCompatActivity
         startExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Start Exercise!",Toast.LENGTH_SHORT).show();
-                startDrawingPath();
+                if (startExerciseButton.getText().equals("Start")) {
+                    startExerciseButton.setText(getString(R.string.stop));
+                    Toast.makeText(getApplicationContext(), "Start Exercise!", Toast.LENGTH_SHORT).show();
+                    startDrawingPath();
+                    startTiming();
+                } else {
+                    startExerciseButton.setText(getString(R.string.start));
+                    Toast.makeText(getApplicationContext(), "Stop Exercise", Toast.LENGTH_SHORT).show();
+                    stopDrawingPath();
+                    stopTiming();
+                }
             }
         });
     }
 
     private void startDrawingPath() {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        mPathTimer = new Timer();
+        mPathTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 if (mMap != null) {
@@ -106,7 +119,6 @@ public class MapsActivity extends AppCompatActivity
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-//                                drawPointOnMap(mCurrentLocation);
                                 updatePath();
                             }
                         });
@@ -115,6 +127,49 @@ public class MapsActivity extends AppCompatActivity
             }
         }, 0, 1000);
     }
+
+    private void stopDrawingPath() {
+        if (mPathTimer != null) {
+            mPathTimer.cancel();
+            mPathTimer = null;
+        }
+    }
+
+    private void startTiming() {
+        // 从00:00开始计时
+        mStartTimeMillis = System.currentTimeMillis();
+        mDurationTimer = new Timer();
+        mDurationTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                long elapsedTimeMillis = System.currentTimeMillis() - mStartTimeMillis;
+                long elapsedSeconds = elapsedTimeMillis / 1000;
+                long secondsDisplay = elapsedSeconds % 60;
+                long elapsedMinutes = elapsedSeconds / 60;
+                String timeDisplay = String.format("%02d:%02d", elapsedMinutes, secondsDisplay);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateDurationTextView(timeDisplay);
+                    }
+                });
+            }
+        }, 0, 1000);
+    }
+
+    private void stopTiming() {
+        if (mDurationTimer != null) {
+            mDurationTimer.cancel();
+            mDurationTimer = null;
+        }
+    }
+
+    private void updateDurationTextView(String timeDisplay) {
+        TextView durationTextView = findViewById(R.id.duration_text);
+        durationTextView.setText(timeDisplay);
+    }
+
 
     private void getCurrentLocation() {
         if (mFusedLocationClient != null) {
