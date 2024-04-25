@@ -188,25 +188,6 @@ public class MapsActivity extends AppCompatActivity
         Location.distanceBetween(start.latitude, start.longitude, end.latitude, end.longitude, results);
         return results[0];
     }
-
-    /**
-     * updating text in duration textview
-     * @param timeDisplay the duration of time need to be display on textview
-     */
-    private void updateDurationTextView(String timeDisplay) {
-        TextView durationTextView = findViewById(R.id.duration_text);
-        durationTextView.setText(timeDisplay);
-    }
-
-    /**
-     * 更新显示距离的 TextView
-     * @param distance 距离（米）
-     */
-    private void updateDistanceTextView(double distance) {
-        TextView distanceTextView = findViewById(R.id.distance);
-        distanceTextView.setText(String.format("%.2f km", distance / 1000));
-    }
-
     /**
      * get current location
      */
@@ -256,6 +237,66 @@ public class MapsActivity extends AppCompatActivity
             updateDistanceTextView(distance);
         }
     }
+
+    /**
+     * updating text in duration textview
+     * @param timeDisplay the duration of time need to be display on textview
+     */
+    private void updateDurationTextView(String timeDisplay) {
+        TextView durationTextView = findViewById(R.id.duration_text);
+        durationTextView.setText(timeDisplay);
+    }
+
+    /**
+     * update distance display TextView
+     * @param distance meters
+     */
+    private void updateDistanceTextView(double distance) {
+        TextView distanceTextView = findViewById(R.id.distance);
+        distanceTextView.setText(String.format("%.2f km", distance / 1000));
+        double calories = calculateCalories(distance, System.currentTimeMillis() - mStartTimeMillis, 70); //
+        updateCaloriesTextView(calories);
+    }
+
+//    /**
+//     * Calculate calories burned based on distance, time, and weight.
+//     * @param timeMillis Time in milliseconds
+//     * @param weightKg Weight in kilograms
+//     * @return Calories burned
+//     */
+//    private double calculateCalories(long timeMillis, double weightKg) {
+//        double minutes = timeMillis / 60000.0;
+//        double MET = 7; // Moderate jogging
+//        double caloriesPerMinute = (MET * weightKg * 3.5) / 200;
+//        return caloriesPerMinute * minutes;
+//    }
+
+    /**
+     * Calculate calories burned based on weight, time, and speed.
+     * @param distanceMeters Distance in meters
+     * @param timeMillis Time in milliseconds
+     * @param weightKg Weight in kilograms
+     * @return Calories burned
+     */
+    private double calculateCalories(double distanceMeters, long timeMillis, double weightKg) {
+        double distanceKm = distanceMeters / 1000.0; // 距离转换为千米
+        double timeHours = timeMillis / 3600000.0; // 时间转换为小时
+        double speedMinPer400m = (timeMillis / 60000.0) / (distanceMeters / 400.0); // 计算速度（分钟每400米）
+
+        double K = 30 / speedMinPer400m; // 计算指数K
+        return weightKg * timeHours * K; // 返回卡路里消耗
+    }
+
+    /**
+     * Update the text in the calories TextView
+     * @param calories Number of calories burned
+     */
+    private void updateCaloriesTextView(double calories) {
+        TextView caloriesTextView = findViewById(R.id.calories_text);
+        caloriesTextView.setText(String.format("%.0f cal", calories));
+    }
+
+
 
 
     /**
