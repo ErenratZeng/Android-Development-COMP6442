@@ -68,13 +68,13 @@ public class MapsActivity extends AppCompatActivity
 
     private LatLng mCurrentLocation; //records current location after clicking start exercise button
 
-    private List<LatLng> mPathPoints = new ArrayList<>(); // store all coordinates in path保存路径上的所有坐标点
+    private List<LatLng> mPathPoints = new ArrayList<>(); // store all coordinates in path
     private Polyline mPolyline; // used to draw poly line
 
-    private Timer mPathTimer = null; // 用于绘制路径的计时器
-    private Timer mDurationTimer = null; // 用于计时的计时器
-    private long mStartTimeMillis = 0; // 记录开始计时的时间戳
-    private double distance = 0;//记录运动的距离
+    private Timer mPathTimer = null; // timer used for draw path
+    private Timer mDurationTimer = null; //timer used for calculate duration
+    private long mStartTimeMillis = 0; //record time stamp when start exercise
+    private double distance = 0;//record the distence of exercise
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +108,9 @@ public class MapsActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * drawing path on map
+     */
     private void startDrawingPath() {
         mPathTimer = new Timer();
         mPathTimer.scheduleAtFixedRate(new TimerTask() {
@@ -128,6 +131,9 @@ public class MapsActivity extends AppCompatActivity
         }, 0, 1000);
     }
 
+    /**
+     * stop drawing path on map
+     */
     private void stopDrawingPath() {
         if (mPathTimer != null) {
             mPathTimer.cancel();
@@ -135,6 +141,9 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * start calculating exercise duration
+     */
     private void startTiming() {
         // 从00:00开始计时
         mStartTimeMillis = System.currentTimeMillis();
@@ -158,6 +167,9 @@ public class MapsActivity extends AppCompatActivity
         }, 0, 1000);
     }
 
+    /**
+     * stop calculating exercise duration
+     */
     private void stopTiming() {
         if (mDurationTimer != null) {
             mDurationTimer.cancel();
@@ -165,23 +177,24 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+
+    /**
+     * updating text in duration textview
+     * @param timeDisplay the duration of time need to be display on textview
+     */
     private void updateDurationTextView(String timeDisplay) {
         TextView durationTextView = findViewById(R.id.duration_text);
         durationTextView.setText(timeDisplay);
     }
 
-
+    /**
+     * get current location
+     */
     private void getCurrentLocation() {
         if (mFusedLocationClient != null) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
                 enableMyLocation();
             }
             mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
@@ -192,10 +205,12 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * update path e.g. polyline
+     */
     private void updatePath() {
         if (mCurrentLocation != null) {
             mPathPoints.add(mCurrentLocation); // 将当前位置添加到路径坐标列表中
-
             if (mPathPoints.size() > 1) {
                 if (mPolyline != null) {
                     mPolyline.remove(); // 清除之前的多段线
