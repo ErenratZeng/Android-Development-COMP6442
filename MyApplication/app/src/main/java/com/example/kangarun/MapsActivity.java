@@ -113,7 +113,7 @@ public class MapsActivity extends AppCompatActivity
                     }
                 }
             }
-        }, 0, 2000);
+        }, 0, 1000);
     }
 
     private void getCurrentLocation() {
@@ -149,7 +149,7 @@ public class MapsActivity extends AppCompatActivity
                 // 构建多段线
                 PolylineOptions polylineOptions = new PolylineOptions()
                         .color(Color.BLUE)
-                        .width(5);
+                        .width(20);
 
                 for (LatLng point : mPathPoints) {
                     polylineOptions.add(point);
