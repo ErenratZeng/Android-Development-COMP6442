@@ -74,7 +74,7 @@ public class MapsActivity extends AppCompatActivity
     private Timer mPathTimer = null; // timer used for draw path
     private Timer mDurationTimer = null; //timer used for calculate duration
     private long mStartTimeMillis = 0; //record time stamp when start exercise
-    private double distance = 0;//record the distence of exercise
+    private double distance = 0;//record the distance of exercise
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +177,17 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Calculate distance between two points in latitude and longitude.
+     * @param start LatLng of start point
+     * @param end LatLng of end point
+     * @return distance in meters
+     */
+    private float calculateDistance(LatLng start, LatLng end) {
+        float[] results = new float[1];
+        Location.distanceBetween(start.latitude, start.longitude, end.latitude, end.longitude, results);
+        return results[0];
+    }
 
     /**
      * updating text in duration textview
@@ -185,6 +196,15 @@ public class MapsActivity extends AppCompatActivity
     private void updateDurationTextView(String timeDisplay) {
         TextView durationTextView = findViewById(R.id.duration_text);
         durationTextView.setText(timeDisplay);
+    }
+
+    /**
+     * 更新显示距离的 TextView
+     * @param distance 距离（米）
+     */
+    private void updateDistanceTextView(double distance) {
+        TextView distanceTextView = findViewById(R.id.distance);
+        distanceTextView.setText(String.format("%.2f km", distance / 1000));
     }
 
     /**
@@ -210,13 +230,18 @@ public class MapsActivity extends AppCompatActivity
      */
     private void updatePath() {
         if (mCurrentLocation != null) {
-            mPathPoints.add(mCurrentLocation); // 将当前位置添加到路径坐标列表中
+            if (!mPathPoints.isEmpty())
+            {
+                LatLng lastPoint = mPathPoints.get(mPathPoints.size()-1);
+                distance+=calculateDistance(lastPoint,mCurrentLocation);
+            }
+            mPathPoints.add(mCurrentLocation); // add the current position to path list points.
             if (mPathPoints.size() > 1) {
                 if (mPolyline != null) {
-                    mPolyline.remove(); // 清除之前的多段线
+                    mPolyline.remove(); //remove last poly line
                 }
 
-                // 构建多段线
+                // generate poly line
                 PolylineOptions polylineOptions = new PolylineOptions()
                         .color(Color.BLUE)
                         .width(20);
@@ -228,18 +253,10 @@ public class MapsActivity extends AppCompatActivity
 
                 mPolyline = mMap.addPolyline(polylineOptions);
             }
+            updateDistanceTextView(distance);
         }
     }
 
-    private void drawPointOnMap(LatLng point) {
-        if (mMap != null) {
-            mMap.addCircle(new CircleOptions()
-                    .center(point)
-                    .radius(5) // 半径为5米，可根据需要调整
-                    .strokeColor(Color.BLUE)
-                    .fillColor(Color.BLUE));
-        }
-    }
 
     /**
      * Returns whether the checkbox with the given id is checked.
@@ -326,6 +343,7 @@ public class MapsActivity extends AppCompatActivity
     public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG)
                 .show();
+        System.out.println(location);
     }
 
     @Override
