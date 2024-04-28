@@ -14,6 +14,7 @@
     <string name="distance">distance</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
+    <string name="save">Save Exercise record</string>
     <string name="permission_required_toast">permission required toast</string>
     <string name="permission_rationale_location">permission rationale location</string>
     <string name="location_permission_denied">location permission denied</string>
