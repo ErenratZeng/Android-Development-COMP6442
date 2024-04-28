@@ -1,7 +1,9 @@
 package com.example.kangarun;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.kangarun.databinding.ActivityUserProfileBinding;
 
 public class UserProfileActivity extends AppCompatActivity {

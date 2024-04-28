@@ -13,11 +13,11 @@ import com.example.kangarun.databinding.SentMessageBinding;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public static final int VIEW_TYPE_SENT = 1;
+    public static final int VIEW_TYPE_RECEIVED = 2;
     private final Bitmap receiverImg;
     private final List<Message> messageList;
     private final String senderId;
-    public static final int VIEW_TYPE_SENT = 1;
-    public static final int VIEW_TYPE_RECEIVED = 2;
 
     public ChatAdapter(Bitmap receiverImg, List<Message> messageList, String senderId) {
         this.receiverImg = receiverImg;

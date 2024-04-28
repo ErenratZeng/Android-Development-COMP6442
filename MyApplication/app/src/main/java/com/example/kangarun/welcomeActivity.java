@@ -1,11 +1,13 @@
-package com.example.myapplication;
+package com.example.kangarun;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
+
 public class welcomeActivity extends AppCompatActivity {
 
     @Override
@@ -18,12 +20,10 @@ public class welcomeActivity extends AppCompatActivity {
             letsGoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(welcomeActivity.this, AccountCheckActivity.class);
+                    Intent intent = new Intent(welcomeActivity.this, loginActivity.class);
                     startActivity(intent);
                 }
             });
-        } else {
-            throw new IllegalStateException("Button not found");
         }
     }
 }
