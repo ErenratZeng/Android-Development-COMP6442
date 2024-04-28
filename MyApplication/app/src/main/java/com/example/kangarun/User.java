@@ -24,7 +24,6 @@ public class User implements Serializable {
 
     public User(String username, String password) {
         this.userId = UUID.randomUUID().toString();
-        this.gender = gender;
         this.username = username;
         this.password = password;
         this.profilePicture = ""; // TODO
