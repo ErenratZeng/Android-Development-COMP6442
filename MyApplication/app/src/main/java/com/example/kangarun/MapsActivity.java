@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,7 +23,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.UiSettings;
@@ -30,7 +30,12 @@ import com.example.kangarun.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -75,11 +80,18 @@ public class MapsActivity extends AppCompatActivity
     private Timer mDurationTimer = null; //timer used for calculate duration
     private long mStartTimeMillis = 0; //record time stamp when start exercise
     private double distance = 0;//record the distance of exercise
+    private String duration;
+    private String exerciseDate;
+
+    private double calories;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Intent intent = getIntent();
+        String uid = intent.getStringExtra("uid");
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -94,15 +106,33 @@ public class MapsActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (startExerciseButton.getText().equals("Start")) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");// HH:mm:ss
+                    Date date = new Date(System.currentTimeMillis());
+                    exerciseDate = simpleDateFormat.format(date);//get Current time
                     startExerciseButton.setText(getString(R.string.stop));
                     Toast.makeText(getApplicationContext(), "Start Exercise!", Toast.LENGTH_SHORT).show();
                     startDrawingPath();
                     startTiming();
-                } else {
-                    startExerciseButton.setText(getString(R.string.start));
+                } else if (startExerciseButton.getText().equals("Stop")) {
+                    startExerciseButton.setText(getString(R.string.save));
                     Toast.makeText(getApplicationContext(), "Stop Exercise", Toast.LENGTH_SHORT).show();
                     stopDrawingPath();
                     stopTiming();
+                } else if (startExerciseButton.getText().equals("Save Exercise record")) {
+                    Toast.makeText(getApplicationContext(), "Exercise Record Saved", Toast.LENGTH_SHORT).show();
+                    //Collect" uid dateStr,timeDisplay,calories,distance" and store into json
+                    JSONObject exerciseRecord = new JSONObject();
+                    try {
+                        exerciseRecord.put("uid", uid);
+                        exerciseRecord.put("date", exerciseDate);
+                        exerciseRecord.put("distance", distance);
+                        exerciseRecord.put("duration", duration);
+                        exerciseRecord.put("calories", calories);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(goToMain);
                 }
             }
         });
@@ -145,7 +175,7 @@ public class MapsActivity extends AppCompatActivity
      * start calculating exercise duration
      */
     private void startTiming() {
-        // 从00:00开始计时
+        // Start counting from 00:00
         mStartTimeMillis = System.currentTimeMillis();
         mDurationTimer = new Timer();
         mDurationTimer.scheduleAtFixedRate(new TimerTask() {
@@ -155,12 +185,12 @@ public class MapsActivity extends AppCompatActivity
                 long elapsedSeconds = elapsedTimeMillis / 1000;
                 long secondsDisplay = elapsedSeconds % 60;
                 long elapsedMinutes = elapsedSeconds / 60;
-                String timeDisplay = String.format("%02d:%02d", elapsedMinutes, secondsDisplay);
+                duration = String.format("%02d:%02d", elapsedMinutes, secondsDisplay);
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        updateDurationTextView(timeDisplay);
+                        updateDurationTextView(duration);
                     }
                 });
             }
@@ -254,22 +284,9 @@ public class MapsActivity extends AppCompatActivity
     private void updateDistanceTextView(double distance) {
         TextView distanceTextView = findViewById(R.id.distance);
         distanceTextView.setText(String.format("%.2f km", distance / 1000));
-        double calories = calculateCalories(distance, System.currentTimeMillis() - mStartTimeMillis, 70); //
+        calories = calculateCalories(distance, System.currentTimeMillis() - mStartTimeMillis, 70); //
         updateCaloriesTextView(calories);
     }
-
-//    /**
-//     * Calculate calories burned based on distance, time, and weight.
-//     * @param timeMillis Time in milliseconds
-//     * @param weightKg Weight in kilograms
-//     * @return Calories burned
-//     */
-//    private double calculateCalories(long timeMillis, double weightKg) {
-//        double minutes = timeMillis / 60000.0;
-//        double MET = 7; // Moderate jogging
-//        double caloriesPerMinute = (MET * weightKg * 3.5) / 200;
-//        return caloriesPerMinute * minutes;
-//    }
 
     /**
      * Calculate calories burned based on weight, time, and speed.
@@ -279,9 +296,9 @@ public class MapsActivity extends AppCompatActivity
      * @return Calories burned
      */
     private double calculateCalories(double distanceMeters, long timeMillis, double weightKg) {
-        double distanceKm = distanceMeters / 1000.0; // 距离转换为千米
-        double timeHours = timeMillis / 3600000.0; // 时间转换为小时
-        double speedMinPer400m = (timeMillis / 60000.0) / (distanceMeters / 400.0); // 计算速度（分钟每400米）
+        double distanceKm = distanceMeters / 1000.0; // convert distance to kilometers
+        double timeHours = timeMillis / 3600000.0; // convert time to hours
+        double speedMinPer400m = (timeMillis / 60000.0) / (distanceMeters / 400.0); // calculate speed（minutes per 400 meters）
 
         double K = 30 / speedMinPer400m; // 计算指数K
         return weightKg * timeHours * K; // 返回卡路里消耗
