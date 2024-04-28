@@ -46,11 +46,11 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public String getGender(){
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender){
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -100,7 +100,7 @@ public class User implements Serializable {
         friendsList.remove(friendId);
     }
 
-    public boolean block (String id) {
+    public boolean block(String id) {
         if (!blockList.contains(id)) {
             blockList.add(id);
             return true;

@@ -1,32 +1,37 @@
 package com.example.kangarun;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
-
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.annotation.SuppressLint;
-import android.location.Location;
-import android.Manifest;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.example.kangarun.databinding.ActivityMapsBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.UiSettings;
-import com.example.kangarun.databinding.ActivityMapsBinding;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -47,30 +52,23 @@ public class MapsActivity extends AppCompatActivity
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
+    //    private FusedLocationProviderClient mFusedLocationProviderClient;
+    public static final String TAG = "MapActivity";
     /**
      * Request code for location permission request.
      *
      * @see #onRequestPermissionsResult(int, String[], int[])
      */
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
     /**
      * Flag indicating whether a requested permission has been denied after returning in {@link
      * #onRequestPermissionsResult(int, String[], int[])}.
      */
     private boolean permissionDenied = false;
-
     private GoogleMap mMap;
-
     private FusedLocationProviderClient mFusedLocationClient;
-
     private UiSettings mUiSettings;
-
     private ActivityMapsBinding binding;
-
-    //    private FusedLocationProviderClient mFusedLocationProviderClient;
-    public static final String TAG = "MapActivity";
-
     private LatLng mCurrentLocation; //records current location after clicking start exercise button
 
     private List<LatLng> mPathPoints = new ArrayList<>(); // store all coordinates in path

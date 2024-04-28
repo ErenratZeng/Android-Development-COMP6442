@@ -1,12 +1,12 @@
 package com.example.kangarun;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kangarun.databinding.ActivityChatBinding;
 
@@ -27,10 +27,10 @@ public class ChatActivity extends AppCompatActivity {
 
 
         ImageView profileButton = findViewById(R.id.imageInfo);
-        profileButton.setOnClickListener(new View.OnClickListener(){
+        profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"User Profile",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "User Profile", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
                 intent.putExtra("user", receiver);
                 startActivity(intent);
@@ -38,7 +38,6 @@ public class ChatActivity extends AppCompatActivity {
         });
 
     }
-
 
 
     public void setListeners() {
