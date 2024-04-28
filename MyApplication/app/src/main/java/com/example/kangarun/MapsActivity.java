@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -34,6 +35,9 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +45,9 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -83,6 +89,8 @@ public class MapsActivity extends AppCompatActivity
 
     private double calories;
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,16 +127,28 @@ public class MapsActivity extends AppCompatActivity
                 } else if (startExerciseButton.getText().equals("Save Exercise record")) {
                     Toast.makeText(getApplicationContext(), "Exercise Record Saved", Toast.LENGTH_SHORT).show();
                     //Collect" uid dateStr,timeDisplay,calories,distance" and store into json
-                    JSONObject exerciseRecord = new JSONObject();
-                    try {
-                        exerciseRecord.put("uid", uid);
-                        exerciseRecord.put("date", exerciseDate);
-                        exerciseRecord.put("distance", distance);
-                        exerciseRecord.put("duration", duration);
-                        exerciseRecord.put("calories", calories);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Map<String, Object> exerciseRecord = new HashMap<>();
+
+                    exerciseRecord.put("uid", uid);
+                    exerciseRecord.put("date", exerciseDate);
+                    exerciseRecord.put("distance", distance);
+                    exerciseRecord.put("duration", duration);
+                    exerciseRecord.put("calories", calories);
+                    db.collection("exerciseRecord").document(uid + exerciseDate)
+                            .set(exerciseRecord)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
                     Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(goToMain);
                 }
