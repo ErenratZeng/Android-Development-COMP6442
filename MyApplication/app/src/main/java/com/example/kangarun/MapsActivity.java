@@ -106,7 +106,7 @@ public class MapsActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (startExerciseButton.getText().equals("Start")) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");// HH:mm:ss
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
                     Date date = new Date(System.currentTimeMillis());
                     exerciseDate = simpleDateFormat.format(date);//get Current time
                     startExerciseButton.setText(getString(R.string.stop));
