@@ -163,12 +163,11 @@ public class User implements Serializable {
         }
     }
 
-    private String getCurrentUserId() {
+    public String getCurrentUserId() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
-            return currentUser.getUid();  // 获取当前登录用户的UID
-            // 使用UID进行进一步的操作，例如查询数据库
+            return currentUser.getUid();
         }
         return null;
     }

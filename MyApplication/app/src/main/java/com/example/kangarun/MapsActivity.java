@@ -37,6 +37,8 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
@@ -96,8 +98,11 @@ public class MapsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        /*
         Intent intent = getIntent();
         String uid = intent.getStringExtra("uid");
+         */
+        String uid = getCurrentUserId();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -154,6 +159,15 @@ public class MapsActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    private String getCurrentUserId() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getUid();
+        }
+        return null;
     }
 
     /**
