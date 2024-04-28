@@ -18,14 +18,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String id = "u7611510";
+        String uid = "u7611510";
         Button startExerciseButton = findViewById(R.id.startExerciseButton);
         startExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Start Exercise", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                intent.putExtra("id", id);
+                intent.putExtra("uid",uid);
                 startActivity(intent);
             }
         });
