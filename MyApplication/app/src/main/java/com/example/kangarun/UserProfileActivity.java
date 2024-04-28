@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import com.example.kangarun.databinding.ActivityUserProfileBinding;
 import com.example.kangarun.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -69,5 +67,4 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
-
 }

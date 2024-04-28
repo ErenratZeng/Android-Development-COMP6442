@@ -7,11 +7,11 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
-import android.widget.Toast;
 
 /**
  * Utility class for access to runtime permissions.
@@ -119,10 +119,10 @@ public abstract class PermissionUtils {
          * <p>
          * The permission is requested after clicking 'ok'.
          *
-         * @param requestCode Id of the request that is used to request the permission. It is
-         * returned to the {@link androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback}.
+         * @param requestCode    Id of the request that is used to request the permission. It is
+         *                       returned to the {@link androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback}.
          * @param finishActivity Whether the calling Activity should be finished if the dialog is
-         * cancelled.
+         *                       cancelled.
          */
         public static RationaleDialog newInstance(int requestCode, boolean finishActivity) {
             Bundle arguments = new Bundle();

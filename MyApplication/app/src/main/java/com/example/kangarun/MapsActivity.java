@@ -1,37 +1,55 @@
 package com.example.kangarun;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
-
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
-import android.annotation.SuppressLint;
-import android.location.Location;
-import android.Manifest;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.example.kangarun.databinding.ActivityMapsBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.maps.UiSettings;
-import com.example.kangarun.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,40 +60,49 @@ public class MapsActivity extends AppCompatActivity
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
+    //    private FusedLocationProviderClient mFusedLocationProviderClient;
+    public static final String TAG = "MapActivity";
     /**
      * Request code for location permission request.
      *
      * @see #onRequestPermissionsResult(int, String[], int[])
      */
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
     /**
      * Flag indicating whether a requested permission has been denied after returning in {@link
      * #onRequestPermissionsResult(int, String[], int[])}.
      */
     private boolean permissionDenied = false;
-
     private GoogleMap mMap;
-
     private FusedLocationProviderClient mFusedLocationClient;
-
     private UiSettings mUiSettings;
-
     private ActivityMapsBinding binding;
-
-    //    private FusedLocationProviderClient mFusedLocationProviderClient;
-    public static final String TAG = "MapActivity";
-
     private LatLng mCurrentLocation; //records current location after clicking start exercise button
 
-    private List<LatLng> mPathPoints = new ArrayList<>(); // store all coordinates in path保存路径上的所有坐标点
-    private
-    Polyline mPolyline; // used to draw poly line
+    private List<LatLng> mPathPoints = new ArrayList<>(); // store all coordinates in path
+    private Polyline mPolyline; // used to draw poly line
 
-    @Override
+    private Timer mPathTimer = null; // timer used for draw path
+    private Timer mDurationTimer = null; //timer used for calculate duration
+    private long mStartTimeMillis = 0; //record time stamp when start exercise
+    private double distance = 0;//record the distance of exercise
+    private String duration;
+    private String exerciseDate;
+
+    private double calories;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        /*
+        Intent intent = getIntent();
+        String uid = intent.getStringExtra("uid");
+         */
+        String uid = getCurrentUserId();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -89,14 +116,66 @@ public class MapsActivity extends AppCompatActivity
         startExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startDrawingPath();
+                if (startExerciseButton.getText().equals("Start")) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
+                    Date date = new Date(System.currentTimeMillis());
+                    exerciseDate = simpleDateFormat.format(date);//get Current time
+                    startExerciseButton.setText(getString(R.string.stop));
+                    Toast.makeText(getApplicationContext(), "Start Exercise!", Toast.LENGTH_SHORT).show();
+                    startDrawingPath();
+                    startTiming();
+                } else if (startExerciseButton.getText().equals("Stop")) {
+                    startExerciseButton.setText(getString(R.string.save));
+                    Toast.makeText(getApplicationContext(), "Stop Exercise", Toast.LENGTH_SHORT).show();
+                    stopDrawingPath();
+                    stopTiming();
+                } else if (startExerciseButton.getText().equals("Save Exercise record")) {
+                    Toast.makeText(getApplicationContext(), "Exercise Record Saved", Toast.LENGTH_SHORT).show();
+                    //Collect" uid dateStr,timeDisplay,calories,distance" and store into json
+                    Map<String, Object> exerciseRecord = new HashMap<>();
+
+                    exerciseRecord.put("uid", uid);
+                    exerciseRecord.put("date", exerciseDate);
+                    exerciseRecord.put("distance", distance);
+                    exerciseRecord.put("duration", duration);
+                    exerciseRecord.put("calories", calories);
+                    db.collection("exerciseRecord").document(uid + exerciseDate)
+                            .set(exerciseRecord)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+                    Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(goToMain);
+                }
             }
         });
     }
 
+    private String getCurrentUserId() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getUid();
+        }
+        return null;
+    }
+
+    /**
+     * drawing path on map
+     */
     private void startDrawingPath() {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        mPathTimer = new Timer();
+        mPathTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 if (mMap != null) {
@@ -105,27 +184,80 @@ public class MapsActivity extends AppCompatActivity
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-//                                drawPointOnMap(mCurrentLocation);
                                 updatePath();
                             }
                         });
                     }
                 }
             }
-        }, 0, 3000);
+        }, 0, 1000);
     }
 
+    /**
+     * stop drawing path on map
+     */
+    private void stopDrawingPath() {
+        if (mPathTimer != null) {
+            mPathTimer.cancel();
+            mPathTimer = null;
+        }
+    }
+
+    /**
+     * start calculating exercise duration
+     */
+    private void startTiming() {
+        // Start counting from 00:00
+        mStartTimeMillis = System.currentTimeMillis();
+        mDurationTimer = new Timer();
+        mDurationTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                long elapsedTimeMillis = System.currentTimeMillis() - mStartTimeMillis;
+                long elapsedSeconds = elapsedTimeMillis / 1000;
+                long secondsDisplay = elapsedSeconds % 60;
+                long elapsedMinutes = elapsedSeconds / 60;
+                duration = String.format("%02d:%02d", elapsedMinutes, secondsDisplay);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateDurationTextView(duration);
+                    }
+                });
+            }
+        }, 0, 1000);
+    }
+
+    /**
+     * stop calculating exercise duration
+     */
+    private void stopTiming() {
+        if (mDurationTimer != null) {
+            mDurationTimer.cancel();
+            mDurationTimer = null;
+        }
+    }
+
+    /**
+     * Calculate distance between two points in latitude and longitude.
+     * @param start LatLng of start point
+     * @param end LatLng of end point
+     * @return distance in meters
+     */
+    private float calculateDistance(LatLng start, LatLng end) {
+        float[] results = new float[1];
+        Location.distanceBetween(start.latitude, start.longitude, end.latitude, end.longitude, results);
+        return results[0];
+    }
+    /**
+     * get current location
+     */
     private void getCurrentLocation() {
         if (mFusedLocationClient != null) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
                 enableMyLocation();
             }
             mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
@@ -136,19 +268,26 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * update path e.g. polyline
+     */
     private void updatePath() {
         if (mCurrentLocation != null) {
-            mPathPoints.add(mCurrentLocation); // 将当前位置添加到路径坐标列表中
-
+            if (!mPathPoints.isEmpty())
+            {
+                LatLng lastPoint = mPathPoints.get(mPathPoints.size()-1);
+                distance+=calculateDistance(lastPoint,mCurrentLocation);
+            }
+            mPathPoints.add(mCurrentLocation); // add the current position to path list points.
             if (mPathPoints.size() > 1) {
                 if (mPolyline != null) {
-                    mPolyline.remove(); // 清除之前的多段线
+                    mPolyline.remove(); //remove last poly line
                 }
 
-                // 构建多段线
+                // generate poly line
                 PolylineOptions polylineOptions = new PolylineOptions()
                         .color(Color.BLUE)
-                        .width(5);
+                        .width(20);
 
                 for (LatLng point : mPathPoints) {
                     polylineOptions.add(point);
@@ -157,18 +296,57 @@ public class MapsActivity extends AppCompatActivity
 
                 mPolyline = mMap.addPolyline(polylineOptions);
             }
+            updateDistanceTextView(distance);
         }
     }
 
-    private void drawPointOnMap(LatLng point) {
-        if (mMap != null) {
-            mMap.addCircle(new CircleOptions()
-                    .center(point)
-                    .radius(5) // 半径为5米，可根据需要调整
-                    .strokeColor(Color.BLUE)
-                    .fillColor(Color.BLUE));
-        }
+    /**
+     * updating text in duration textview
+     * @param timeDisplay the duration of time need to be display on textview
+     */
+    private void updateDurationTextView(String timeDisplay) {
+        TextView durationTextView = findViewById(R.id.duration_text);
+        durationTextView.setText(timeDisplay);
     }
+
+    /**
+     * update distance display TextView
+     * @param distance meters
+     */
+    private void updateDistanceTextView(double distance) {
+        TextView distanceTextView = findViewById(R.id.distance);
+        distanceTextView.setText(String.format("%.2f km", distance / 1000));
+        calories = calculateCalories(distance, System.currentTimeMillis() - mStartTimeMillis, 70); //
+        updateCaloriesTextView(calories);
+    }
+
+    /**
+     * Calculate calories burned based on weight, time, and speed.
+     * @param distanceMeters Distance in meters
+     * @param timeMillis Time in milliseconds
+     * @param weightKg Weight in kilograms
+     * @return Calories burned
+     */
+    private double calculateCalories(double distanceMeters, long timeMillis, double weightKg) {
+        double distanceKm = distanceMeters / 1000.0; // convert distance to kilometers
+        double timeHours = timeMillis / 3600000.0; // convert time to hours
+        double speedMinPer400m = (timeMillis / 60000.0) / (distanceMeters / 400.0); // calculate speed（minutes per 400 meters）
+
+        double K = 30 / speedMinPer400m; // 计算指数K
+        return weightKg * timeHours * K; // 返回卡路里消耗
+    }
+
+    /**
+     * Update the text in the calories TextView
+     * @param calories Number of calories burned
+     */
+    private void updateCaloriesTextView(double calories) {
+        TextView caloriesTextView = findViewById(R.id.calories_text);
+        caloriesTextView.setText(String.format("%.0f cal", calories));
+    }
+
+
+
 
     /**
      * Returns whether the checkbox with the given id is checked.
@@ -255,6 +433,7 @@ public class MapsActivity extends AppCompatActivity
     public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG)
                 .show();
+        System.out.println(location);
     }
 
     @Override
