@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"User Profile",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                intent.putExtra("user", new User("Alice", "password123"));
+//                intent.putExtra("user", new User("Alice", "password123"));
                 startActivity(intent);
             }
         });
