@@ -51,11 +51,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please enter all details", Toast.LENGTH_SHORT).show();
-                    return; // Missing details, return early
+                    return;
                 }
                 if (password.length() < 6){
                     Toast.makeText(RegisterActivity.this, "Password must be longer than 6 characters", Toast.LENGTH_SHORT).show();
-                    return; // Password too short, return early
+                    return;
                 }
 
                 firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -67,10 +67,12 @@ public class RegisterActivity extends AppCompatActivity {
                             user.setUsername(userName);
                             user.setEmail(email);
                             user.setUserId(User.getCurrentUserId());
+                            //TODO Add more profile data, see User.class uploadProfile();
                             user.uploadProfile();
                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
                        }else {
                            Toast.makeText(RegisterActivity.this, "Account Created Failed " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                           //TODO Fixed bug for message
                        }
                     }
                 });
