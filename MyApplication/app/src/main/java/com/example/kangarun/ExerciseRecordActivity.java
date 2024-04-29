@@ -54,6 +54,7 @@ public class ExerciseRecordActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         list.add(document);
                     }
+                    Log.d("Firestore", "Total documents fetched: " + list.size());
                     adapter.updateData(list);
                 } else {
                     Log.d("Firestore", "Error getting documents: ", task.getException());

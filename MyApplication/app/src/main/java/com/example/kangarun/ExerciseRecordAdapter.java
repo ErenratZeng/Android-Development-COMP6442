@@ -38,26 +38,36 @@ public class ExerciseRecordAdapter extends RecyclerView.Adapter<ExerciseRecordAd
     @Override
     public void onBindViewHolder(RecordViewHolder holder, int position) {
         DocumentSnapshot document = recordsList.get(position);
-        try {
-            double distance = document.getDouble("distance"); // 尝试获取距离
-            holder.textView.setText(String.valueOf(distance));
-        } catch (Exception e) {
-            Log.e("Adapter", "Error reading document", e);
-            holder.textView.setText("Error!"); // 提供错误信息或备选内容
-        }
+        String date = document.getString("date");
+        double distance = document.getDouble("distance");
+        String duration = document.getString("duration");
+        double calories = document.getDouble("calories");
+        Log.d("Adapter", date + distance + duration + calories);
+
+        holder.textViewDate.setText("Date: " + date);
+        holder.textViewDistance.setText("Distance: " + distance + " km");
+        holder.textViewDuration.setText("Duration: " + duration);
+        holder.textViewCalories.setText("Calories: " + calories + " kcal");
     }
 
     @Override
     public int getItemCount() {
+        Log.d("Adapter", "size = " + recordsList.size());
         return recordsList.size();
     }
 
     static class RecordViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView textViewDistance;
+        TextView textViewDuration;
+        TextView textViewCalories;
+        TextView textViewDate;
 
         public RecordViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
+            textViewDistance = itemView.findViewById(R.id.textViewDistance);
+            textViewDuration = itemView.findViewById(R.id.textViewDuration);
+            textViewCalories = itemView.findViewById(R.id.textViewCalories);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
         }
     }
 }
