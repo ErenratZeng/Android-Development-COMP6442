@@ -102,7 +102,7 @@ public class MapsActivity extends AppCompatActivity
         Intent intent = getIntent();
         String uid = intent.getStringExtra("uid");
          */
-        String uid = getCurrentUserId();
+        String uid = User.getCurrentUserId();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -161,14 +161,6 @@ public class MapsActivity extends AppCompatActivity
         });
     }
 
-    private String getCurrentUserId() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            return currentUser.getUid();
-        }
-        return null;
-    }
 
     /**
      * drawing path on map
