@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-import androidx.activity.OnBackPressedCallback;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -17,14 +17,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String uid = "u7611510";
         Button startExerciseButton = findViewById(R.id.startExerciseButton);
         startExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Start Exercise", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                intent.putExtra("uid",uid);
+                startActivity(intent);
+            }
+        });
+
+        Button exerciseRecordButton = findViewById(R.id.exerciseRecordButton);
+        exerciseRecordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Exercise Record", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
                 startActivity(intent);
             }
         });
@@ -34,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), loginActivity.class));
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
             }
         });
@@ -45,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "User Profile", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                intent.putExtra("user", new User("Alice", "password123"));
+//                intent.putExtra("user", new User("Alice", "password123"));
                 startActivity(intent);
             }
         });

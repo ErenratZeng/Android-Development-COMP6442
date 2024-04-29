@@ -23,6 +23,8 @@
     <string name="map_not_ready" />
     <string name="map_not_ready_1">map not ready !!</string>
     <string name="zoom_buttons">zoom buttons</string>
+    <string name="exercise_record">Exercise Record</string>
+    <string name="start_exercise">Start Exercise</string>
     <string name="select_user">Select User</string>
 
 

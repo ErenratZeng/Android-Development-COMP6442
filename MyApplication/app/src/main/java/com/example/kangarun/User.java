@@ -29,6 +29,9 @@ public class User implements Serializable {
     protected String username;
     protected String password;
     private String email;
+    private double weight;
+    private double height;
+
     private String profilePicture;
     private List<String> friendsList;  // Storing friend IDs
     private List<String> blockList;  // Blocked users
@@ -39,7 +42,6 @@ public class User implements Serializable {
 
     public User(String username, String password) {
         this.userId = UUID.randomUUID().toString();
-        this.gender = gender;
         this.username = username;
         this.password = password;
         this.profilePicture = ""; // TODO
@@ -94,6 +96,23 @@ public class User implements Serializable {
         this.profilePicture = profilePicture;
     }
 
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+
     public List<String> getFriendsList() {
         return friendsList;
     }
@@ -135,7 +154,7 @@ public class User implements Serializable {
         uploadProfile();
     }
 
-    private void uploadProfile() {
+    public void uploadProfile() {
         String uid = getCurrentUserId();
         if(uid != null)
         {
@@ -144,8 +163,8 @@ public class User implements Serializable {
             userProfile.put("username", getUsername());
             userProfile.put("gender", getGender());
             userProfile.put("email", getEmail());
-            userProfile.put("height", 0); //TODO: 少俩变量
-            userProfile.put("weight", 0);
+            userProfile.put("height", getHeight());
+            userProfile.put("weight", getWeight());
             db.collection("user").document(uid)
                     .set(userProfile)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -163,7 +182,7 @@ public class User implements Serializable {
         }
     }
 
-    public String getCurrentUserId() {
+    public static String getCurrentUserId() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
