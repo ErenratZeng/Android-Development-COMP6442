@@ -34,7 +34,7 @@ public class User implements Serializable {
     private List<String> blockList;  // Blocked users
     private List<String> activityHistory;  // Storing activity IDs for simplicity
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    transient FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static final String TAG = "User";
 
     public User(String username, String password) {

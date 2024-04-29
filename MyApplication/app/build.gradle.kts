@@ -58,4 +58,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     // Import the BoM for the Firebase platform
     implementation("com.google.firebase:firebase-auth")
+    implementation ("androidx.preference:preference:1.2.1")
+
 }
