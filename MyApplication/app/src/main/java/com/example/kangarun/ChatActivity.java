@@ -1,13 +1,11 @@
 package com.example.kangarun;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
 
 import android.util.Log;
 import android.view.View;
@@ -46,7 +44,7 @@ public class ChatActivity extends AppCompatActivity {
     private static final String TAG = "messages";
 
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
-        if (error != null){
+        if (error != null) {
             return;
         }
         if (value != null) {
@@ -84,6 +82,7 @@ public class ChatActivity extends AppCompatActivity {
         binding.layoutSend.setOnClickListener(v -> sendMessage());
         receiver = getIntent().getSerializableExtra("user", com.example.kangarun.User.class);
         assert receiver != null;
+
         binding.textName.setText(receiver.getUsername());
         init();
         listenMessage();
@@ -102,7 +101,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    private void init(){
+    private void init() {
         messageList = new ArrayList<>();
         Bitmap bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         adapter = new ChatAdapter(
@@ -114,7 +113,7 @@ public class ChatActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void sendMessage(){
+    public void sendMessage() {
         HashMap<String, Object> message = new HashMap<>();
         message.put("senderId", getCurrentUserId());
         message.put("receiverId", receiver.getUserId());
@@ -137,7 +136,7 @@ public class ChatActivity extends AppCompatActivity {
         binding.inputMessage.setText(null);
     }
 
-    private void listenMessage(){
+    private void listenMessage() {
         db.collection("collection_chat")
                 .whereEqualTo("senderId", getCurrentUserId())
                 .whereEqualTo("receiverId", receiver.getUserId())
@@ -147,6 +146,7 @@ public class ChatActivity extends AppCompatActivity {
                 .whereEqualTo("receiverId", getCurrentUserId())
                 .addSnapshotListener(eventListener);
     }
+
     private String getCurrentUserId() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -155,13 +155,14 @@ public class ChatActivity extends AppCompatActivity {
         }
         return null;
     }
+
     // Decode encoded image string
-    private Bitmap getBitmapFromEncoded (String encoded){
+    private Bitmap getBitmapFromEncoded(String encoded) {
         byte[] bytes = Base64.getDecoder().decode(encoded);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
-    private String getDateTime (Date date){
+    private String getDateTime(Date date) {
         return new SimpleDateFormat("yyyy MM-dd - hh:mm a", Locale.getDefault()).format(date);
     }
 }

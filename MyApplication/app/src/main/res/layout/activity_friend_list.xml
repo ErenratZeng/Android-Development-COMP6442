@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
     android:background="#D8D8D8"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".FriendListActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -16,9 +16,9 @@
         android:layout_marginTop="12dp"
         android:padding="6dp"
         android:src="@drawable/icon_back"
+        android:tint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:tint="@color/black"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="@id/imageBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imageBack"/>
+        app:layout_constraintTop_toTopOf="@id/imageBack" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:overScrollMode="never"
             android:padding="20dp"
             android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <TextView
             android:id="@+id/textErrorMessage"
@@ -60,8 +60,8 @@
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:visibility="gone"/>
-        
+            android:visibility="gone" />
+
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
