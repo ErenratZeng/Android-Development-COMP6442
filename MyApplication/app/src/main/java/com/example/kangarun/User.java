@@ -163,7 +163,7 @@ public class User implements Serializable {
         }
     }
 
-    public String getCurrentUserId() {
+    public static String getCurrentUserId() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
