@@ -42,7 +42,7 @@ public class ExerciseRecordAdapter extends RecyclerView.Adapter<ExerciseRecordAd
         double distance = document.getDouble("distance");
         String duration = document.getString("duration");
         double calories = document.getDouble("calories");
-        Log.d("Adapter", date + distance + duration + calories);
+        Log.d("Adapter", position + " " + date + distance + duration + calories);
 
         holder.textViewDate.setText("Date: " + date);
         holder.textViewDistance.setText("Distance: " + distance + " km");
