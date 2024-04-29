@@ -23,6 +23,7 @@
     <string name="map_not_ready" />
     <string name="map_not_ready_1">map not ready !!</string>
     <string name="zoom_buttons">zoom buttons</string>
+    <string name="select_user">Select User</string>
 
 
 </resources>
