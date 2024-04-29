@@ -42,10 +42,11 @@
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="94dp"
         android:layout_marginEnd="24dp"
         android:text="Log out"
         app:layout_constraintEnd_toEndOf="@+id/startExerciseButton"
-        tools:layout_editor_absoluteY="436dp" />
+        app:layout_constraintTop_toTopOf="@+id/startExerciseButton" />
 
     <Button
         android:id="@+id/dmButton"
