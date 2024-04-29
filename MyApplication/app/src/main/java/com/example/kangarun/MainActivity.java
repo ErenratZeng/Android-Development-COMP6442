@@ -17,14 +17,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String uid = "u7611510";
         Button startExerciseButton = findViewById(R.id.startExerciseButton);
         startExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Start Exercise", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                intent.putExtra("uid",uid);
+                startActivity(intent);
+            }
+        });
+
+        Button exerciseRecordButton = findViewById(R.id.exerciseRecordButton);
+        exerciseRecordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Exercise Record", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
                 startActivity(intent);
             }
         });
