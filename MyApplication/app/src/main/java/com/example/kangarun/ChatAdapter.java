@@ -58,7 +58,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (messageList.get(position).getSenderId().equals(senderId)) {
+        if (messageList.get(position).senderId.equals(senderId)) {
             return VIEW_TYPE_SENT;
         } else {
             return VIEW_TYPE_RECEIVED;
@@ -74,8 +74,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         void setMessage(Message m) {
-            binding.textMessage.setText(m.getMessageContent());
-            binding.textTime.setText(m.getDatetime());
+            binding.textMessage.setText(m.messageContent);
+            binding.textTime.setText(m.datetime);
         }
     }
 
@@ -88,8 +88,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         void setMessage(Message m, Bitmap img) {
-            binding.textMessage.setText(m.getMessageContent());
-            binding.textTime.setText(m.getDatetime());
+            binding.textMessage.setText(m.messageContent);
+            binding.textTime.setText(m.datetime);
             binding.imageProfile.setImageBitmap(img);
         }
     }

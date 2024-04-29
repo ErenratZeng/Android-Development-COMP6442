@@ -21,14 +21,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class ChatActivity extends AppCompatActivity {
     private ActivityChatBinding binding;
@@ -39,6 +45,34 @@ public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "messages";
 
+    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+        if (error != null){
+            return;
+        }
+        if (value != null) {
+            int count = messageList.size();
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+                if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                    Message m = new Message();
+                    m.senderId = documentChange.getDocument().getString("senderId");
+                    m.receiverId = documentChange.getDocument().getString("receiverId");
+                    m.messageContent = documentChange.getDocument().getString("message");
+                    m.datetime = getDateTime(documentChange.getDocument().getDate("time"));
+                    m.dateObj = documentChange.getDocument().getDate("time");
+                    messageList.add(m);
+                }
+            }
+            // Sort messages by date
+            messageList.sort(Comparator.comparing(m -> m.dateObj));
+            if (count == 0) {
+                adapter.notifyDataSetChanged();
+            } else {
+                adapter.notifyItemRangeInserted(messageList.size(), messageList.size());
+                binding.chatRecycleView.smoothScrollToPosition(messageList.size() - 1);
+            }
+            binding.chatRecycleView.setVisibility(View.VISIBLE);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +86,7 @@ public class ChatActivity extends AppCompatActivity {
         assert receiver != null;
         binding.textName.setText(receiver.getUsername());
         init();
+        listenMessage();
 
 
         ImageView profileButton = findViewById(R.id.imageInfo);
@@ -101,6 +136,16 @@ public class ChatActivity extends AppCompatActivity {
         binding.inputMessage.setText(null);
     }
 
+    private void listenMessage(){
+        db.collection("collection_chat")
+                .whereEqualTo("senderId", getCurrentUserId())
+                .whereEqualTo("receiverId", receiver.getUserId())
+                .addSnapshotListener(eventListener);
+        db.collection("collection_chat")
+                .whereEqualTo("senderId", receiver.getUserId())
+                .whereEqualTo("receiverId", getCurrentUserId())
+                .addSnapshotListener(eventListener);
+    }
     private String getCurrentUserId() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -113,5 +158,9 @@ public class ChatActivity extends AppCompatActivity {
     private Bitmap getBitmapFromEncoded (String encoded){
         byte[] bytes = Base64.getDecoder().decode(encoded);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    private String getDateTime (Date date){
+        return new SimpleDateFormat("yyyy MM-dd - hh:mm a", Locale.getDefault()).format(date);
     }
 }
