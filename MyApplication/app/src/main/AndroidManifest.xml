@@ -56,11 +56,11 @@
             android:label="@string/title_activity_maps" />
 
         <activity
-            android:name=".registerActivity"
+            android:name=".RegisterActivity"
             android:exported="true"/>
 
         <activity
-            android:name=".loginActivity"
+            android:name=".LoginActivity"
             android:exported="true"/>
 
         <activity
@@ -74,7 +74,7 @@
         </activity>
 
 
-        <activity android:name=".welcomeActivity"
+        <activity android:name=".WelcomeActivity"
             android:exported="true">  <!-- This needs to be true if this is the entry point of your app -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
