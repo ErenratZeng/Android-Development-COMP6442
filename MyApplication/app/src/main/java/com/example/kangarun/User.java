@@ -1,5 +1,15 @@
 package com.example.kangarun;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -7,7 +17,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 // Make it serializable to pass the data through Intent
@@ -21,6 +33,9 @@ public class User implements Serializable {
     private List<String> friendsList;  // Storing friend IDs
     private List<String> blockList;  // Blocked users
     private List<String> activityHistory;  // Storing activity IDs for simplicity
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static final String TAG = "User";
 
     public User(String username, String password) {
         this.userId = UUID.randomUUID().toString();
@@ -46,11 +61,11 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public String getGender(){
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender){
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -100,7 +115,7 @@ public class User implements Serializable {
         friendsList.remove(friendId);
     }
 
-    public boolean block (String id) {
+    public boolean block(String id) {
         if (!blockList.contains(id)) {
             blockList.add(id);
             return true;
@@ -117,6 +132,44 @@ public class User implements Serializable {
         setUsername(newUsername);
         setEmail(newEmail);
         setProfilePicture(newProfilePicture);
+        uploadProfile();
+    }
+
+    private void uploadProfile() {
+        String uid = getCurrentUserId();
+        if(uid != null)
+        {
+            Map<String, Object> userProfile = new HashMap<>();
+            userProfile.put("uid", getUserId());
+            userProfile.put("username", getUsername());
+            userProfile.put("gender", getGender());
+            userProfile.put("email", getEmail());
+            userProfile.put("height", 0); //TODO: 少俩变量
+            userProfile.put("weight", 0);
+            db.collection("user").document(uid)
+                    .set(userProfile)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+    }
+
+    public String getCurrentUserId() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getUid();
+        }
+        return null;
     }
 
     //print user details

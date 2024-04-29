@@ -1,13 +1,14 @@
 package com.example.kangarun;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,23 +17,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String id = "u7611510";
+        String uid = "u7611510";
         Button startExerciseButton = findViewById(R.id.startExerciseButton);
         startExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Start Exercise",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Start Exercise", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                intent.putExtra("id",id);
+                intent.putExtra("uid",uid);
                 startActivity(intent);
             }
         });
 
-        ImageView profileButton = findViewById(R.id.imageView);
-        profileButton.setOnClickListener(new View.OnClickListener(){
+        Button logoutButton = findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"User Profile",Toast.LENGTH_LONG).show();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), loginActivity.class));
+                finish();
+            }
+        });
+
+        ImageView profileButton = findViewById(R.id.imageView);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "User Profile", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
                 intent.putExtra("user", new User("Alice", "password123"));
                 startActivity(intent);
@@ -40,18 +51,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button dmButton = findViewById(R.id.dmButton);
-        dmButton.setOnClickListener(new View.OnClickListener(){
+        dmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Message",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Message", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                 // TODO: change the argument to User and remove the dummy
                 intent.putExtra("user", new User("Alice", "password123"));
                 startActivity(intent);
             }
         });
-
-
-
+    }
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "You cannot return to last page", Toast.LENGTH_SHORT).show();
     }
 }
