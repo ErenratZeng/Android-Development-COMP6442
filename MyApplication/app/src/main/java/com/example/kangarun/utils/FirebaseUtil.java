@@ -1,19 +1,17 @@
-package com.example.kangarun.utils;import com.google.firebase.Timestamp;
+package com.example.kangarun.utils;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
+import android.net.Uri;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import com.example.kangarun.User;
+import com.example.kangarun.UserProfileActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class FirebaseUtil {
 
-    public static String getUserId() {
-        return FirebaseAuth.getInstance().getUid();
-    }
-
-    public static DocumentReference currentUserDetails(){
-        return FirebaseFirestore.getInstance().collection("user").document(getUserId());
-    }
 }

@@ -1,69 +1,107 @@
 package com.example.kangarun;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import com.example.kangarun.databinding.ActivityUserProfileBinding;
-import com.example.kangarun.utils.FirebaseUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
+
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.ktx.Firebase;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
 
 public class UserProfileActivity extends AppCompatActivity {
-    private ActivityUserProfileBinding binding;
-    private User receiver;
-    ImageView profilePic;
-    EditText usernameInput;
-    User currentUser;
+    TextView useremail, username, usergender, userweight, userheight;
+    Button uploadImageButton;
+    ImageView profile_image_view;
+    StorageReference storageReference;
+    private FirebaseFirestore firebaseFirestore;
 
-    public UserProfileActivity(){
+    public UserProfileActivity() {
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityUserProfileBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_user_profile);
+        username = findViewById(R.id.username);
+        useremail = findViewById(R.id.useremail);
+        profile_image_view = findViewById(R.id.profile_image_view);
+        uploadImageButton = findViewById(R.id.uploadImageButton);
+        storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profile_image_view);
+            }
+        });
 
-//        profilePic = binding.profileImageView;
-        usernameInput = binding.username;
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                username.setText(value.getString("username"));
+                useremail.setText(value.getString("email"));
+                //TODO Add more text
+            }
+        });
 
-        getUserData();
+        uploadImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImagePicker.with(UserProfileActivity.this)
+                        .crop()                    //Crop image(Optional), Check Customization for more option
+                        .compress(1024)            //Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)    //Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
+            }
+        });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Uri uri = data.getData();
+        uploadPictureToFirebase(uri);
+    }
 
-//    public View onCreate(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-//        View view = inflater.inflate(R.layout.activity_user_profile, container, false);
-//        profilePic = view.findViewById(R.id.profile_image_view);
-//        usernameInput = view.findViewById(R.id.username);
-//        getUserData();
-//        return view;
-//    }
-
-    void getUserData(){
-        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(task ->  {
-//            currentUser = task.getResult().toObject(User.class);
-//            usernameInput.setText(currentUser.getUsername());
-            if (task.isSuccessful() && task.getResult() != null) {
-                currentUser = task.getResult().toObject(User.class);
-                if (currentUser != null) {
-                    Log.d("UserProfile", "Username: " + currentUser.getUsername());
-                    usernameInput.setText(currentUser.getUsername());
-                } else {
-                    Log.d("UserProfile", "No user data found.");
-                    Toast.makeText(UserProfileActivity.this, "No user data found.", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Log.d("UserProfile", "Failed to fetch user data: " + task.getException());
-                Toast.makeText(UserProfileActivity.this, "Failed to fetch user data.", Toast.LENGTH_SHORT).show();
+    private void uploadPictureToFirebase(Uri pictureUri) {
+        StorageReference fileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        fileRef.putFile(pictureUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(UserProfileActivity.this, "Picture uploaded", Toast.LENGTH_SHORT).show();
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profile_image_view);
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(UserProfileActivity.this, "Picture uploaded failed", Toast.LENGTH_SHORT).show();
             }
         });
     }

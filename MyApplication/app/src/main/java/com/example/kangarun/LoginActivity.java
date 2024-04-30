@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextUserEmail, editTextPassword;
-    private Button buttonLogin, buttonCreateAccount;
+    private Button buttonLogin, buttonCreateAccount, buttonAutoLogin;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -36,12 +36,27 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonCreateAccount = findViewById(R.id.buttonCreateAccount);
 
-//        // Apply insets for system windows
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return WindowInsetsCompat.CONSUMED;
-//        });
+        //TODO These code below are test only
+        buttonAutoLogin = findViewById(R.id.buttonAutoLogin);
+        buttonAutoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editTextUserEmail.setText("sb@gmail.com");
+                editTextPassword.setText("sbsbsb");
+                String email = editTextUserEmail.getText().toString().trim();
+                String password = editTextPassword.getText().toString().trim();
+                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Login in Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        }
+                    }
+                });
+            }
+        });
+        //TODO Test code END here
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,21 +64,19 @@ public class LoginActivity extends AppCompatActivity {
                 String email = editTextUserEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
 
-//                if (!email.isEmpty() && !password.isEmpty()) {
-//                    Toast.makeText(loginActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(loginActivity.this, "Please enter all details", Toast.LENGTH_SHORT).show();
-//                }
-//                if (password.length() < 6){
-//                    Toast.makeText(loginActivity.this, "Password must be longer than 6 Characters", Toast.LENGTH_SHORT).show();
-//                }
-                firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                if (email.isEmpty() && password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please enter all details", Toast.LENGTH_SHORT).show();
+                }
+                if (password.length() < 6) {
+                    Toast.makeText(LoginActivity.this, "Password must be longer than 6 Characters", Toast.LENGTH_SHORT).show();
+                }
+                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Loggin in Successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        }else {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Login in Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        } else {
                             Toast.makeText(LoginActivity.this, "Login failed " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }

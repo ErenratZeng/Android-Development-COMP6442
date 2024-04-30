@@ -2,10 +2,6 @@ package com.example.kangarun;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.app.ActivityCompat;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -31,18 +27,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,6 +58,7 @@ public class MapsActivity extends AppCompatActivity
      * @see #onRequestPermissionsResult(int, String[], int[])
      */
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     /**
      * Flag indicating whether a requested permission has been denied after returning in {@link
      * #onRequestPermissionsResult(int, String[], int[])}.
@@ -78,21 +69,15 @@ public class MapsActivity extends AppCompatActivity
     private UiSettings mUiSettings;
     private ActivityMapsBinding binding;
     private LatLng mCurrentLocation; //records current location after clicking start exercise button
-
     private List<LatLng> mPathPoints = new ArrayList<>(); // store all coordinates in path
     private Polyline mPolyline; // used to draw poly line
-
     private Timer mPathTimer = null; // timer used for draw path
     private Timer mDurationTimer = null; //timer used for calculate duration
     private long mStartTimeMillis = 0; //record time stamp when start exercise
     private double distance = 0;//record the distance of exercise
     private String duration;
     private String exerciseDate;
-
     private double calories;
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -233,8 +218,9 @@ public class MapsActivity extends AppCompatActivity
 
     /**
      * Calculate distance between two points in latitude and longitude.
+     *
      * @param start LatLng of start point
-     * @param end LatLng of end point
+     * @param end   LatLng of end point
      * @return distance in meters
      */
     private float calculateDistance(LatLng start, LatLng end) {
@@ -242,14 +228,14 @@ public class MapsActivity extends AppCompatActivity
         Location.distanceBetween(start.latitude, start.longitude, end.latitude, end.longitude, results);
         return results[0];
     }
+
     /**
      * get current location
      */
     private void getCurrentLocation() {
         if (mFusedLocationClient != null) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            {
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 enableMyLocation();
             }
             mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
@@ -265,10 +251,9 @@ public class MapsActivity extends AppCompatActivity
      */
     private void updatePath() {
         if (mCurrentLocation != null) {
-            if (!mPathPoints.isEmpty())
-            {
-                LatLng lastPoint = mPathPoints.get(mPathPoints.size()-1);
-                distance+=calculateDistance(lastPoint,mCurrentLocation);
+            if (!mPathPoints.isEmpty()) {
+                LatLng lastPoint = mPathPoints.get(mPathPoints.size() - 1);
+                distance += calculateDistance(lastPoint, mCurrentLocation);
             }
             mPathPoints.add(mCurrentLocation); // add the current position to path list points.
             if (mPathPoints.size() > 1) {
@@ -294,6 +279,7 @@ public class MapsActivity extends AppCompatActivity
 
     /**
      * updating text in duration textview
+     *
      * @param timeDisplay the duration of time need to be display on textview
      */
     private void updateDurationTextView(String timeDisplay) {
@@ -303,6 +289,7 @@ public class MapsActivity extends AppCompatActivity
 
     /**
      * update distance display TextView
+     *
      * @param distance meters
      */
     private void updateDistanceTextView(double distance) {
@@ -314,9 +301,10 @@ public class MapsActivity extends AppCompatActivity
 
     /**
      * Calculate calories burned based on weight, time, and speed.
+     *
      * @param distanceMeters Distance in meters
-     * @param timeMillis Time in milliseconds
-     * @param weightKg Weight in kilograms
+     * @param timeMillis     Time in milliseconds
+     * @param weightKg       Weight in kilograms
      * @return Calories burned
      */
     private double calculateCalories(double distanceMeters, long timeMillis, double weightKg) {
@@ -330,14 +318,13 @@ public class MapsActivity extends AppCompatActivity
 
     /**
      * Update the text in the calories TextView
+     *
      * @param calories Number of calories burned
      */
     private void updateCaloriesTextView(double calories) {
         TextView caloriesTextView = findViewById(R.id.calories_text);
         caloriesTextView.setText(String.format("%.0f cal", calories));
     }
-
-
 
 
     /**

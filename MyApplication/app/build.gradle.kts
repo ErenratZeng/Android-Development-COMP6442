@@ -13,7 +13,7 @@ android {
         minSdk = 33
         targetSdk = 34
         versionCode = 2
-        versionName = "1.01"
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -62,4 +62,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     // Import the BoM for the Firebase platform
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.github.dhaval2404:imagepicker:2.1")
+    implementation( "com.squareup.picasso:picasso:2.8")
 }

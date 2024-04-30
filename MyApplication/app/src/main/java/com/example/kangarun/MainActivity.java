@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button logoutButton = findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener(){
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
@@ -58,18 +59,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button dmButton = findViewById(R.id.dmButton);
-        dmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Message", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                // TODO: change the argument to User and remove the dummy
-                intent.putExtra("user", new User("Alice", "password123"));
-                startActivity(intent);
-            }
-        });
-
         Button friendsbutton = findViewById(R.id.button_friends);
         friendsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +70,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         Toast.makeText(this, "You cannot return to last page", Toast.LENGTH_SHORT).show();
+        //Ban return button
     }
 }
