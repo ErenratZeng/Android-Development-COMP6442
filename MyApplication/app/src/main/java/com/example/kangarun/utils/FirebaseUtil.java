@@ -9,11 +9,4 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class FirebaseUtil {
 
-    public static String getUserId() {
-        return FirebaseAuth.getInstance().getUid();
-    }
-
-    public static DocumentReference currentUserDetails(){
-        return FirebaseFirestore.getInstance().collection("user").document(getUserId());
-    }
 }

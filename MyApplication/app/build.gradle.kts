@@ -63,4 +63,5 @@ dependencies {
     // Import the BoM for the Firebase platform
     implementation("com.google.firebase:firebase-auth")
     implementation("com.github.dhaval2404:imagepicker:2.1")
+    implementation( "com.squareup.picasso:picasso:2.8")
 }
