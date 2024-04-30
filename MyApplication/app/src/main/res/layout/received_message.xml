@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
     android:padding="4dp">
 
     <ImageView
@@ -21,7 +22,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:background="@drawable/received_message_background"
-        android:padding="12dp"
+        android:paddingStart="12dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="7dp"
+        app:layout_constraintWidth_max="wrap"
         android:textColor="@color/white"
         android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@id/imageProfile"

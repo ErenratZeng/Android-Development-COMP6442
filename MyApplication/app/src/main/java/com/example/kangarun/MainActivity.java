@@ -69,6 +69,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button friendsbutton = findViewById(R.id.button_friends);
+        friendsbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Friends List", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
+                intent.putExtra("user", new User("Alice", "password123"));
+                startActivity(intent);
+            }
+        });
     }
     @Override
     public void onBackPressed() {

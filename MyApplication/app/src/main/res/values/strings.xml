@@ -25,6 +25,7 @@
     <string name="zoom_buttons">zoom buttons</string>
     <string name="exercise_record">Exercise Record</string>
     <string name="start_exercise">Start Exercise</string>
+    <string name="select_user">Select User</string>
 
 
 </resources>

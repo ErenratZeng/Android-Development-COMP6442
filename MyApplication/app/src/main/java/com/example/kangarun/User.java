@@ -37,7 +37,7 @@ public class User implements Serializable {
     private List<String> blockList;  // Blocked users
     private List<String> activityHistory;  // Storing activity IDs for simplicity
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    transient FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static final String TAG = "User";
 
     public User(String username, String password) {
@@ -156,8 +156,7 @@ public class User implements Serializable {
 
     public void uploadProfile() {
         String uid = getCurrentUserId();
-        if(uid != null)
-        {
+        if (uid != null) {
             Map<String, Object> userProfile = new HashMap<>();
             userProfile.put("uid", getUserId());
             userProfile.put("username", getUsername());
@@ -165,20 +164,17 @@ public class User implements Serializable {
             userProfile.put("email", getEmail());
             userProfile.put("height", getHeight());
             userProfile.put("weight", getWeight());
-            db.collection("user").document(uid)
-                    .set(userProfile)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
-                        }
-                    });
+            db.collection("user").document(uid).set(userProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error writing document", e);
+                }
+            });
         }
     }
 
@@ -201,31 +197,5 @@ public class User implements Serializable {
         System.out.println("Activity History: " + activityHistory.toString());
     }
 
-    // Method to send the message
-    public void sendMessage(String recipientId, String content) {
-        // Create a file name based on the user IDs involved in the conversation
-        String conversationFileName = "chat_history_" + this.userId + "_" + recipientId + ".txt";
-
-        // Ensure the directory for the chat history exists
-        File directory = new File("ChatHistories");
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
-
-        // Create a File object
-        File conversationFile = new File(directory, conversationFileName);
-
-        // Append the message to the file with BufferedWriter
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(conversationFile, true))) {
-            // Construct the message with a timestamp
-            String timestamp = new Date().toString(); // Simple string representation of the current Date and Time
-            String messageLine = timestamp + " From " + this.userId + " to " + recipientId + ": " + content + "\n";
-
-            // Write the message to the file
-            writer.write(messageLine);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }
