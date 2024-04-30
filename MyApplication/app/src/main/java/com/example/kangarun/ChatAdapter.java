@@ -1,6 +1,7 @@
 package com.example.kangarun;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -9,18 +10,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kangarun.databinding.ReceivedMessageBinding;
 import com.example.kangarun.databinding.SentMessageBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int VIEW_TYPE_SENT = 1;
     public static final int VIEW_TYPE_RECEIVED = 2;
-    private final Bitmap receiverImg;
+    private final String receiverId;
     private final List<Message> messageList;
     private final String senderId;
 
-    public ChatAdapter(Bitmap receiverImg, List<Message> messageList, String senderId) {
-        this.receiverImg = receiverImg;
+    public ChatAdapter(String receiverId, List<Message> messageList, String senderId) {
+        this.receiverId = receiverId;
         this.messageList = messageList;
         this.senderId = senderId;
     }
@@ -47,7 +52,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == VIEW_TYPE_SENT) {
             ((SentMessageViewHolder) holder).setMessage(messageList.get(position));
         } else {
-            ((ReceivedMessageViewHolder) holder).setMessage(messageList.get(position), receiverImg);
+            ((ReceivedMessageViewHolder) holder).setMessage(messageList.get(position), this.receiverId);
         }
     }
 
@@ -87,10 +92,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             binding = receivedMessageBinding;
         }
 
-        void setMessage(Message m, Bitmap img) {
+        void setMessage(Message m, String receiverId) {
             binding.textMessage.setText(m.messageContent);
             binding.textTime.setText(m.datetime);
-            binding.imageProfile.setImageBitmap(img);
+            StorageReference fileRef = FirebaseStorage.getInstance().getReference()
+                    .child("user/" + receiverId + "/profile.jpg");
+            fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).into(binding.imageProfile);
+                }
+            });
         }
     }
 }
