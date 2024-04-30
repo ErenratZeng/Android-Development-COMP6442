@@ -10,13 +10,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,21 +19,19 @@ import java.util.UUID;
 
 // Make it serializable to pass the data through Intent
 public class User implements Serializable {
+    public static final String TAG = "User";
     protected String userId;
     protected String gender;
     protected String username;
     protected String password;
+    transient FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String email;
     private double weight;
     private double height;
-
     private String profilePicture;
     private List<String> friendsList;  // Storing friend IDs
     private List<String> blockList;  // Blocked users
     private List<String> activityHistory;  // Storing activity IDs for simplicity
-
-    transient FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public static final String TAG = "User";
 
     public User(String username, String password) {
         this.userId = UUID.randomUUID().toString();
@@ -52,6 +45,15 @@ public class User implements Serializable {
 
     public User() {
 
+    }
+
+    public static String getCurrentUserId() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getUid();
+        }
+        return null;
     }
 
     // Getters and Setters
@@ -111,7 +113,6 @@ public class User implements Serializable {
     public void setHeight(double height) {
         this.height = height;
     }
-
 
     public List<String> getFriendsList() {
         return friendsList;
@@ -176,15 +177,6 @@ public class User implements Serializable {
                 }
             });
         }
-    }
-
-    public static String getCurrentUserId() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            return currentUser.getUid();
-        }
-        return null;
     }
 
     //print user details

@@ -2,7 +2,6 @@ package com.example.kangarun;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -47,6 +46,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return users.size();
     }
 
+    private Bitmap getBitmapFromEncoded(String encoded) {
+        byte[] bytes = Base64.getDecoder().decode(encoded);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
     public class UserViewHolder extends RecyclerView.ViewHolder {
         UserContainerBinding binding;
 
@@ -61,10 +65,5 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             //binding.imageProfile.setImageBitmap(getBitmapFromEncoded(user.getProfilePicture()));TODO
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
-    }
-
-    private Bitmap getBitmapFromEncoded(String encoded) {
-        byte[] bytes = Base64.getDecoder().decode(encoded);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }

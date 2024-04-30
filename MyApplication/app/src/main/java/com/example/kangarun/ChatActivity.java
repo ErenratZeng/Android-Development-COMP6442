@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kangarun.databinding.ActivityChatBinding;
@@ -35,14 +33,11 @@ import java.util.List;
 import java.util.Locale;
 
 public class ChatActivity extends AppCompatActivity {
+    private static final String TAG = "messages";
     private ActivityChatBinding binding;
     private User receiver;
     private List<Message> messageList;
     private ChatAdapter adapter;
-    private FirebaseFirestore db;
-
-    private static final String TAG = "messages";
-
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -71,6 +66,7 @@ public class ChatActivity extends AppCompatActivity {
             binding.chatRecycleView.setVisibility(View.VISIBLE);
         }
     };
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
