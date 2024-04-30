@@ -18,7 +18,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/person_icon" />
 
-    <EditText
+    <TextView
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:inputType="text"
         android:padding="10dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/useremail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:inputType="text"
         android:padding="10dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/usergender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:inputType="text"
         android:padding="10dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/userweight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         android:inputType="text"
         android:padding="10dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/userheight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
