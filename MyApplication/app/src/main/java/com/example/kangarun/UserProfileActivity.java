@@ -53,7 +53,7 @@ public class UserProfileActivity extends AppCompatActivity {
         profile_image_view = findViewById(R.id.profile_image_view);
         uploadImageButton = findViewById(R.id.uploadImageButton);
         storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference  profileRef = storageReference.child("profile.jpg");
+        StorageReference  profileRef = storageReference.child("user/"+User.getCurrentUserId() +"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -95,7 +95,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void uploadPictureToFirebase(Uri pictureUri){
-        StorageReference fileRef = storageReference.child("profile.jpg");
+        StorageReference fileRef = storageReference.child("user/"+User.getCurrentUserId() +"/profile.jpg");
         fileRef.putFile(pictureUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
