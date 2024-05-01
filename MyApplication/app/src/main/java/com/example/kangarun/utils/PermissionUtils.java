@@ -1,4 +1,4 @@
-package com.example.kangarun;
+package com.example.kangarun.utils;
 
 import android.Manifest;
 import android.Manifest.permission;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.kangarun.R;
 
 /**
  * Utility class for access to runtime permissions.
