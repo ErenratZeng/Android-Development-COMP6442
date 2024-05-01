@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 
 // Make it serializable to pass the data through Intent
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
     public static final String TAG = "User";
     protected String userId;
     protected String gender;
@@ -190,4 +190,8 @@ public class User implements Serializable {
     }
 
 
+    @Override
+    public int compareTo(User o) {
+        return this.username.compareTo(o.username);
+    }
 }

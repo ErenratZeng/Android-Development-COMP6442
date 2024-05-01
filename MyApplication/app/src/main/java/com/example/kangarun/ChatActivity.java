@@ -99,9 +99,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private void init() {
         messageList = new ArrayList<>();
-        Bitmap bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         adapter = new ChatAdapter(
-                bitmap,//TODO getBitmapFromEncoded(receiver.getProfilePicture()),
+                receiver.getUserId(),
                 messageList,
                 getCurrentUserId()
         );
