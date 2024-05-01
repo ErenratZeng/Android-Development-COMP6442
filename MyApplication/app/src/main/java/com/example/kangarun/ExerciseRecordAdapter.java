@@ -37,7 +37,7 @@ public class ExerciseRecordAdapter extends RecyclerView.Adapter<ExerciseRecordAd
 
     @Override
     public void onBindViewHolder(RecordViewHolder holder, int position) {
-        DocumentSnapshot document = recordsList.get(recordsList.size() - 1 - position);
+        DocumentSnapshot document = recordsList.get(position);
         String date = document.getString("date");
         double distance = document.getDouble("distance");
         String duration = document.getString("duration");

@@ -7,10 +7,41 @@
     android:layout_height="match_parent"
     tools:context=".ExerciseRecordActivity">
 
+    <LinearLayout
+        android:id="@+id/RecordButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/SortByDateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date" />
+
+        <Button
+            android:id="@+id/SortByDistanceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distance" />
+
+        <Button
+            android:id="@+id/SortByDurationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration" />
+
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exerciseRecordView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@id/RecordButtons" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
