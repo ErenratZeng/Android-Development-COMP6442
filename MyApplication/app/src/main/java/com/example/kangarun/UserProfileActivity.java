@@ -44,6 +44,9 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         username = findViewById(R.id.username);
         useremail = findViewById(R.id.useremail);
+        usergender = findViewById(R.id.usergender);
+        userweight = findViewById(R.id.userweight);
+        userheight = findViewById(R.id.userheight);
         profile_image_view = findViewById(R.id.profile_image_view);
         uploadImageButton = findViewById(R.id.uploadImageButton);
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -62,7 +65,10 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 username.setText(value.getString("username"));
                 useremail.setText(value.getString("email"));
-                //TODO Add more text
+                usergender.setText(value.getString("gender"));
+                userweight.setText(String.valueOf(value.getDouble("weight")));
+                userheight.setText(String.valueOf(value.getDouble("height")));
+                //TODO Add label in each text
             }
         });
 
