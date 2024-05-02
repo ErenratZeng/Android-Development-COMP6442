@@ -34,6 +34,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +46,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import android.graphics.Bitmap;
+import android.util.Base64;
+import java.io.ByteArrayOutputStream;
 
 public class MapsActivity extends AppCompatActivity
         implements
@@ -80,14 +87,12 @@ public class MapsActivity extends AppCompatActivity
     private String exerciseDate;
     private double calories;
 
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        /*
-        Intent intent = getIntent();
-        String uid = intent.getStringExtra("uid");
-         */
         String uid = User.getCurrentUserId();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -115,9 +120,10 @@ public class MapsActivity extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), "Stop Exercise", Toast.LENGTH_SHORT).show();
                     stopDrawingPath();
                     stopTiming();
+                    captureMapSnapshot();
                 } else if (startExerciseButton.getText().equals("Save Exercise record")) {
                     Toast.makeText(getApplicationContext(), "Exercise Record Saved", Toast.LENGTH_SHORT).show();
-                    //Collect" uid dateStr,timeDisplay,calories,distance" and store into json
+                    //Collect" uid dateStr,timeDisplay,calories,distance" and store
                     Map<String, Object> exerciseRecord = new HashMap<>();
 
                     exerciseRecord.put("uid", uid);
@@ -139,7 +145,7 @@ public class MapsActivity extends AppCompatActivity
                                     Log.w(TAG, "Error writing document", e);
                                 }
                             });
-
+                    captureMapSnapshot();
                     Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(goToMain);
                 }
@@ -313,8 +319,8 @@ public class MapsActivity extends AppCompatActivity
         double timeHours = timeMillis / 3600000.0; // convert time to hours
         double speedMinPer400m = (timeMillis / 60000.0) / (distanceMeters / 400.0); // calculate speed（minutes per 400 meters）
 
-        double K = 30 / speedMinPer400m; // 计算指数K
-        return weightKg * timeHours * K; // 返回卡路里消耗
+        double K = 30 / speedMinPer400m; // gauge index k
+        return weightKg * timeHours * K; // return calories
     }
 
     /**
@@ -325,6 +331,45 @@ public class MapsActivity extends AppCompatActivity
     private void updateCaloriesTextView(double calories) {
         TextView caloriesTextView = findViewById(R.id.calories_text);
         caloriesTextView.setText(String.format("%.0f cal", calories));
+    }
+
+    private void captureMapSnapshot() {
+        if (mMap == null) {
+            Log.d("MapSnapshot", "Map not initialized");
+            return;  // make sure the map is loaded
+        }
+        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+            @Override
+            public void onSnapshotReady(Bitmap bitmap) {
+                // 将 Bitmap 转换为 byte[]
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                // 调用上传方法
+                uploadMapSnapshotToFirebase(byteArray);
+            }
+        });
+    }
+
+    private void uploadMapSnapshotToFirebase(byte[] imageBytes) {
+        String filePath = "exerciseRecord/" + User.getCurrentUserId() + exerciseDate + "/mapSnapshot.png";
+        StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(filePath);
+
+        // upload to Firebase Storage
+        fileRef.putBytes(imageBytes)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("FirebaseStorage", "Snapshot uploaded successfully!");
+                        // 可以选择在这里获取下载 URL 或在其他位置获取
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("FirebaseStorage", "Snapshot upload failed", e);
+                    }
+                });
     }
 
 
