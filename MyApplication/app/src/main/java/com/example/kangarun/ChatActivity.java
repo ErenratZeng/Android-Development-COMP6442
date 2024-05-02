@@ -89,8 +89,9 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "User Profile", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                Intent intent = new Intent(getApplicationContext(), FriendProfileActivity.class);
                 intent.putExtra("user", receiver);
+                //TODO Show current user profile
                 startActivity(intent);
             }
         });
