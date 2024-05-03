@@ -1,4 +1,4 @@
-package com.example.kangarun;
+package com.example.kangarun.adapter;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kangarun.Message;
 import com.example.kangarun.databinding.ReceivedMessageBinding;
 import com.example.kangarun.databinding.SentMessageBinding;
 import com.google.android.gms.tasks.OnSuccessListener;

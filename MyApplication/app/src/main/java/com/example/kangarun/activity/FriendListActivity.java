@@ -1,4 +1,4 @@
-package com.example.kangarun;
+package com.example.kangarun.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,10 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.kangarun.User;
+import com.example.kangarun.UserListener;
+import com.example.kangarun.adapter.UserAdapter;
 import com.example.kangarun.databinding.ActivityFriendListBinding;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -35,7 +36,7 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
     private void getUsers() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user").get().addOnCompleteListener(t -> {
-            String currentUid = getCurrentUserId();
+            String currentUid = User.getCurrentUserId();
             if (t.isSuccessful() && t.getResult() != null) {
                 List<User> users = new ArrayList<>();
                 for (QueryDocumentSnapshot queryDocumentSnapshot : t.getResult()) {
@@ -60,14 +61,7 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
         });
     }
 
-    private String getCurrentUserId() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            return currentUser.getUid();
-        }
-        return null;
-    }
+
 
     @Override
     public void onUserClicked(User user) {

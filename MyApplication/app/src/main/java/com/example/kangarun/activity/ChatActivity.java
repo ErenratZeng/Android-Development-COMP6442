@@ -1,4 +1,4 @@
-package com.example.kangarun;
+package com.example.kangarun.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,11 +12,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.kangarun.Message;
+import com.example.kangarun.R;
+import com.example.kangarun.User;
+import com.example.kangarun.adapter.ChatAdapter;
 import com.example.kangarun.databinding.ActivityChatBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
@@ -103,7 +105,7 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatAdapter(
                 receiver.getUserId(),
                 messageList,
-                getCurrentUserId()
+                User.getCurrentUserId()
         );
         binding.chatRecycleView.setAdapter(adapter);
         db = FirebaseFirestore.getInstance();
@@ -111,7 +113,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void sendMessage() {
         HashMap<String, Object> message = new HashMap<>();
-        message.put("senderId", getCurrentUserId());
+        message.put("senderId", User.getCurrentUserId());
         message.put("receiverId", receiver.getUserId());
         message.put("message", binding.inputMessage.getText().toString());
         message.put("time", new Date());
@@ -134,22 +136,13 @@ public class ChatActivity extends AppCompatActivity {
 
     private void listenMessage() {
         db.collection("collection_chat")
-                .whereEqualTo("senderId", getCurrentUserId())
+                .whereEqualTo("senderId", User.getCurrentUserId())
                 .whereEqualTo("receiverId", receiver.getUserId())
                 .addSnapshotListener(eventListener);
         db.collection("collection_chat")
                 .whereEqualTo("senderId", receiver.getUserId())
-                .whereEqualTo("receiverId", getCurrentUserId())
+                .whereEqualTo("receiverId", User.getCurrentUserId())
                 .addSnapshotListener(eventListener);
-    }
-
-    private String getCurrentUserId() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            return currentUser.getUid();
-        }
-        return null;
     }
 
     // Decode encoded image string

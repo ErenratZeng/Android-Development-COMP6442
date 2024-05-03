@@ -1,4 +1,4 @@
-package com.example.kangarun;
+package com.example.kangarun.activity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.kangarun.R;
 import com.squareup.picasso.Picasso;
 
 public class ExerciseRecordDetailActivity extends AppCompatActivity {

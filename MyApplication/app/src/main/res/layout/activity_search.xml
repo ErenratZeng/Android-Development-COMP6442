@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="#D8D8D8"
-    tools:context=".SearchActivity">
+    tools:context=".activity.SearchActivity">
 
 
     <android.widget.SearchView

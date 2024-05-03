@@ -1,4 +1,4 @@
-package com.example.kangarun;
+package com.example.kangarun.adapter;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kangarun.activity.ExerciseRecordDetailActivity;
+import com.example.kangarun.R;
+import com.example.kangarun.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;

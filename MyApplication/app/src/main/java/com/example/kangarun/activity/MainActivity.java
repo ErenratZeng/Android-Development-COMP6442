@@ -1,10 +1,9 @@
-package com.example.kangarun;
+package com.example.kangarun.activity;
 
 import static com.example.kangarun.utils.FirebaseUtil.loadUsersIntoAVL;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,10 +12,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.kangarun.R;
 import com.example.kangarun.utils.UserAVLTree;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class MainActivity extends AppCompatActivity {
     public static UserAVLTree tree;

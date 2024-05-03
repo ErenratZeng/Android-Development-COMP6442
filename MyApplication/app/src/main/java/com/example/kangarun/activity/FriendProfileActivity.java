@@ -1,4 +1,4 @@
-package com.example.kangarun;
+package com.example.kangarun.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.kangarun.R;
+import com.example.kangarun.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;

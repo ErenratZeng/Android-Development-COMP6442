@@ -2,7 +2,7 @@ package com.example.kangarun.utils;
 
 import android.util.Log;
 
-import com.example.kangarun.MainActivity;
+import com.example.kangarun.activity.MainActivity;
 import com.example.kangarun.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;

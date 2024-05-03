@@ -1,4 +1,4 @@
-package com.example.kangarun;
+package com.example.kangarun.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,24 +7,13 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.kangarun.ChatActivity;
-import com.example.kangarun.MainActivity;
 import com.example.kangarun.R;
 import com.example.kangarun.User;
-import com.example.kangarun.UserAdapter;
 import com.example.kangarun.UserListener;
-import com.example.kangarun.databinding.ActivityFriendListBinding;
+import com.example.kangarun.adapter.UserAdapter;
 import com.example.kangarun.databinding.ActivitySearchBinding;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,14 +73,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         }
     }
 
-    private String getCurrentUserId() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            return currentUser.getUid();
-        }
-        return null;
-    }
 
     @Override
     public void onUserClicked(User user) {
