@@ -1,7 +1,9 @@
 package com.example.kangarun.adapter;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kangarun.User;
 import com.example.kangarun.UserListener;
+import com.example.kangarun.activity.ChatActivity;
 import com.example.kangarun.databinding.UserContainerBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -53,6 +56,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         UserViewHolder(UserContainerBinding b) {
             super(b.getRoot());
             binding = b;
+            binding.buttonMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // The adapter position can be used to get the user data from the list
+                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                        User user = users.get(getAdapterPosition());
+                        Intent intent = new Intent(v.getContext(), ChatActivity.class);
+                        intent.putExtra("user", user);
+                        v.getContext().startActivity(intent);
+                    }
+                }
+            });
+
         }
 
         void setUserData(User user) {

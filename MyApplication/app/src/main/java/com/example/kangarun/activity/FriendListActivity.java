@@ -46,8 +46,6 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
                         user.setUsername(queryDocumentSnapshot.getString("username"));
                         user.setEmail(queryDocumentSnapshot.getString("email"));
                         user.setUserId(queryDocumentSnapshot.getString("uid"));
-                        // user.setProfilePicture(queryDocumentSnapshot.getString(""));TODO
-                        // Add more instances if need
                         users.add(user);
                     }
                 }
@@ -65,7 +63,7 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
 
     @Override
     public void onUserClicked(User user) {
-        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        Intent intent = new Intent(getApplicationContext(), FriendProfileActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
         finish();

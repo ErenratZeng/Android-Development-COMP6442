@@ -74,4 +74,5 @@ public class FriendProfileActivity extends AppCompatActivity {
         }
 
     }
+    
 }

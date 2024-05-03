@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -51,6 +53,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                 return false;
             }
         });
+
     }
 
 
@@ -74,9 +77,10 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     }
 
 
+    // Go to profile if click the user
     @Override
     public void onUserClicked(User user) {
-        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        Intent intent = new Intent(getApplicationContext(), FriendProfileActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
         finish();
