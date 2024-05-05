@@ -69,5 +69,10 @@
         android:layout_height="50dp"
         android:text="Block" />
 
+    <Button
+        android:id="@+id/addFriendButton"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Add Friend" />
 
 </LinearLayout>

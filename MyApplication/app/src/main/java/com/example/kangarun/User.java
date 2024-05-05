@@ -165,6 +165,7 @@ public class User implements Serializable, Comparable<User> {
             userProfile.put("email", getEmail());
             userProfile.put("height", getHeight());
             userProfile.put("weight", getWeight());
+            userProfile.put("friendList", getFriendsList());
             db.collection("user").document(uid).set(userProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {

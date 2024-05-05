@@ -2,6 +2,7 @@ package com.example.kangarun.adapter;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kangarun.R;
 import com.example.kangarun.User;
 import com.example.kangarun.UserListener;
 import com.example.kangarun.activity.ChatActivity;
@@ -74,13 +76,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         void setUserData(User user) {
             binding.textName.setText(user.getUsername());
             binding.textEmail.setText(user.getEmail());
+
             StorageReference fileRef = FirebaseStorage.getInstance().getReference()
                             .child("user/" + user.getUserId() + "/profile.jpg");
-            fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
+            // Attempt to get metadata to check if the file exists
+            fileRef.getMetadata().addOnSuccessListener(storageMetadata -> {
+                // Metadata exists, file should be there, attempt to load it
+                fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     Picasso.get().load(uri).into(binding.imageProfile);
-                }
+                }).addOnFailureListener(e -> {
+                    // Handle error in getting download URL
+                    Log.e("Storage", "Error getting download URL", e);
+                    binding.imageProfile.setImageResource(R.drawable.profile_icon); // Set default or error image
+                });
+            }).addOnFailureListener(e -> {
+                // File does not exist or other error in fetching metadata
+                Log.d("Storage", "File does not exist, use default profile");
+                binding.imageProfile.setImageResource(R.drawable.profile_icon); // Set default or error image
             });
 
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));

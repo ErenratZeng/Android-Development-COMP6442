@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -84,6 +85,8 @@ public class UserProfileActivity extends AppCompatActivity {
                         .start();
             }
         });
+
+
     }
 
     @Override
