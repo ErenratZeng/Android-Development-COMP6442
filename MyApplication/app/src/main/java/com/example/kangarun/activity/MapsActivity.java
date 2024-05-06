@@ -161,7 +161,7 @@ public class MapsActivity extends AppCompatActivity
      */
     private void startDrawingPath() {
         mPathTimer = new Timer();
-        mPathTimer.scheduleAtFixedRate(new TimerTask() {
+        mPathTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (mMap != null) {
