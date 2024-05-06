@@ -76,25 +76,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         void setUserData(User user) {
             binding.textName.setText(user.getUsername());
             binding.textEmail.setText(user.getEmail());
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("user/" + user.getUserId() + "/profile.jpg");
 
-            StorageReference fileRef = FirebaseStorage.getInstance().getReference()
-                            .child("user/" + user.getUserId() + "/profile.jpg");
-            // Attempt to get metadata to check if the file exists
-            fileRef.getMetadata().addOnSuccessListener(storageMetadata -> {
-                // Metadata exists, file should be there, attempt to load it
-                fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
                     Picasso.get().load(uri).into(binding.imageProfile);
-                }).addOnFailureListener(e -> {
-                    // Handle error in getting download URL
-                    Log.e("Storage", "Error getting download URL", e);
-                    binding.imageProfile.setImageResource(R.drawable.profile_icon); // Set default or error image
-                });
-            }).addOnFailureListener(e -> {
-                // File does not exist or other error in fetching metadata
-                Log.d("Storage", "File does not exist, use default profile");
-                binding.imageProfile.setImageResource(R.drawable.profile_icon); // Set default or error image
+                }
             });
-
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }
