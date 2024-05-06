@@ -26,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
+import java.util.List;
 
 
 public class FriendProfileActivity extends AppCompatActivity {
@@ -85,10 +86,49 @@ public class FriendProfileActivity extends AppCompatActivity {
                 //TODO Add label in each text
             }
         });
-        // Add friend button
-        addFriendButton = findViewById(R.id.addFriendButton);
-        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
 
+        // Add/Delete friend button
+        addFriendButton = findViewById(R.id.addFriendButton);
+        profileDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (snapshot != null && snapshot.exists()) {
+                    List<String> friendList = (List<String>) snapshot.get("friendList");
+                    if (friendList != null && friendList.contains(currentId)) {
+                        // Change button text to "Delete Friend"
+                        addFriendButton.setText("Delete Friend");
+                        setupDeleteFriendButton(profileDocRef);
+                    } else {
+                        // Change button text to "Add Friend"
+                        addFriendButton.setText("Add Friend");
+                        setupAddFriendButton(profileDocRef);
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void setupDeleteFriendButton(DocumentReference profileDocRef) {
+        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
+        addFriendButton.setOnClickListener(v -> {
+            profileDocRef.update("friendList", FieldValue.arrayRemove(currentId))
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("Friend", "Friend removed successfully!");
+                    })
+                    .addOnFailureListener(e -> Log.e("Friend", "Error removing friend", e));
+            currentDocRef.update("friendList", FieldValue.arrayRemove(profileId))
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("Friend", "Friend removed successfully!");
+                    })
+                    .addOnFailureListener(e -> Log.e("Friend", "Error removing friend", e));
+            addFriendButton.setText("Add Friend");
+            setupAddFriendButton(profileDocRef); // Switch functionality to add
+        });
+
+    }
+    private void setupAddFriendButton(DocumentReference profileDocRef) {
+        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,8 +161,11 @@ public class FriendProfileActivity extends AppCompatActivity {
                                 ).addOnSuccessListener(aVoid -> Log.d("AddFriend", "Document created and friend added!"));
                             }
                         });
+                addFriendButton.setText("Delete Friend");
+                setupDeleteFriendButton(profileDocRef);
             }
         });
     }
-    
+
+
 }
