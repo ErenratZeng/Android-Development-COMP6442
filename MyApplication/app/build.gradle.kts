@@ -5,7 +5,10 @@ plugins {
 }
 dependencies {
     implementation("com.airbnb.android:lottie:3.4.0")
+    implementation("androidx.fragment:fragment:1.3.6")
 }
+
+
 
 
 android {

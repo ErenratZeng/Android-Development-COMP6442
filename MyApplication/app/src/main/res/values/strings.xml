@@ -26,6 +26,8 @@
     <string name="exercise_record">Exercise Record</string>
     <string name="start_exercise">Start Exercise</string>
     <string name="select_user">Select User</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
