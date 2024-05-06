@@ -24,20 +24,16 @@ public class BottomNavMenuActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment selectedFragment = null;
-                switch (item.getItemId()) {
-                    case R.id.navigation_search: // 替换为实际的 ID 和 Fragment
-                        selectedFragment = new SearchFragment();
-                        break;
-                    case R.id.navigation_sports: // 替换为实际的 ID 和 Fragment
-                        selectedFragment = new SportsFragment();
-                        break;
-                    case R.id.navigation_friends:
-                        selectedFragment = new FriendsFragment();
-                        break;
-                    case R.id.navigation_profile:
-                        selectedFragment = new ProfileFragment();
-                        break;
-                    // 添加其他 case
+                int id = item.getItemId();
+
+                if (id == R.id.navigation_search) {
+                    selectedFragment = new SearchFragment();
+                } else if (id == R.id.navigation_sports) {
+                    selectedFragment = new SportsFragment();
+                } else if (id == R.id.navigation_friends) {
+                    selectedFragment = new FriendsFragment();
+                } else if (id == R.id.navigation_profile) {
+                    selectedFragment = new ProfileFragment();
                 }
                 if (selectedFragment != null) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
