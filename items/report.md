@@ -37,12 +37,12 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
 ## Team Members and Roles
 The key area(s) of responsibilities for each member
 
-| UID   |  Name  |   Role |
-|:------|:------:|-------:|
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
+| UID      |   Name   |                             Role |
+|:---------|:--------:|---------------------------------:|
+| [uid]    |  [name]  |                           [role] |
+| u7611510 | Heng Sun | responsible for exercise feature |
+| [uid]    |  [name]  |                           [role] |
+| [uid]    |  [name]  |                           [role] |
 
 
 ## Summary of Individual Contributions
@@ -75,9 +75,19 @@ Note that the core criteria of contribution is based on `code contribution` (the
   - **Others**: (only if significant and significantly different from an "average contribution") 
     - [Report Writing?] [Slides preparation?]*
     - [You are welcome to provide anything that you consider as a contribution to the project or team.] e.g., APK, setups, firebase* <br><br>
-
 2. **UID2, Name2**  I have xx% contribution, as follows: <br>
   - ...
+3. **u7611510, HengSun**  I have % contribution, as follows: <br>
+- **Code Contribution in the final App**
+    - Feature Data-GPS: use Google Maps api to display map, locate the movement position in real time, 
+    continuously draw poly line according to the user's position in the map,  calculate the movement distance, time, 
+    and calories in real time - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
+    - Feature FB-Persist: use firebase to persist user exercise record - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
+    - Feature Data-graphical: get user exercise record from firebase,
+    display exercise record in detail including exercise path img,distance,duration,date - class ExerciseRecordDetailActivity:[ExerciseRecordDetailActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
+    -class ExerciseRecordAdaptor:[ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)<br>
+- **Code and App Design**
+    - proposed using AVL tree to store the friend relationship data structure, which can reduce the query waiting time<br><br>
 
 
 
@@ -120,8 +130,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
 <hr> 
 
 ### Application UML
-
-![ClassDiagramExample](media/_examples/ClassDiagramExample.png) <br>
+![Application UML](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/Java2_g48_UML.jpg) <br>
 *[Replace the above with a class diagram. You can look at how we have linked an image here as an example of how you can do it too.]*
 
 <hr>
