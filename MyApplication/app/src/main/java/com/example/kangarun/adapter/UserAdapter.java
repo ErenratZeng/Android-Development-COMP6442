@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+public class UserAdapter extends BaseAdapter<UserAdapter.UserViewHolder> {
     private final List<User> users;
     private UserListener userListener;
 
@@ -31,7 +31,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @NonNull
     @Override
-    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    protected UserViewHolder createView(@NonNull ViewGroup parent, int viewType) {
         UserContainerBinding b = UserContainerBinding.inflate(
                 LayoutInflater.from(parent.getContext()),
                 parent,
@@ -41,12 +41,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+    protected void bindView(@NonNull UserViewHolder holder, int position) {
         holder.setUserData(users.get(position));
     }
 
     @Override
-    public int getItemCount() {
+    protected int getDataCount() {
         return users.size();
     }
 
