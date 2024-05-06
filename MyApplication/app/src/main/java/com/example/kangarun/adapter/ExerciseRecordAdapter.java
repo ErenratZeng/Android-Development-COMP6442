@@ -23,7 +23,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
-public class ExerciseRecordAdapter extends RecyclerView.Adapter<ExerciseRecordAdapter.RecordViewHolder> {
+public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.RecordViewHolder> {
 
     private List<DocumentSnapshot> recordsList;
 
@@ -31,22 +31,14 @@ public class ExerciseRecordAdapter extends RecyclerView.Adapter<ExerciseRecordAd
         this.recordsList = recordsList;
     }
 
-    public void updateData(List<DocumentSnapshot> newData) {
-        Log.d("Adapter", "Updating data with " + newData.size() + " records");
-        recordsList.clear();
-        recordsList.addAll(newData);
-        notifyDataSetChanged();  // 通知数据已更改
-    }
-
-    @NonNull
     @Override
-    public RecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
+    protected RecordViewHolder createView(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(getLayoutId(viewType), parent, false);
         return new RecordViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecordViewHolder holder, int position) {
+    protected void bindView(RecordViewHolder holder, int position) {
         DocumentSnapshot document = recordsList.get(position);
         String date = document.getString("date");
         double distance = document.getDouble("distance");
@@ -85,6 +77,30 @@ public class ExerciseRecordAdapter extends RecyclerView.Adapter<ExerciseRecordAd
                 }
             });
         });
+    }
+
+    @Override
+    protected int getDataCount() {
+        return recordsList.size();
+    }
+
+    @Override
+    protected int getLayoutId(int viewType) {
+        return R.layout.record_item; // 提供布局 ID
+    }
+
+    public void updateData(List<DocumentSnapshot> newData) {
+        Log.d("Adapter", "Updating data with " + newData.size() + " records");
+        recordsList.clear();
+        recordsList.addAll(newData);
+        notifyDataSetChanged();  // 通知数据已更改
+    }
+
+    @NonNull
+    @Override
+    public RecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item, parent, false);
+        return new RecordViewHolder(view);
     }
 
     @Override
