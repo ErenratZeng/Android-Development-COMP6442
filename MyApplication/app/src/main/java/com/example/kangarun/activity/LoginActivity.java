@@ -26,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextUserEmail, editTextPassword;
     private Button buttonLogin, buttonCreateAccount, buttonAutoLogin;
     private FirebaseAuth firebaseAuth;
-    private ProgressDialog progressDialog;
     private LottieAnimationView animationView;
 
     @Override
@@ -35,15 +34,14 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Logging In");
-        progressDialog.setMessage("Please wait...");
+
         // Find the Views in the layout
         editTextUserEmail = findViewById(R.id.editTextUserEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonCreateAccount = findViewById(R.id.buttonCreateAccount);
         animationView = findViewById(R.id.animation_view);
+        animationView.setVisibility(View.GONE);
 
         //TODO These code below are test only
         buttonAutoLogin = findViewById(R.id.buttonAutoLogin);
@@ -76,18 +74,22 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (email.isEmpty() && password.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please enter all details", Toast.LENGTH_SHORT).show();
+                return;
                 }
+
                 if (password.length() < 6) {
                     Toast.makeText(LoginActivity.this, "Password must be longer than 6 Characters", Toast.LENGTH_SHORT).show();
+                return;
                 }
 
                 animationView.setVisibility(View.VISIBLE);
-                progressDialog.show();
+                animationView.playAnimation();
+
 
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
+
                         animationView.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Login in Successful", Toast.LENGTH_SHORT).show();
