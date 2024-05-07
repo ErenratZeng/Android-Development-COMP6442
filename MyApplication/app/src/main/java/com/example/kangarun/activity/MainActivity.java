@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         storageReference = FirebaseStorage.getInstance().getReference();
-        profileButton = findViewById(R.id.imageView);
+        profileButton = findViewById(R.id.main_profile_image_view);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
