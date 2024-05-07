@@ -41,7 +41,7 @@ The key area(s) of responsibilities for each member
 |:---------|:--------:|---------------------------------:|
 | u7724723 | Qiutong Zeng | responsible for database Management, user profile, firebase Auth |
 | u7611510 | Heng Sun | responsible for exercise feature |
-| [uid]    |  [name]  |                           [role] |
+| u6812566 | Runyao Wang | Message, Search and Social Network |
 | [uid]    |  [name]  |                           [role] |
 
 
@@ -82,18 +82,30 @@ Note that the core criteria of contribution is based on `code contribution` (the
       - Feature Data-Profile: Display personal information and an avatar for each user - class UserProfileActivity: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)- class FriendProfileActivity: [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
 
 3. **u7611510, HengSun**  I have % contribution, as follows: <br>
-- **Code Contribution in the final App**
-    - Feature Data-GPS: use Google Maps api to display map, locate the movement position in real time, 
-    continuously draw poly line according to the user's position in the map,  calculate the movement distance, time, 
-    and calories in real time - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
-    - Feature FB-Persist: use firebase to persist user exercise record - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
-    - Feature Data-graphical: get user exercise record from firebase,
-    display exercise record in detail including exercise path img,distance,duration,date - class ExerciseRecordDetailActivity:[ExerciseRecordDetailActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
-    -class ExerciseRecordAdaptor:[ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)<br>
-- **Code and App Design**
-    - proposed using AVL tree to store the friend relationship data structure, which can reduce the query waiting time<br><br>
+   - **Code Contribution in the final App**
+       - Feature Data-GPS: use Google Maps api to display map, locate the movement position in real time, 
+       continuously draw poly line according to the user's position in the map,  calculate the movement distance, time, 
+       and calories in real time - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
+       - Feature FB-Persist: use firebase to persist user exercise record - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
+       - Feature Data-graphical: get user exercise record from firebase,
+       display exercise record in detail including exercise path img,distance,duration,date - class ExerciseRecordDetailActivity:[ExerciseRecordDetailActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
+       -class ExerciseRecordAdaptor:[ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)<br>
+   - **Code and App Design**
+       - proposed using AVL tree to store the friend relationship data structure, which can reduce the query waiting time<br><br>
 
-
+4. **u6812566, Runyao Wang**  I have xx% contribution, as follows: <br>
+   - **Code Contribution in the final App**
+       - Feature P2P-DM: Real-time messaging implementation and relative UI -
+         [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java),
+         [activity_chat.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_login.xml)
+       - Feature Search: Search user by username with AVL tree-
+         [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java),
+         [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java)
+       - User adapter to create list to display users in search result and friends list -
+         [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
+       - Add/delete friend [Link]
+   - **Code and App Design**
+       - Use Recycle view to display list items (user list, messages)
 
 ## Application Description
 
