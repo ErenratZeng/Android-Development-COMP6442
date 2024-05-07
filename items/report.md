@@ -75,15 +75,11 @@ Note that the core criteria of contribution is based on `code contribution` (the
   - **Others**: (only if significant and significantly different from an "average contribution") 
     - [Report Writing?] [Slides preparation?]*
     - [You are welcome to provide anything that you consider as a contribution to the project or team.] e.g., APK, setups, firebase* <br><br>
-2. **u7724723, Qiutong**  I have % contribution, as follows: <br>
+2. **u7724723, Qiutong Zeng**  I have % contribution, as follows: <br>
    - **Code Contribution in the final App**
       - Feature FB-Auth: Use firebase to verify user login - class LoginActivity: [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
-      - Feature FB-Persist: Use firebase to persist user profile 
-      - class UserProfileActivity: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)
-      - class FriendProfileActivity: [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
-      - Feature Data-Profile: Display personal information and an avatar for each user 
-      - class UserProfileActivity: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)
-      - class FriendProfileActivity: [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+      - Feature FB-Persist: Use firebase to persist user profile - class UserProfileActivity: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) - class FriendProfileActivity: [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+      - Feature Data-Profile: Display personal information and an avatar for each user - class UserProfileActivity: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)- class FriendProfileActivity: [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
 
 3. **u7611510, HengSun**  I have % contribution, as follows: <br>
 - **Code Contribution in the final App**
