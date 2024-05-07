@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +35,6 @@ public class UserProfileActivity extends AppCompatActivity {
     Button uploadImageButton;
     ImageView profile_image_view;
     StorageReference storageReference;
-    private FirebaseFirestore firebaseFirestore;
 
     public UserProfileActivity() {
 
@@ -60,7 +60,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -78,12 +78,14 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ImagePicker.with(UserProfileActivity.this)
-                        .crop()                    //Crop image(Optional), Check Customization for more option
-                        .compress(1024)            //Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)    //Final image resolution will be less than 1080 x 1080(Optional)
+                        .crop(1f, 1f)                //Crop image to 1:1
+                        .compress(240)            //Compress image file size
+                        .maxResultSize(540, 540)    // Image max size
                         .start();
             }
         });
+
+
     }
 
     @Override

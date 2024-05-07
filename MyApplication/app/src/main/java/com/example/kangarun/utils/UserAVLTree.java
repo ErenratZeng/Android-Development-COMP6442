@@ -105,6 +105,8 @@ public class UserAVLTree {
         searchPartialHelper(node.left, query, results);
         searchPartialHelper(node.right, query, results);
     }
+
+    // Display the tree structure
     public String display() {
         if (root == null) return "The tree is empty";
         return display(root, 0);
@@ -125,5 +127,4 @@ public class UserAVLTree {
 
         return sb.toString();
     }
-    // Optionally, implement display method if needed
 }
