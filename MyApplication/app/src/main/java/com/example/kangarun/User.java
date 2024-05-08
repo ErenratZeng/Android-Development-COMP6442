@@ -8,6 +8,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -32,6 +34,7 @@ public class User implements Serializable, Comparable<User> {
     private List<String> friendsList;  // Storing friend IDs
     private List<String> blockList;  // Blocked users
     private List<String> activityHistory;  // Storing activity IDs for simplicity
+    private static User instance;
 
     public User(String username, String password) {
         this.userId = UUID.randomUUID().toString();
@@ -41,10 +44,18 @@ public class User implements Serializable, Comparable<User> {
         this.friendsList = new ArrayList<>();
         this.blockList = new ArrayList<>();
         this.activityHistory = new ArrayList<>();
+
     }
 
     public User() {
 
+    }
+
+    public static synchronized User getInstance() {
+        if (instance == null) {
+            instance = new User();
+        }
+        return instance;
     }
 
     public static String getCurrentUserId() {

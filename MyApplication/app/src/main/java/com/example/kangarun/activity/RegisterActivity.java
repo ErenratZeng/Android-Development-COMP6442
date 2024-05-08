@@ -37,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.buttonRegister);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        User currentuser = User.getInstance();
 
         if (firebaseAuth.getCurrentUser() != null) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -64,12 +65,11 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
-                            User user = new User();
-                            user.setUsername(userName);
-                            user.setEmail(email);
-                            user.setUserId(User.getCurrentUserId());
+                            currentuser.setUsername(userName);
+                            currentuser.setEmail(email);
+                            currentuser.setUserId(User.getCurrentUserId());
                             //TODO Add more profile data, see User.class uploadProfile();
-                            user.uploadProfile();
+                            currentuser.uploadProfile();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Toast.makeText(RegisterActivity.this, "Account Created Failed " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
