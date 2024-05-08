@@ -20,10 +20,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText editTextEmail, editTextPassword, editTextUserName;
+    private EditText editTextEmail, editTextPassword, editTextUserName, editTextGender, editTextWeight, editTextHeight;
     private Button buttonRegister;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
+    private double weight;
+    private double height;
 
 
     @Override
@@ -34,6 +36,9 @@ public class RegisterActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextUserName = findViewById(R.id.editTextUserName);
+        editTextGender = findViewById(R.id.editTextGender);
+        editTextWeight = findViewById(R.id.editTextWeight);
+        editTextHeight = findViewById(R.id.editTextHeight);
         buttonRegister = findViewById(R.id.buttonRegister);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -50,6 +55,21 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
                 String userName = editTextUserName.getText().toString();
+                String gender = editTextGender.getText().toString();
+                weight = 0;
+                height = 0;
+
+                try {
+                    weight = Double.parseDouble(editTextWeight.getText().toString().trim());
+                } catch (NumberFormatException e) {
+                    Toast.makeText(RegisterActivity.this, "Invalid weight format", Toast.LENGTH_SHORT).show();
+                }
+
+                try {
+                    height = Double.parseDouble(editTextHeight.getText().toString().trim());
+                } catch (NumberFormatException e) {
+                    Toast.makeText(RegisterActivity.this, "Invalid height format", Toast.LENGTH_SHORT).show();
+                }
 
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please enter all details", Toast.LENGTH_SHORT).show();
@@ -68,6 +88,10 @@ public class RegisterActivity extends AppCompatActivity {
                             currentuser.setUsername(userName);
                             currentuser.setEmail(email);
                             currentuser.setUserId(User.getCurrentUserId());
+                            currentuser.setGender(gender);
+                            currentuser.setWeight(weight);
+                            currentuser.setHeight(height);
+
                             //TODO Add more profile data, see User.class uploadProfile();
                             currentuser.uploadProfile();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
