@@ -30,7 +30,6 @@ public class User implements Serializable, Comparable<User> {
     private String email;
     private double weight;
     private double height;
-    private String profilePicture;
     private List<String> friendsList;  // Storing friend IDs
     private List<String> blockList;  // Blocked users
     private List<String> activityHistory;  // Storing activity IDs for simplicity
@@ -40,7 +39,6 @@ public class User implements Serializable, Comparable<User> {
         this.userId = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
-        this.profilePicture = ""; // TODO
         this.friendsList = new ArrayList<>();
         this.blockList = new ArrayList<>();
         this.activityHistory = new ArrayList<>();
@@ -101,14 +99,6 @@ public class User implements Serializable, Comparable<User> {
         this.email = email;
     }
 
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
     public double getWeight() {
         return weight;
     }
@@ -159,10 +149,9 @@ public class User implements Serializable, Comparable<User> {
     }
 
     // Method to update user profile
-    public void updateProfile(String newUsername, String newEmail, String newProfilePicture) {
+    public void updateProfile(String newUsername, String newEmail) {
         setUsername(newUsername);
         setEmail(newEmail);
-        setProfilePicture(newProfilePicture);
         uploadProfile();
     }
 
@@ -196,7 +185,6 @@ public class User implements Serializable, Comparable<User> {
         System.out.println("User ID: " + userId);
         System.out.println("Username: " + username);
         System.out.println("Email: " + email);
-        System.out.println("Profile Picture URL: " + profilePicture);
         System.out.println("Friends List: " + friendsList.toString());
         System.out.println("Activity History: " + activityHistory.toString());
     }

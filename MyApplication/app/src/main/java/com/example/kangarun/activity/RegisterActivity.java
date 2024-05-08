@@ -60,15 +60,15 @@ public class RegisterActivity extends AppCompatActivity {
                 height = 0;
 
                 try {
-                    weight = Double.parseDouble(editTextWeight.getText().toString().trim());
+                    weight = Double.parseDouble(editTextWeight.getText().toString());
                 } catch (NumberFormatException e) {
-                    Toast.makeText(RegisterActivity.this, "Invalid weight format", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Invalid weight", Toast.LENGTH_SHORT).show();
                 }
 
                 try {
-                    height = Double.parseDouble(editTextHeight.getText().toString().trim());
+                    height = Double.parseDouble(editTextHeight.getText().toString());
                 } catch (NumberFormatException e) {
-                    Toast.makeText(RegisterActivity.this, "Invalid height format", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Invalid height", Toast.LENGTH_SHORT).show();
                 }
 
                 if (email.isEmpty() || password.isEmpty()) {
@@ -87,12 +87,10 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
                             currentuser.setUsername(userName);
                             currentuser.setEmail(email);
-                            currentuser.setUserId(User.getCurrentUserId());
+                            currentuser.setUserId(currentuser.getCurrentUserId());
                             currentuser.setGender(gender);
                             currentuser.setWeight(weight);
                             currentuser.setHeight(height);
-
-                            //TODO Add more profile data, see User.class uploadProfile();
                             currentuser.uploadProfile();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
