@@ -8,6 +8,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -28,23 +30,30 @@ public class User implements Serializable, Comparable<User> {
     private String email;
     private double weight;
     private double height;
-    private String profilePicture;
     private List<String> friendsList;  // Storing friend IDs
     private List<String> blockList;  // Blocked users
     private List<String> activityHistory;  // Storing activity IDs for simplicity
+    private static User instance;
 
     public User(String username, String password) {
         this.userId = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
-        this.profilePicture = ""; // TODO
         this.friendsList = new ArrayList<>();
         this.blockList = new ArrayList<>();
         this.activityHistory = new ArrayList<>();
+
     }
 
     public User() {
 
+    }
+
+    public static synchronized User getInstance() {
+        if (instance == null) {
+            instance = new User();
+        }
+        return instance;
     }
 
     public static String getCurrentUserId() {
@@ -88,14 +97,6 @@ public class User implements Serializable, Comparable<User> {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
     }
 
     public double getWeight() {
@@ -148,10 +149,9 @@ public class User implements Serializable, Comparable<User> {
     }
 
     // Method to update user profile
-    public void updateProfile(String newUsername, String newEmail, String newProfilePicture) {
+    public void updateProfile(String newUsername, String newEmail) {
         setUsername(newUsername);
         setEmail(newEmail);
-        setProfilePicture(newProfilePicture);
         uploadProfile();
     }
 
@@ -185,7 +185,6 @@ public class User implements Serializable, Comparable<User> {
         System.out.println("User ID: " + userId);
         System.out.println("Username: " + username);
         System.out.println("Email: " + email);
-        System.out.println("Profile Picture URL: " + profilePicture);
         System.out.println("Friends List: " + friendsList.toString());
         System.out.println("Activity History: " + activityHistory.toString());
     }

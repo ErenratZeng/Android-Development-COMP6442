@@ -44,6 +44,9 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        User currentUser = User.getInstance();
+
         username = findViewById(R.id.username);
         useremail = findViewById(R.id.useremail);
         usergender = findViewById(R.id.usergender);
@@ -51,6 +54,7 @@ public class UserProfileActivity extends AppCompatActivity {
         userheight = findViewById(R.id.userheight);
         profile_image_view = findViewById(R.id.profile_image_view);
         uploadImageButton = findViewById(R.id.uploadImageButton);
+
         storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -61,15 +65,15 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
+        DocumentReference documentReference = firebaseFirestore.collection("user").document(currentUser.getCurrentUserId());
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                username.setText(value.getString("username"));
-                useremail.setText(value.getString("email"));
-                usergender.setText(value.getString("gender"));
-                userweight.setText(String.valueOf(value.getDouble("weight")));
-                userheight.setText(String.valueOf(value.getDouble("height")));
+                username.setText("Username: " + value.getString("username"));
+                useremail.setText("Email: " + value.getString("email"));
+                usergender.setText("Gender: " + value.getString("gender"));
+                userweight.setText("Weight: " + String.valueOf(value.getDouble("weight")) + "kg");
+                userheight.setText("Height: " + String.valueOf(value.getDouble("height")) + "cm");
                 //TODO Add label in each text
             }
         });
