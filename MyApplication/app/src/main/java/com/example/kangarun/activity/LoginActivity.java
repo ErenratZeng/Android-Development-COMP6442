@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextUserEmail, editTextPassword;
     private Button buttonLogin, buttonCreateAccount, buttonAutoLogin;
     private FirebaseAuth firebaseAuth;
+    public static User currentUser = User.getInstance();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
-        User currentuser = User.getInstance();
+        currentUser.setUserId(User.getCurrentUserId());
 
         // Find the Views in the layout
         editTextUserEmail = findViewById(R.id.editTextUserEmail);
