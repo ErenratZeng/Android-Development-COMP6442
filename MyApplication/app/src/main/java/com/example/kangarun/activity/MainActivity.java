@@ -1,5 +1,6 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
 import static com.example.kangarun.utils.FirebaseUtil.loadUsersIntoAVL;
 
 import android.content.Intent;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                currentUser.setUserId("");
                 finish();
             }
         });
