@@ -16,12 +16,16 @@ import com.example.kangarun.User;
 import com.example.kangarun.UserListener;
 import com.example.kangarun.adapter.UserAdapter;
 import com.example.kangarun.databinding.ActivitySearchBinding;
+import com.example.kangarun.utils.Parser;
+import com.example.kangarun.utils.Tokenizer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity implements UserListener {
     private ActivitySearchBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +42,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(), "Searching" + query, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                 intent.putExtra("query", query);
                 finish();
@@ -58,21 +61,44 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
 
     private void searchUsers(String query) {
+        boolean invalid = false;
         List<User> users = new ArrayList<>();
-        users = MainActivity.tree.searchPartial(query);
+        // Try tokenize
+        Map<String, String> tokens = Tokenizer.tokenize(query);
+        if (!query.contains("=")) {
+            users = MainActivity.tree.searchPartial(query);
+        } else {
+            tokens = Tokenizer.tokenize(query);
+            if (tokens == null) {
+                invalid = true;
+            } else {
+                Map<String, String> parsed = Parser.parse(tokens);
+                if (parsed == null) {
+                    invalid = true;
+                } else {
+                    users = MainActivity.tree.searchToken(parsed);
+                }
+            }
+        }
+
 
         if (!users.isEmpty()) {
-            for (User user : users){
+            for (User user : users) {
                 Log.d("treeRet", user.getUsername());
             }
             UserAdapter adapter = new UserAdapter(users, this);
             binding.userRecyclerView.setAdapter(adapter);
             binding.userRecyclerView.setVisibility(View.VISIBLE);
-            Toast.makeText(getApplicationContext(), "Search success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Search <"+query+"> success", Toast.LENGTH_SHORT).show();
         } else {
             // Handle case where no users are found or list is empty
             binding.userRecyclerView.setVisibility(View.GONE);
-            Toast.makeText(getApplicationContext(), "Search No result", Toast.LENGTH_SHORT).show();
+            if (invalid){
+                Toast.makeText(getApplicationContext(), "Expression <" + query +
+                        "> is invalid, please check grammar", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Search <"+query+"> no result", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

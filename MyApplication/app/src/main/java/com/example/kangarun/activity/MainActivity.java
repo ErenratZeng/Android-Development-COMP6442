@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(), "Searching" + query, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                 intent.putExtra("query", query);
                 startActivity(intent);
