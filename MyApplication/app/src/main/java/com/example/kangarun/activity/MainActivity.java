@@ -3,22 +3,12 @@ package com.example.kangarun.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import com.example.kangarun.R;
-import com.example.kangarun.activity.fragments.FriendsFragment;
-import com.example.kangarun.activity.fragments.ProfileFragment;
-import com.example.kangarun.activity.fragments.SearchFragment;
-import com.example.kangarun.activity.fragments.SportsFragment;
-import com.example.kangarun.utils.UserAVLTree;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static UserAVLTree tree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,30 +16,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setOnNavigationItemSelectedListener(item -> {
-            Fragment selectedFragment = null;
-            int itemId = item.getItemId();
-            if (itemId == R.id.navigation_search) {
-                selectedFragment = new SearchFragment();
-            } else if (itemId == R.id.navigation_sports) {
-                selectedFragment = new SportsFragment();
-            } else if (itemId == R.id.navigation_friends) {
-                selectedFragment = new FriendsFragment();
-            } else if (itemId == R.id.navigation_profile) {
-                selectedFragment = new ProfileFragment();
-            }
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                Intent intent = null;
 
-            if (selectedFragment != null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-                return true;
+                if (id == R.id.navigation_search) {
+                    intent = new Intent(MainActivity.this, SearchActivity.class);
+                } else if (id == R.id.navigation_sports) {
+                    intent = new Intent(MainActivity.this, ExerciseRecordActivity.class); // Replace with your actual activity class
+                } else if (id == R.id.navigation_friends) {
+                    intent = new Intent(MainActivity.this, FriendListActivity.class); // Replace with your actual activity class
+                } else if (id == R.id.navigation_profile) {
+                    intent = new Intent(MainActivity.this, UserProfileActivity.class); // Replace with your actual activity class
+                }
+
+                if (intent != null) {
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
             }
-            return false;
         });
 
-        // 默认加载 ProfileFragment
+        // Ensure the first fragment is loaded by default (if not redirected to Search)
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+            startActivity(new Intent(MainActivity.this, UserProfileActivity.class)); // Default activity
         }
     }
 }
+
 
