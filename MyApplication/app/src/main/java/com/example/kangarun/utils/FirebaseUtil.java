@@ -22,6 +22,7 @@ public class FirebaseUtil {
                     user.setUsername(queryDocumentSnapshot.getString("username"));
                     user.setEmail(queryDocumentSnapshot.getString("email"));
                     user.setUserId(queryDocumentSnapshot.getString("uid"));
+                    user.setGender(queryDocumentSnapshot.getString("gender"));
                     tree_arg.insert(user);
                 }
                 Log.d("treeComplete", MainActivity.tree.display());

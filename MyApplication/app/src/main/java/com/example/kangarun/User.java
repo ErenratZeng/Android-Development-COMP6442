@@ -26,7 +26,6 @@ public class User implements Serializable, Comparable<User> {
     protected String gender;
     protected String username;
     protected String password;
-    transient FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String email;
     private double weight;
     private double height;
@@ -47,6 +46,13 @@ public class User implements Serializable, Comparable<User> {
 
     public User() {
 
+    }
+
+    // Constructor for Search Test only
+    public User(String username, String email, String gender) {
+        this.username = username;
+        this.email = email;
+        this.gender = gender;
     }
 
     public static synchronized User getInstance() {
@@ -166,6 +172,7 @@ public class User implements Serializable, Comparable<User> {
             userProfile.put("height", getHeight());
             userProfile.put("weight", getWeight());
             userProfile.put("friendList", getFriendsList());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("user").document(uid).set(userProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
