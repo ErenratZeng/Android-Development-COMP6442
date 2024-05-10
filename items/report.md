@@ -42,7 +42,8 @@ The key area(s) of responsibilities for each member
 | u7724723 | Qiutong Zeng | responsible for database Management, user profile, firebase Auth |
 | u7611510 | Heng Sun | responsible for exercise feature |
 | u6812566 | Runyao Wang | Message, Search and Social Network |
-| [uid]    |  [name]  |                           [role] |
+| u6508459 | Bingnan Zhao |                        [role] |
+| u7779907 |  Yan Jin  |                           [role] |
 
 
 ## Summary of Individual Contributions
