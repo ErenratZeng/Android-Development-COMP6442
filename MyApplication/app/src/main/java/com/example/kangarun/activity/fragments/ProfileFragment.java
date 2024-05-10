@@ -1,66 +1,91 @@
 package com.example.kangarun.activity.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.kangarun.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.kangarun.User;
+import com.example.kangarun.databinding.FragmentProfileBinding;
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
 public class ProfileFragment extends Fragment {
+    private FragmentProfileBinding binding;
+    private StorageReference storageReference;
+    private FirebaseFirestore firebaseFirestore;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+        storageReference = FirebaseStorage.getInstance().getReference();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
-    public ProfileFragment() {
-        // Required empty public constructor
+        loadProfileImage();
+        loadUserInfo();
+
+        binding.uploadImageButton.setOnClickListener(v -> {
+            ImagePicker.with(ProfileFragment.this)
+                    .crop()
+                    .compress(1024)
+                    .maxResultSize(1080, 1080)
+                    .start();
+        });
+
+        return binding.getRoot();
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private void loadProfileImage() {
+        StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(uri -> Picasso.get().load(uri).into(binding.profileImageView));
+    }
+
+    private void loadUserInfo() {
+        DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
+        documentReference.addSnapshotListener((value, error) -> {
+            if (value != null) {
+                binding.username.setText(value.getString("username"));
+                binding.useremail.setText(value.getString("email"));
+                binding.usergender.setText(value.getString("gender"));
+                binding.userweight.setText(String.valueOf(value.getDouble("weight")));
+                binding.userheight.setText(String.valueOf(value.getDouble("height")));
+            }
+        });
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            uploadPictureToFirebase(uri);
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+    private void uploadPictureToFirebase(Uri pictureUri) {
+        StorageReference fileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        fileRef.putFile(pictureUri).addOnSuccessListener(taskSnapshot -> {
+            Toast.makeText(getContext(), "Picture uploaded", Toast.LENGTH_SHORT).show();
+            fileRef.getDownloadUrl().addOnSuccessListener(uri -> Picasso.get().load(uri).into(binding.profileImageView));
+        }).addOnFailureListener(e -> Toast.makeText(getContext(), "Picture upload failed", Toast.LENGTH_SHORT).show());
     }
 }
