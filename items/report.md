@@ -1,4 +1,4 @@
-# [G0 - Team Name] Report
+# [G48 - Kangarun] Report
 
 The following is a report template to help your team successfully provide all the details necessary for your report in a structured and organised manner. Please give a straightforward and concise report that best demonstrates your project. Note that a good report will give a better impression of your project to the reviewers.
 
@@ -42,7 +42,8 @@ The key area(s) of responsibilities for each member
 | u7724723 | Qiutong Zeng | responsible for database Management, user profile, firebase Auth |
 | u7611510 | Heng Sun | responsible for exercise feature |
 | u6812566 | Runyao Wang | Message, Search and Social Network |
-| [uid]    |  [name]  |                           [role] |
+| u6508459 | Bingnan Zhao |                        [role] |
+| u7779907 |  Yan Jin  |                           [role] |
 
 
 ## Summary of Individual Contributions
@@ -107,6 +108,11 @@ Note that the core criteria of contribution is based on `code contribution` (the
    - **Code and App Design**
        - Use Recycle view to display list items (user list, messages)
 
+5. **uid**  I have xx% contribution, as follows: <br>
+   - **Code Contribution in the final App**
+       - xxx
+   - **Code and App Design**
+       - Use Recycle view to display list items (user list, messages)
 ## Application Description
 
 *[What is your application, what does it do? Include photos or diagrams if necessary]*
@@ -267,7 +273,6 @@ Using tokenized search enriches the possibility and accuracy of current search f
       If the user's input is not tokenizable, the system will automatically perform a search based on partial username matches.
     * Both search method utilize an AVL tree algorithm. All user data is inserted into an AVL tree when the app starts. Then the search activity determines the appropriate search method based on user query, and invoke corresponding search method in the AVL tree.
 <br>
-
 ### Custom Features
 Feature Category: Privacy <br>
 1. [Privacy-Request]. Description of the feature  (easy)
@@ -339,9 +344,9 @@ Feature Category: Firebase Integration <br>
 * Your meetings should also have a reasonable date spanning across Week 6 to 11.*
 
 
-- *[Team Meeting 1](meeting-template.md)*
-- ...
-- ...
+- *[Team Meeting 1](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240411.md)*
+- *[Team Meeting 2](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240415.md)*
+- *[Team Meeting 3](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240422.md)*
 - [Team Meeting 4](link_to_md_file.md)
 - ... (Add any descriptions if needed) ...
 
