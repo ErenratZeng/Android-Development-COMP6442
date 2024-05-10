@@ -87,21 +87,12 @@ public class MainActivity extends AppCompatActivity {
         tree = new UserAVLTree();
         loadUsersIntoAVL(tree);
 
-        SearchView searchView = findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        Button searchView = findViewById(R.id.searchButton);
+        searchView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                intent.putExtra("query", query);
                 startActivity(intent);
-                // Call the  api
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                return false;
             }
         });
 

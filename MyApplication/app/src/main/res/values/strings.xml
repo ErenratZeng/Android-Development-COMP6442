@@ -26,6 +26,10 @@
     <string name="exercise_record">Exercise Record</string>
     <string name="start_exercise">Start Exercise</string>
     <string name="select_user">Select User</string>
+    <string name="nameDescending">Name ↓</string>
+    <string name="emailDescending">Email ↓</string>
+    <string name="nameAscending">Name ↑</string>
+    <string name="emailAscending">Email ↑</string>
 
     <string-array name="gender_options">
         <item>All Genders</item>
