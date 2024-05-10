@@ -161,6 +161,21 @@ public class User implements Serializable, Comparable<User> {
         uploadProfile();
     }
 
+    public boolean compareGender(String g){
+        if (gender == null){
+            return g.equals("Other") || g.equals("All Genders");
+        }
+        if (g.equals("All Genders")){
+            return true;
+        }
+        if (g.equals("Male") || g.equals("Female")) {
+            return gender.equalsIgnoreCase(g);
+        } else if (g.equals("Other")) {
+            return !gender.equals("Male") && !gender.equals("Female");
+        } else {
+            throw new RuntimeException("invalid gender input");
+        }
+    }
     public void uploadProfile() {
         String uid = getCurrentUserId();
         if (uid != null) {

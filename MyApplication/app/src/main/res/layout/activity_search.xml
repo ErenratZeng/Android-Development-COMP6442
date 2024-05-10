@@ -18,19 +18,62 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/sortUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#9e9694"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="3dp"
+        android:text="Name ↑"
+        android:drawableLeft="@drawable/ic_sort"
+        android:textColor="@color/black"
+        app:cornerRadius="5dp"
+
+        app:layout_constraintEnd_toStartOf="@+id/sortEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewSupporter" />
+
+    <Button
+        android:id="@+id/sortEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#9e9694"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="3dp"
+        android:text="Email ↑"
+        android:drawableLeft="@drawable/ic_sort"
+        android:textColor="@color/black"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@id/genderFilter"
+        app:layout_constraintStart_toEndOf="@+id/sortUsername"
+        app:layout_constraintTop_toBottomOf="@+id/viewSupporter" />
+
+    <Spinner
+        android:id="@+id/genderFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="6dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/sortEmail"
+        app:layout_constraintTop_toTopOf="@id/sortUsername" />
+
     <View
         android:id="@+id/viewSupporter"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="3dp"
         android:background="#D8D8D8"
         app:layout_constraintTop_toBottomOf="@id/searchView" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewSupporter">
+        app:layout_constraintTop_toBottomOf="@id/sortUsername">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/userRecyclerView"
