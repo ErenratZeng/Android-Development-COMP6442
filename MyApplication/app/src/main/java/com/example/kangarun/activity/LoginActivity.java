@@ -13,6 +13,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.kangarun.LoginState;
 import com.example.kangarun.R;
 import com.example.kangarun.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextUserEmail, editTextPassword;
     private Button buttonLogin, buttonCreateAccount, buttonAutoLogin;
     private FirebaseAuth firebaseAuth;
-    public static User currentUser = User.getInstance();;
+    public static LoginState currentUser = LoginState.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
-        currentUser.setUserId(User.getCurrentUserId());
+
 
         // Find the Views in the layout
         editTextUserEmail = findViewById(R.id.editTextUserEmail);
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            currentUser.setUserId(User.getCurrentUserId());
                             Toast.makeText(LoginActivity.this, "Login in Successful", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
@@ -102,5 +104,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        currentUser.setUserId(User.getCurrentUserId());
+//    }
 
 }
