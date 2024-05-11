@@ -115,7 +115,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
        - Use Recycle view to display list items (user list, messages)
 ## Application Description
 Kangarun is a sports-centric social application designed for tracking your every workout. With our app, you can log your exercise duration, calories burned, distance covered, and even visualize your route through map images. You can add your workout buddies to the app, chat with them, hang out, and exercise together.
-![image](./media/images/chat.png)
+![image](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/media/images/chat.png)
 ![image]()
 
 ### Application Use Cases and or Examples
@@ -149,8 +149,8 @@ Kangarun is a sports-centric social application designed for tracking your every
 <hr> 
 
 ### Application UML
-![Application UML](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/Java2_g48_UML.jpg) <br>
-*[Replace the above with a class diagram. You can look at how we have linked an image here as an example of how you can do it too.]*
+![Application UML](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/java2%20g48%20UML.png) <br>
+
 
 <hr>
 
@@ -193,11 +193,29 @@ Here is a partial (short) example for the subsection `Data Structures`:*
 ### Design Patterns
 *[What design patterns did your team utilise? Where and why?]*
 
-1. *xxx Pattern*
-   * *Objective: used for storing xxxx for xxx feature.*
-   * *Code Locations: defined in [Class X, methods Z, Y](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and [class AnotherClass, lines l1-l2](url); processed using [dataStructureHandlerMethod](url) and ...
+1. *Singleton Pattern*
+   * *Objective: used for storing user information for all features that needs user information.*
+   * *Code Locations: defined in [Class User, methods getInstance](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java#L60-65) 
    * *Reasons:*
-      * ...
+      * used to ensure that a class has only one instance and provides a global point of access to that instance. It is useful to control access to a shared resource or manage global state within an application.
+
+2. *DAO Pattern*
+   * *Objective: storing data access object.*
+   * *Code Locations: defined in [Class User](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java) and [class Message](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/AdminUser.java)
+   * *Reasons:*
+      * used to separate the business logic from the data persistence logic, promoting better code organization and maintainability. It abstracts the database operations, providing a clean interface for accessing and manipulating data, which enhances code readability and reusability.
+
+3. *Template Pattern*
+   * *Objective: used for storing xxxx for xxx feature.*
+   * *Code Locations: defined in [Class BaseAdaptor](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and [class ChatAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java?) and [class ExerciseRecordAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java) and [class UserAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
+   * *Reasons:*
+      * used to define the skeleton of an algorithm in a superclass but allows subclasses to override specific steps of the algorithm without changing its structure. This promotes code reuse and allows for variation in behavior among subclasses while maintaining a common workflow.
+
+3. *xxxx Pattern*
+   * *Objective: used for storing xxxx for xxx feature.*
+   * *Code Locations: defined in [Class X， method Y Z](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java) and [class AnotherClass, lines l1-l2](url); processed using [dataStructureHandlerMethod](url) and ...
+   * *Reasons:*
+      * 
 
 <hr>
 
@@ -293,6 +311,7 @@ Feature Category: Firebase Integration <br>
 
 - If implemented, explain how your solution addresses the task (any detail requirements will be released with the surprise feature specifications).
 - State that "Suprised feature is not implemented" otherwise.
+- Use the user singleton to avoid having to look up user-related information from filebase every time it needs to be called
 
 <br> <hr>
 
