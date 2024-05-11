@@ -22,50 +22,50 @@
         android:scaleType="centerCrop"
         android:src="@drawable/person_icon" />
 
-    <TextView
+    <EditText
         android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:elevation="5dp"
         android:hint="Username"
         android:inputType="text"
         android:padding="10dp"
         android:gravity="center"/>
 
-    <TextView
+    <EditText
         android:id="@+id/useremail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:elevation="5dp"
         android:hint="Useremail"
         android:inputType="text"
         android:padding="10dp"
         android:gravity="center"/>
 
-    <TextView
+    <EditText
         android:id="@+id/usergender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:elevation="5dp"
         android:hint="Usergender"
         android:inputType="text"
         android:padding="10dp"
         android:gravity="center"/>
 
-    <TextView
+    <EditText
         android:id="@+id/userweight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:elevation="5dp"
         android:hint="Userweight"
         android:inputType="text"
         android:padding="10dp"
         android:gravity="center"/>
 
-    <TextView
+    <EditText
         android:id="@+id/userheight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:elevation="5dp"
         android:hint="Userheight"
         android:inputType="text"

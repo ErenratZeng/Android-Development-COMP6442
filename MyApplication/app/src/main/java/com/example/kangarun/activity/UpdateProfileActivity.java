@@ -8,53 +8,38 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.kangarun.R;
 import com.example.kangarun.User;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.squareup.picasso.Picasso;
 
-
-public class UserProfileActivity extends AppCompatActivity {
-    TextView useremail, username, usergender, userweight, userheight;
-    Button uploadImageButton, updateInfoButton;
+public class UpdateProfileActivity extends AppCompatActivity {
+    Button uploadImageButton;
     ImageView profile_image_view;
     StorageReference storageReference;
-
-    public UserProfileActivity() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_update_profile);
 
-        username = findViewById(R.id.username);
-        useremail = findViewById(R.id.useremail);
-        usergender = findViewById(R.id.usergender);
-        userweight = findViewById(R.id.userweight);
-        userheight = findViewById(R.id.userheight);
         profile_image_view = findViewById(R.id.profile_image_view);
         uploadImageButton = findViewById(R.id.uploadImageButton);
-        updateInfoButton = findViewById(R.id.uploadInfoButton);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
@@ -65,40 +50,16 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                username.setText("Username: " + value.getString("username"));
-                useremail.setText("Email: " + value.getString("email"));
-                usergender.setText("Gender: " + value.getString("gender"));
-                userweight.setText("Weight: " + String.valueOf(value.getDouble("weight")) + "kg");
-                userheight.setText("Height: " + String.valueOf(value.getDouble("height")) + "cm");
-                //TODO Add label in each text
-            }
-        });
-
         uploadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImagePicker.with(UserProfileActivity.this)
+                ImagePicker.with(UpdateProfileActivity.this)
                         .crop(1f, 1f)                //Crop image to 1:1
                         .compress(240)            //Compress image file size
                         .maxResultSize(540, 540)    // Image max size
                         .start();
             }
         });
-
-        updateInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UserProfileActivity.this, UpdateProfileActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
     }
 
     @Override
@@ -114,7 +75,7 @@ public class UserProfileActivity extends AppCompatActivity {
         fileRef.putFile(pictureUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(UserProfileActivity.this, "Picture uploaded", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UpdateProfileActivity.this, "Picture uploaded", Toast.LENGTH_SHORT).show();
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
@@ -125,7 +86,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(UserProfileActivity.this, "Picture uploaded failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UpdateProfileActivity.this, "Picture uploaded failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
