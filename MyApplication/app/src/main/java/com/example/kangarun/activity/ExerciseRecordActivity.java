@@ -1,7 +1,5 @@
 package com.example.kangarun.activity;
 
-import static com.example.kangarun.activity.LoginActivity.currentUser;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kangarun.LoginState;
 import com.example.kangarun.R;
 import com.example.kangarun.User;
 import com.example.kangarun.adapter.ExerciseRecordAdapter;
@@ -37,15 +36,18 @@ public class ExerciseRecordActivity extends AppCompatActivity {
     private boolean distanceDescending;
     private boolean durationDescending;
 
-    List<DocumentSnapshot> list;
-    List<DocumentSnapshot> dateDeslist;
-    List<DocumentSnapshot> dateAsclist;
-    List<DocumentSnapshot> distanceDeslist;
-    List<DocumentSnapshot> distanceAsclist;
-    List<DocumentSnapshot> durationDeslist;
-    List<DocumentSnapshot> durationAsclist;
+    private List<DocumentSnapshot> list;
+    private List<DocumentSnapshot> dateDeslist;
+    private List<DocumentSnapshot> dateAsclist;
+    private List<DocumentSnapshot> distanceDeslist;
+    private List<DocumentSnapshot> distanceAsclist;
+    private List<DocumentSnapshot> durationDeslist;
+    private List<DocumentSnapshot> durationAsclist;
 
-    ExerciseRecordAdapter adapter;
+    private ExerciseRecordAdapter adapter;
+    private Button sortByDateButton;
+    private Button sortByDistanceButton;
+    private Button sortByDurationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         CollectionReference records = db.collection("exerciseRecord");
+        LoginState currentUser = LoginState.getInstance();
         String uid = currentUser.getUserId();
 //        String uid = User.getCurrentUserId();
         Log.d("ExerciseRecord", "uid:" + uid);
@@ -123,34 +126,47 @@ public class ExerciseRecordActivity extends AppCompatActivity {
             });
 
         }
-        Button sortByDateButton = findViewById(R.id.SortByDateButton);
+        sortByDateButton = findViewById(R.id.SortByDateButton);
         sortByDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sort By Date", Toast.LENGTH_SHORT).show();
                 adapter.updateData(dateDescending? dateAsclist : dateDeslist);
                 dateDescending = !dateDescending;
+                toggleSortDirection(dateDescending, sortByDateButton);
             }
         });
-        Button sortByDistanceButton = findViewById(R.id.SortByDistanceButton);
+        sortByDistanceButton = findViewById(R.id.SortByDistanceButton);
         sortByDistanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sort By Distance", Toast.LENGTH_SHORT).show();
                 adapter.updateData(distanceDescending? distanceAsclist : distanceDeslist);
                 distanceDescending = !distanceDescending;
+                toggleSortDirection(distanceDescending, sortByDistanceButton);
             }
         });
-        Button sortByDurationButton = findViewById(R.id.SortByDurationButton);
+        sortByDurationButton = findViewById(R.id.SortByDurationButton);
         sortByDurationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sort By Duration", Toast.LENGTH_SHORT).show();
                 adapter.updateData(durationDescending? durationAsclist : durationDeslist);
                 durationDescending = !durationDescending;
+                toggleSortDirection(durationDescending, sortByDurationButton);
             }
         });
 
         EdgeToEdge.enable(this);
+    }
+    private void toggleSortDirection(boolean descending, Button button) {
+        sortByDateButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        sortByDistanceButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        sortByDurationButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        if (descending) {
+            button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_sort_descending, 0);
+        } else {
+            button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_sort_ascending, 0);
+        }
     }
 }
