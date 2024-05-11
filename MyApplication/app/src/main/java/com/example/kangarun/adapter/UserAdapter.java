@@ -6,10 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.kangarun.R;
 import com.example.kangarun.User;
 import com.example.kangarun.UserListener;
@@ -19,8 +17,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
+import static com.example.kangarun.activity.LoginActivity.currentUser;
 
 public class UserAdapter extends BaseAdapter<UserAdapter.UserViewHolder> {
     private final List<User> users;
@@ -58,6 +56,20 @@ public class UserAdapter extends BaseAdapter<UserAdapter.UserViewHolder> {
         UserViewHolder(UserContainerBinding b) {
             super(b.getRoot());
             binding = b;
+// Add block/unblock functionality
+            binding.blockButton.setOnClickListener(v -> {
+                User user = users.get(getAdapterPosition());
+                if (currentUser.getBlockList().contains(user.getUserId())) {
+                    currentUser.unblockUser(user.getUserId());
+                    binding.blockButton.setText("Block");
+                } else {
+                    currentUser.blockUser(user.getUserId());
+                    binding.blockButton.setText("Unblock");
+                }
+                currentUser.uploadProfile();  // Ensure changes are saved to the database
+            });
+
+
             binding.buttonMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -70,7 +82,6 @@ public class UserAdapter extends BaseAdapter<UserAdapter.UserViewHolder> {
                     }
                 }
             });
-
         }
 
         void setUserData(User user) {
@@ -84,6 +95,9 @@ public class UserAdapter extends BaseAdapter<UserAdapter.UserViewHolder> {
                     Picasso.get().load(uri).into(binding.imageProfile);
                 }
             });
+
+
+
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }

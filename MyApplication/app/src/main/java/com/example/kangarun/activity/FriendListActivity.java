@@ -33,6 +33,9 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
 
     private void setListeners() {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
+
+        // Set listener for the blacklist button
+        binding.blacklistButton.setOnClickListener(v -> navigateToBlacklist());
     }
 
     private void getUsers() {
@@ -74,5 +77,13 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
         startActivity(intent);
         finish();
     }
+    // Add this method to handle navigation to BlacklistActivity
+    private void navigateToBlacklist() {
+        Intent intent = new Intent(this, BlacklistActivity.class);
+        startActivity(intent);
+    }
+
+
+
 }
 

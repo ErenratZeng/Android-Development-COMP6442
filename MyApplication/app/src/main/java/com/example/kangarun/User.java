@@ -124,6 +124,10 @@ public class User implements Serializable, Comparable<User> {
         return activityHistory;
     }
 
+    public List<String> getBlockList() {
+        return blockList;
+    }
+
     // Methods to manage friends
     public boolean addFriend(String friendId) {
         if (!friendsList.contains(friendId)) {
@@ -145,10 +149,23 @@ public class User implements Serializable, Comparable<User> {
         return false;
     }
 
-    public void unBlock(String id) {
-        blockList.remove(id);
-    }
 
+    public void unBlock(String id) {
+        if (blockList.remove(id)) {
+            saveBlockListToStorage();
+        }
+
+
+    }
+    private void saveBlockListToStorage() {
+        String uid = getCurrentUserId();
+        if (uid != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("user").document(uid).update("blockList", blockList)
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Block list updated successfully!"))
+                    .addOnFailureListener(e -> Log.e(TAG, "Error updating block list", e));
+        }
+    }
     // Method to update user profile
     public void updateProfile(String newUsername, String newEmail) {
         setUsername(newUsername);

@@ -63,5 +63,11 @@
         app:layout_constraintBottom_toBottomOf="@id/textEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/textName" />
+    <Button
+        android:id="@+id/blockButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Block" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
