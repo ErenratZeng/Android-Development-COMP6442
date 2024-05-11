@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "You cannot return to last page", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "You cannot return to last page", Toast.LENGTH_SHORT).show();
         //Ban return button
     }
 

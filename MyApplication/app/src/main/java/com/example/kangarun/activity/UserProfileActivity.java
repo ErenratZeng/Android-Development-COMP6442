@@ -47,8 +47,6 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        User currentUser = User.getInstance();
-
         username = findViewById(R.id.username);
         useremail = findViewById(R.id.useremail);
         usergender = findViewById(R.id.usergender);
@@ -67,7 +65,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = firebaseFirestore.collection("user").document(currentUser.getCurrentUserId());
+        DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
