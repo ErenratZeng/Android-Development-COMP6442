@@ -1,5 +1,7 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,8 +47,6 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        User currentUser = User.getInstance();
-
         username = findViewById(R.id.username);
         useremail = findViewById(R.id.useremail);
         usergender = findViewById(R.id.usergender);
@@ -65,7 +65,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = firebaseFirestore.collection("user").document(currentUser.getCurrentUserId());
+        DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -100,7 +100,8 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void uploadPictureToFirebase(Uri pictureUri) {
-        StorageReference fileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        StorageReference fileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
+//        StorageReference fileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
         fileRef.putFile(pictureUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

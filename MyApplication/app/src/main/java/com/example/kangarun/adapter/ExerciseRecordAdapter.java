@@ -1,5 +1,7 @@
 package com.example.kangarun.adapter;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
@@ -45,8 +47,8 @@ public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.Rec
         String duration = document.getString("duration");
         double calories = document.getDouble("calories");
         Log.d("Adapter", position + " " + date + " " + distance + " " + duration + " " + calories);
-
-        String path = "exerciseRecord/" + User.getCurrentUserId() + date + "/mapSnapshot.png";
+        String path = "exerciseRecord/" + currentUser.getUserId() + date + "/mapSnapshot.png";
+//        String path = "exerciseRecord/" + User.getCurrentUserId() + date + "/mapSnapshot.png";
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference imageRef = storageRef.child(path);
 

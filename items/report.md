@@ -114,12 +114,9 @@ Note that the core criteria of contribution is based on `code contribution` (the
    - **Code and App Design**
        - Use Recycle view to display list items (user list, messages)
 ## Application Description
-
-*[What is your application, what does it do? Include photos or diagrams if necessary]*
-
-*Here is a pet specific application example*
-
-*PetBook is a social media application specifically targetting pet owners... it provides... certified practitioners, such as veterians are indicated by a label next to their profile...*
+Kangarun is a sports-centric social application designed for tracking your every workout. With our app, you can log your exercise duration, calories burned, distance covered, and even visualize your route through map images. You can add your workout buddies to the app, chat with them, hang out, and exercise together.
+![image](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/media/images/chat.png)
+![image]()
 
 ### Application Use Cases and or Examples
 
@@ -152,8 +149,8 @@ Note that the core criteria of contribution is based on `code contribution` (the
 <hr> 
 
 ### Application UML
-![Application UML](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/Java2_g48_UML.jpg) <br>
-*[Replace the above with a class diagram. You can look at how we have linked an image here as an example of how you can do it too.]*
+![Application UML](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/java2%20g48%20UML.png) <br>
+
 
 <hr>
 
@@ -196,11 +193,29 @@ Here is a partial (short) example for the subsection `Data Structures`:*
 ### Design Patterns
 *[What design patterns did your team utilise? Where and why?]*
 
-1. *xxx Pattern*
-   * *Objective: used for storing xxxx for xxx feature.*
-   * *Code Locations: defined in [Class X, methods Z, Y](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and [class AnotherClass, lines l1-l2](url); processed using [dataStructureHandlerMethod](url) and ...
+1. *Singleton Pattern*
+   * *Objective: used for storing user information for all features that needs user information.*
+   * *Code Locations: defined in [Class User, methods getInstance](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java#L60-65) 
    * *Reasons:*
-      * ...
+      * used to ensure that a class has only one instance and provides a global point of access to that instance. It is useful to control access to a shared resource or manage global state within an application.
+
+2. *DAO Pattern*
+   * *Objective: storing data access object.*
+   * *Code Locations: defined in [Class User](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java) and [class Message](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/AdminUser.java)
+   * *Reasons:*
+      * used to separate the business logic from the data persistence logic, promoting better code organization and maintainability. It abstracts the database operations, providing a clean interface for accessing and manipulating data, which enhances code readability and reusability.
+
+3. *Template Pattern*
+   * *Objective: used for storing xxxx for xxx feature.*
+   * *Code Locations: defined in [Class BaseAdaptor](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and [class ChatAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java?) and [class ExerciseRecordAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java) and [class UserAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
+   * *Reasons:*
+      * used to define the skeleton of an algorithm in a superclass but allows subclasses to override specific steps of the algorithm without changing its structure. This promotes code reuse and allows for variation in behavior among subclasses while maintaining a common workflow.
+
+3. *xxxx Pattern*
+   * *Objective: used for storing xxxx for xxx feature.*
+   * *Code Locations: defined in [Class X， method Y Z](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java) and [class AnotherClass, lines l1-l2](url); processed using [dataStructureHandlerMethod](url) and ...
+   * *Reasons:*
+      * 
 
 <hr>
 
@@ -296,6 +311,7 @@ Feature Category: Firebase Integration <br>
 
 - If implemented, explain how your solution addresses the task (any detail requirements will be released with the surprise feature specifications).
 - State that "Suprised feature is not implemented" otherwise.
+- Use the user singleton to avoid having to look up user-related information from filebase every time it needs to be called
 
 <br> <hr>
 
@@ -347,7 +363,7 @@ Feature Category: Firebase Integration <br>
 - *[Team Meeting 1](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240411.md)*
 - *[Team Meeting 2](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240415.md)*
 - *[Team Meeting 3](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240422.md)*
-- [Team Meeting 4](link_to_md_file.md)
+- [Team Meeting 4](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240429.md)
 - ... (Add any descriptions if needed) ...
 
 <hr>
@@ -357,6 +373,6 @@ Feature Category: Firebase Integration <br>
 (If you choose to make this an external document, link to it here)]*
 
 This shall include an agreed procedure for situations including (but not limited to):
-- e.g., if a member fails to meet the initial plan and/or deadlines
-- e.g., if your group has issues, how will your group reach consensus or solve the problem?
-- e.g., if a member gets sick, what is the solution? Alternatively, what is your plan to mitigate the impact of unforeseen incidents for this 6-to-8-week project? 
+- if a member fails to meet the initial plan and/or deadlines，We will first check whether the assigned task is too complicated or too many assignments, which leads to failure to complete, or other assignments take up too much time. If it is the above situation, we will catch up with the progress, if not, then the failure to complete the task on time will be reflected in the final score
+- If someone is sick, we will let her have a good rest first, and at the same time assign her tasks to someone who is not very busy at the present stage. When the illness recovers, the rest person will help others to take part of the work to compensate
+- if we have different opinions on a problem, the way we resolve conflicts is by secret ballot. When we have different views on an issue, we use secret ballot to resolve the issue. All opinions are listed, each person has one vote in a secret ballot, the only restriction is that they can not vote for their own choice, and after the vote is completed, according to the majority of the votes.

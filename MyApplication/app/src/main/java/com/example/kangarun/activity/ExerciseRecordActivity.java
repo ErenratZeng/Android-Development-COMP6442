@@ -1,5 +1,7 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -70,7 +72,8 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         CollectionReference records = db.collection("exerciseRecord");
-        String uid = User.getCurrentUserId();
+        String uid = currentUser.getUserId();
+//        String uid = User.getCurrentUserId();
         Log.d("ExerciseRecord", "uid:" + uid);
         if (uid != null) {
             Query userRecords = records.whereEqualTo("uid", uid);

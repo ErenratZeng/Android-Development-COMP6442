@@ -1,5 +1,7 @@
 package com.example.kangarun;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -32,7 +34,6 @@ public class User implements Serializable, Comparable<User> {
     private List<String> friendsList;  // Storing friend IDs
     private List<String> blockList;  // Blocked users
     private List<String> activityHistory;  // Storing activity IDs for simplicity
-    private static User instance;
 
     public User(String username, String password) {
         this.userId = UUID.randomUUID().toString();
@@ -55,12 +56,6 @@ public class User implements Serializable, Comparable<User> {
         this.gender = gender;
     }
 
-    public static synchronized User getInstance() {
-        if (instance == null) {
-            instance = new User();
-        }
-        return instance;
-    }
 
     public static String getCurrentUserId() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -161,7 +156,23 @@ public class User implements Serializable, Comparable<User> {
         uploadProfile();
     }
 
+    public boolean compareGender(String g){
+        if (gender == null){
+            return g.equals("Other") || g.equals("All Genders");
+        }
+        if (g.equals("All Genders")){
+            return true;
+        }
+        if (g.equals("Male") || g.equals("Female")) {
+            return gender.equalsIgnoreCase(g);
+        } else if (g.equals("Other")) {
+            return !gender.equals("Male") && !gender.equals("Female");
+        } else {
+            throw new RuntimeException("invalid gender input");
+        }
+    }
     public void uploadProfile() {
+//        String uid = currentUser.getUserId();
         String uid = getCurrentUserId();
         if (uid != null) {
             Map<String, Object> userProfile = new HashMap<>();

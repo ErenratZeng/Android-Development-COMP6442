@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 currentUser.setUserId("");
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
             }
         });
@@ -87,21 +87,12 @@ public class MainActivity extends AppCompatActivity {
         tree = new UserAVLTree();
         loadUsersIntoAVL(tree);
 
-        SearchView searchView = findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        Button searchView = findViewById(R.id.searchButton);
+        searchView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                intent.putExtra("query", query);
                 startActivity(intent);
-                // Call the  api
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                return false;
             }
         });
 
@@ -109,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "You cannot return to last page", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "You cannot return to last page", Toast.LENGTH_SHORT).show();
         //Ban return button
     }
 
@@ -120,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setProfileImage() {
-        StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        StorageReference profileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
+
+//        StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

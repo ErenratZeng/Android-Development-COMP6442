@@ -1,12 +1,15 @@
 package com.example.kangarun.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +23,17 @@ import com.example.kangarun.utils.Parser;
 import com.example.kangarun.utils.Tokenizer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SearchActivity extends AppCompatActivity implements UserListener {
     private ActivitySearchBinding binding;
+    private List<User> userList = new ArrayList<>();
+    private Button sortName;
+    private Button sortEmail;
+    private String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,21 +41,54 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        String query = getIntent().getStringExtra("query");
-        binding.searchView.setQuery(query, false);
-        searchUsers(query);
+        sortName = findViewById(R.id.sortUsername);
+        sortName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharSequence currentDescription = sortName.getText();
 
+                if (currentDescription.equals(getString(R.string.nameAscending))) {
+                    // Currently ascending, sort descending next
+                    userList.sort((u1, u2) -> u2.getUsername().compareToIgnoreCase(u1.getUsername()));
+                    sortName.setText(R.string.nameDescending); // Update icon to descending
+                } else {
+                    // Currently descending, sort ascending next
+                    userList.sort((u1, u2) -> u1.getUsername().compareToIgnoreCase(u2.getUsername()));
+                    sortName.setText(R.string.nameAscending);
+                }
+                createUserView(userList, query, false);
+            }
+        });
+        sortEmail = findViewById(R.id.sortEmail);
+        sortEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharSequence currentDescription = sortEmail.getText();
 
-        // Search Again
+                if (currentDescription.equals(getString(R.string.emailAscending))) {
+                    // Currently ascending, sort descending next
+                    userList.sort((u1, u2) -> u2.getEmail().compareToIgnoreCase(u1.getEmail()));
+                    sortEmail.setText(R.string.emailDescending); // Update icon to descending
+                } else {
+                    // Currently descending, sort ascending next
+                    userList.sort((u1, u2) -> u1.getEmail().compareToIgnoreCase(u2.getEmail()));
+                    sortEmail.setText(R.string.emailAscending);
+                }
+                createUserView(userList, query, false);
+            }
+        });
+        setupGenderFilter();
+
+        // Search
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                intent.putExtra("query", query);
-                finish();
-                startActivity(intent);
-                // Call the  api
+                // Show all users, for test only
+                if (query.equals("all")){
+                    query = "";
+                }
+                searchUsers(query);
                 return false;
             }
 
@@ -58,7 +100,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         });
 
     }
-
 
     private void searchUsers(String query) {
         boolean invalid = false;
@@ -80,16 +121,21 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                 }
             }
         }
+        userList = users;
+        createUserView(users, query, invalid);
+    }
 
-
-        if (!users.isEmpty()) {
+    private void createUserView(List<User> users, String query, boolean invalid){
+        if (!users.isEmpty() || query == null) {
             for (User user : users) {
                 Log.d("treeRet", user.getUsername());
             }
             UserAdapter adapter = new UserAdapter(users, this);
             binding.userRecyclerView.setAdapter(adapter);
             binding.userRecyclerView.setVisibility(View.VISIBLE);
-            Toast.makeText(getApplicationContext(), "Search <"+query+"> success", Toast.LENGTH_SHORT).show();
+            if (query != null){
+                Toast.makeText(getApplicationContext(), "Search <"+query+"> success", Toast.LENGTH_SHORT).show();
+            }
         } else {
             // Handle case where no users are found or list is empty
             binding.userRecyclerView.setVisibility(View.GONE);
@@ -101,8 +147,29 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             }
         }
     }
+    private void setupGenderFilter() {
+        Spinner spinner = findViewById(R.id.genderFilter);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.gender_options,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedGender = parent.getItemAtPosition(position).toString();
+                Log.d("Selected gender", selectedGender);
+                createUserView(userList.stream().filter(u -> u.compareGender(selectedGender)).collect(Collectors.toList()), null, false);
+            }
 
-
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Handle case where no gender filter is selected
+            }
+        });
+    }
     // Go to profile if click the user
     @Override
     public void onUserClicked(User user) {
@@ -111,4 +178,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         startActivity(intent);
         finish();
     }
+
+
 }

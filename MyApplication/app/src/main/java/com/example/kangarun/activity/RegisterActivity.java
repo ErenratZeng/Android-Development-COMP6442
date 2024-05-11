@@ -42,7 +42,6 @@ public class RegisterActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.buttonRegister);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        User currentuser = User.getInstance();
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,18 +74,20 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
-                            currentuser.setUsername(userName);
-                            currentuser.setEmail(email);
-                            currentuser.setUserId(currentuser.getCurrentUserId());
-                            currentuser.setGender(gender);
-                            currentuser.setWeight(weight);
-                            currentuser.setHeight(height);
-                            currentuser.uploadProfile();
+                            User newUser = new User();
+                            newUser.setUsername(userName);
+                            newUser.setEmail(email);
+                            newUser.setUserId(User.getCurrentUserId());
+                            newUser.setGender(gender);
+                            newUser.setWeight(weight);
+                            newUser.setHeight(height);
+                            newUser.uploadProfile();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Toast.makeText(RegisterActivity.this, "Account Created Failed " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

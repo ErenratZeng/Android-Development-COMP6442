@@ -354,7 +354,8 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void uploadMapSnapshotToFirebase(byte[] imageBytes) {
-        String filePath = "exerciseRecord/" + User.getCurrentUserId() + exerciseDate + "/mapSnapshot.png";
+        String filePath = "exerciseRecord/" + currentUser.getUserId() + exerciseDate + "/mapSnapshot.png";
+//        String filePath = "exerciseRecord/" + User.getCurrentUserId() + exerciseDate + "/mapSnapshot.png";
         StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(filePath);
 
         // upload to Firebase Storage

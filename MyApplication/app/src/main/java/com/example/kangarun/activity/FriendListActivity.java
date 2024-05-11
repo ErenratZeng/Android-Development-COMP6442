@@ -1,5 +1,7 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -36,7 +38,8 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
     private void getUsers() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user").get().addOnCompleteListener(t -> {
-            String currentUid = User.getCurrentUserId();
+            String currentUid = currentUser.getUserId();
+//            String currentUid = User.getCurrentUserId();
             if (t.isSuccessful() && t.getResult() != null) {
                 List<User> users = new ArrayList<>();
                 for (QueryDocumentSnapshot queryDocumentSnapshot : t.getResult()) {
