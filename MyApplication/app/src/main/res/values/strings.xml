@@ -1,7 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Kangarun</string>
     <string name="title_activity_maps">MapsActivity</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="type_a_message">Type a message</string>
@@ -30,13 +30,14 @@
     <string name="emailDescending">Email ↓</string>
     <string name="nameAscending">Name ↑</string>
     <string name="emailAscending">Email ↑</string>
-
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
+    <string name="friends">Friends</string>
+    <string name="sports">Sports</string>
     <string-array name="gender_options">
         <item>All Genders</item>
         <item>Male</item>
         <item>Female</item>
         <item>Other</item>
     </string-array>
-
-
 </resources>

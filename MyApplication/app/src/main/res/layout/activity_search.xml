@@ -1,103 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:background="#D8D8D8"
-    tools:context=".activity.SearchActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-
-    <android.widget.SearchView
-        android:id="@+id/searchView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search Username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/sortUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#9e9694"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="3dp"
-        android:text="@string/nameAscending"
-        android:drawableLeft="@drawable/ic_sort"
-        android:textColor="@color/black"
-        app:cornerRadius="5dp"
-
-        app:layout_constraintEnd_toStartOf="@+id/sortEmail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewSupporter" />
-
-    <Button
-        android:id="@+id/sortEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#9e9694"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="3dp"
-        android:text="@string/emailAscending"
-        android:drawableLeft="@drawable/ic_sort"
-        android:textColor="@color/black"
-        app:cornerRadius="5dp"
-        app:layout_constraintEnd_toStartOf="@id/genderFilter"
-        app:layout_constraintStart_toEndOf="@+id/sortUsername"
-        app:layout_constraintTop_toBottomOf="@+id/viewSupporter" />
-
-    <Spinner
-        android:id="@+id/genderFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="6dp"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/sortEmail"
-        app:layout_constraintTop_toTopOf="@id/sortUsername" />
-
-    <View
-        android:id="@+id/viewSupporter"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="#D8D8D8"
-        app:layout_constraintTop_toBottomOf="@id/searchView" />
+        tools:context=".activity.SearchActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sortUsername">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/userRecyclerView"
+        <android.widget.SearchView
+            android:id="@+id/searchView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            android:padding="10dp"
-            android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search Username"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textErrorMessage"
+        <View
+            android:id="@+id/viewSupporter"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:gravity="center"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="#D8D8D8"
+            app:layout_constraintTop_toBottomOf="@id/searchView" />
+
+        <Button
+            android:id="@+id/sortUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_sort"
             android:textColor="@color/black"
-            android:textSize="12sp"
-            android:visibility="gone" />
+            android:text="Sort by Username"
+            app:cornerRadius="5dp"
+            app:layout_constraintEnd_toStartOf="@id/sortEmail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewSupporter" />
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/sortEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_sort"
+            android:textColor="@color/black"
+            android:text="Sort by Email"
+            app:cornerRadius="5dp"
+            app:layout_constraintEnd_toStartOf="@id/genderFilter"
+            app:layout_constraintStart_toEndOf="@id/sortUsername"
+            app:layout_constraintTop_toBottomOf="@id/viewSupporter" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Spinner
+            android:id="@+id/genderFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="6dp"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sortEmail"
+            app:layout_constraintTop_toTopOf="@id/sortUsername" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sortUsername">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/userRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:padding="10dp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <TextView
+                android:id="@+id/textErrorMessage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
