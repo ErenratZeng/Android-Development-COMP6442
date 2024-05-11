@@ -16,16 +16,30 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
 
 ## Table of Contents
 
-1. [Team Members and Roles](#team-members-and-roles)
-2. [Summary of Individual Contributions](#summary-of-individual-contributions)
-3. [Application Description](#application-description)
-4. [Application UML](#application-uml)
-5. [Application Design and Decisions](#application-design-and-decisions)
-6. [Summary of Known Errors and Bugs](#summary-of-known-errors-and-bugs)
-7. [Testing Summary](#testing-summary)
-8. [Implemented Features](#implemented-features)
-9. [Team Meetings](#team-meetings)
-10. [Conflict Resolution Protocol](#conflict-resolution-protocol)
+- [\[G48 - Kangarun\] Report](#g48---kangarun-report)
+  - [Table of Contents](#table-of-contents)
+  - [Administrative](#administrative)
+  - [Team Members and Roles](#team-members-and-roles)
+  - [Summary of Individual Contributions](#summary-of-individual-contributions)
+  - [Application Description](#application-description)
+    - [Application Use Cases and or Examples](#application-use-cases-and-or-examples)
+    - [Application UML](#application-uml)
+  - [Code Design and Decisions](#code-design-and-decisions)
+    - [Data Structures](#data-structures)
+    - [Design Patterns](#design-patterns)
+    - [Parser](#parser)
+    - [Grammar(s)](#grammars)
+    - [Tokenizers and Parsers](#tokenizers-and-parsers)
+    - [Others](#others)
+  - [Implemented Features](#implemented-features)
+    - [Basic Features](#basic-features)
+    - [Custom Features](#custom-features)
+    - [Surprise Features](#surprise-features)
+  - [Summary of Known Errors and Bugs](#summary-of-known-errors-and-bugs)
+  - [Testing Summary](#testing-summary)
+  - [Team Management](#team-management)
+    - [Meetings Records](#meetings-records)
+    - [Conflict Resolution Protocol](#conflict-resolution-protocol)
 
 ## Administrative
 - Firebase Repository Link: <insert-link-to-firebase-repository>
@@ -39,9 +53,9 @@ The key area(s) of responsibilities for each member
 
 | UID      |   Name   |                             Role |
 |:---------|:--------:|---------------------------------:|
-| u7724723 | Qiutong Zeng | responsible for database Management, user profile, firebase Auth |
-| u7611510 | Heng Sun | responsible for exercise feature |
-| u6812566 | Runyao Wang | Message, Search and Social Network |
+| u7724723 | Qiutong Zeng | Responsible for Database Management, User profile, Firebase Auth |
+| u7611510 | Heng Sun | Responsible for exercise feature |
+| u6812566 | Runyao Wang | Responsible for Message, Search and Social Network |
 | u6508459 | Bingnan Zhao |                        [role] |
 | u7779907 |  Yan Jin  |                           [role] |
 
@@ -78,9 +92,11 @@ Note that the core criteria of contribution is based on `code contribution` (the
     - [You are welcome to provide anything that you consider as a contribution to the project or team.] e.g., APK, setups, firebase* <br><br>
 2. **u7724723, Qiutong Zeng**  I have % contribution, as follows: <br>
    - **Code Contribution in the final App**
-      - Feature FB-Auth: Use firebase to verify user login - class LoginActivity: [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
-      - Feature FB-Persist: Use firebase to persist user profile - class UserProfileActivity: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) - class FriendProfileActivity: [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
-      - Feature Data-Profile: Display personal information and an avatar for each user - class UserProfileActivity: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)- class FriendProfileActivity: [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+      - Feature FB-Auth: Use firebase to verify user login and add register info to Firestore - [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java) & [RegisterActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/RegisterActivity.java)
+      - Feature FB-Persist: Use firebase to persist user profile - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) & [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+      - Feature Data-Profile: Display personal information and an avatar for each user - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)-  [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+   - **Code and App Design**
+       - Implement media file display and upload through Picasso and imagepicker <br><br>
 
 3. **u7611510, HengSun**  I have % contribution, as follows: <br>
    - **Code Contribution in the final App**
@@ -106,7 +122,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
          [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
        - Add/delete friend [Link]
    - **Code and App Design**
-       - Use Recycle view to display list items (user list, messages)
+       - Use Recycle view to display list items (user list, messages)<br><br>
 
 5. **uid**  I have xx% contribution, as follows: <br>
    - **Code Contribution in the final App**
@@ -133,7 +149,7 @@ Kangarun is a sports-centric social application designed for tracking your every
 
 *Here is a map navigation application example*
 
-*Targets Users: Drivers*
+*Targets Users: *
 
 * *Users can use it to navigate in order to reach the destinations.*
 * *Users can learn the traffic conditions*
@@ -195,19 +211,19 @@ Here is a partial (short) example for the subsection `Data Structures`:*
 
 1. *Singleton Pattern*
    * *Objective: used for storing user information for all features that needs user information.*
-   * *Code Locations: defined in [Class User, methods getInstance](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java#L60-65) 
+   * *Code Locations: defined in [Class LoginState, methods getInstance](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/LoginState.java) 
    * *Reasons:*
       * used to ensure that a class has only one instance and provides a global point of access to that instance. It is useful to control access to a shared resource or manage global state within an application.
 
 2. *DAO Pattern*
    * *Objective: storing data access object.*
-   * *Code Locations: defined in [Class User](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java) and [class Message](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/AdminUser.java)
+   * *Code Locations: defined in [Class User](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java) and [Class Message](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/AdminUser.java)
    * *Reasons:*
       * used to separate the business logic from the data persistence logic, promoting better code organization and maintainability. It abstracts the database operations, providing a clean interface for accessing and manipulating data, which enhances code readability and reusability.
 
 3. *Template Pattern*
    * *Objective: used for storing xxxx for xxx feature.*
-   * *Code Locations: defined in [Class BaseAdaptor](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and [class ChatAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java?) and [class ExerciseRecordAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java) and [class UserAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
+   * *Code Locations: defined in [Class BaseAdaptor](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and [Class ChatAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java?) and [Class ExerciseRecordAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java) and [Class UserAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
    * *Reasons:*
       * used to define the skeleton of an algorithm in a superclass but allows subclasses to override specific steps of the algorithm without changing its structure. This promotes code reuse and allows for variation in behavior among subclasses while maintaining a common workflow.
 
