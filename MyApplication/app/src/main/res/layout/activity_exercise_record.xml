@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="#D8D8D8"
+    android:id="@+id/exercise_record_main"
     tools:context=".activity.ExerciseRecordActivity">
 
     <LinearLayout
