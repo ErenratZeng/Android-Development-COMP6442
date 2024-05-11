@@ -1,5 +1,7 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,8 +76,8 @@ public class FriendProfileActivity extends AppCompatActivity {
                 Picasso.get().load(uri).into(profile_image_view);
             }
         });
-
-        currentId = User.getCurrentUserId();
+        currentId = currentUser.getUserId();
+//        currentId = User.getCurrentUserId();
         profileDocRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {

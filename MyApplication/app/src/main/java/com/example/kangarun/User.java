@@ -1,5 +1,7 @@
 package com.example.kangarun;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -162,7 +164,8 @@ public class User implements Serializable, Comparable<User> {
     }
 
     public void uploadProfile() {
-        String uid = getCurrentUserId();
+        String uid = currentUser.getUserId();
+//        String uid = getCurrentUserId();
         if (uid != null) {
             Map<String, Object> userProfile = new HashMap<>();
             userProfile.put("uid", getUserId());

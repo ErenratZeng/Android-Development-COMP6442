@@ -1,5 +1,7 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -100,7 +102,8 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void uploadPictureToFirebase(Uri pictureUri) {
-        StorageReference fileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        StorageReference fileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
+//        StorageReference fileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
         fileRef.putFile(pictureUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

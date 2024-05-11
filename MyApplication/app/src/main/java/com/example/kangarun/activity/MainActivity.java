@@ -120,7 +120,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setProfileImage() {
-        StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        StorageReference profileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
+
+//        StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
