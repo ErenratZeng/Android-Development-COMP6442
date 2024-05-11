@@ -1,5 +1,7 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -94,9 +96,7 @@ public class MapsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        String uid = User.getCurrentUserId();
-
+        String uid = currentUser.getUserId();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         SupportMapFragment mapFragment =
@@ -161,7 +161,7 @@ public class MapsActivity extends AppCompatActivity
      */
     private void startDrawingPath() {
         mPathTimer = new Timer();
-        mPathTimer.scheduleAtFixedRate(new TimerTask() {
+        mPathTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (mMap != null) {
@@ -196,7 +196,7 @@ public class MapsActivity extends AppCompatActivity
         // Start counting from 00:00
         mStartTimeMillis = System.currentTimeMillis();
         mDurationTimer = new Timer();
-        mDurationTimer.scheduleAtFixedRate(new TimerTask() {
+        mDurationTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 long elapsedTimeMillis = System.currentTimeMillis() - mStartTimeMillis;

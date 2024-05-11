@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +35,6 @@ public class UserProfileActivity extends AppCompatActivity {
     Button uploadImageButton;
     ImageView profile_image_view;
     StorageReference storageReference;
-    private FirebaseFirestore firebaseFirestore;
 
     public UserProfileActivity() {
 
@@ -44,6 +44,9 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        User currentUser = User.getInstance();
+
         username = findViewById(R.id.username);
         useremail = findViewById(R.id.useremail);
         usergender = findViewById(R.id.usergender);
@@ -51,6 +54,7 @@ public class UserProfileActivity extends AppCompatActivity {
         userheight = findViewById(R.id.userheight);
         profile_image_view = findViewById(R.id.profile_image_view);
         uploadImageButton = findViewById(R.id.uploadImageButton);
+
         storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -60,16 +64,16 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = firebaseFirestore.collection("user").document(currentUser.getCurrentUserId());
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                username.setText(value.getString("username"));
-                useremail.setText(value.getString("email"));
-                usergender.setText(value.getString("gender"));
-                userweight.setText(String.valueOf(value.getDouble("weight")));
-                userheight.setText(String.valueOf(value.getDouble("height")));
+                username.setText("Username: " + value.getString("username"));
+                useremail.setText("Email: " + value.getString("email"));
+                usergender.setText("Gender: " + value.getString("gender"));
+                userweight.setText("Weight: " + String.valueOf(value.getDouble("weight")) + "kg");
+                userheight.setText("Height: " + String.valueOf(value.getDouble("height")) + "cm");
                 //TODO Add label in each text
             }
         });
@@ -78,12 +82,14 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ImagePicker.with(UserProfileActivity.this)
-                        .crop()                    //Crop image(Optional), Check Customization for more option
-                        .compress(1024)            //Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)    //Final image resolution will be less than 1080 x 1080(Optional)
+                        .crop(1f, 1f)                //Crop image to 1:1
+                        .compress(240)            //Compress image file size
+                        .maxResultSize(540, 540)    // Image max size
                         .start();
             }
         });
+
+
     }
 
     @Override

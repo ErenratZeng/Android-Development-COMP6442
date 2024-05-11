@@ -32,6 +32,30 @@
         android:inputType="textPassword"
         android:layout_marginBottom="20dp"/>
 
+    <EditText
+        android:id="@+id/editTextGender"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Gender"
+        android:inputType="text"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Weight(kg)"
+        android:inputType="text"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:id="@+id/editTextHeight"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Height(cm)"
+        android:inputType="text"
+        android:layout_marginBottom="20dp"/>
+
     <Button
         android:id="@+id/buttonRegister"
         android:layout_width="120dp"

@@ -2,6 +2,7 @@ package com.example.kangarun.adapter;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kangarun.R;
 import com.example.kangarun.User;
 import com.example.kangarun.UserListener;
 import com.example.kangarun.activity.ChatActivity;
@@ -74,15 +76,14 @@ public class UserAdapter extends BaseAdapter<UserAdapter.UserViewHolder> {
         void setUserData(User user) {
             binding.textName.setText(user.getUsername());
             binding.textEmail.setText(user.getEmail());
-            StorageReference fileRef = FirebaseStorage.getInstance().getReference()
-                            .child("user/" + user.getUserId() + "/profile.jpg");
-            fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("user/" + user.getUserId() + "/profile.jpg");
+
+            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
                     Picasso.get().load(uri).into(binding.imageProfile);
                 }
             });
-
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }

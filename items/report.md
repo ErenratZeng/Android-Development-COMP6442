@@ -1,4 +1,4 @@
-# [G0 - Team Name] Report
+# [G48 - Kangarun] Report
 
 The following is a report template to help your team successfully provide all the details necessary for your report in a structured and organised manner. Please give a straightforward and concise report that best demonstrates your project. Note that a good report will give a better impression of your project to the reviewers.
 
@@ -37,12 +37,13 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
 ## Team Members and Roles
 The key area(s) of responsibilities for each member
 
-| UID   |  Name  |   Role |
-|:------|:------:|-------:|
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
-| [uid] | [name] | [role] |
+| UID      |   Name   |                             Role |
+|:---------|:--------:|---------------------------------:|
+| u7724723 | Qiutong Zeng | responsible for database Management, user profile, firebase Auth |
+| u7611510 | Heng Sun | responsible for exercise feature |
+| u6812566 | Runyao Wang | Message, Search and Social Network |
+| u6508459 | Bingnan Zhao |                        [role] |
+| u7779907 |  Yan Jin  |                           [role] |
 
 
 ## Summary of Individual Contributions
@@ -75,12 +76,43 @@ Note that the core criteria of contribution is based on `code contribution` (the
   - **Others**: (only if significant and significantly different from an "average contribution") 
     - [Report Writing?] [Slides preparation?]*
     - [You are welcome to provide anything that you consider as a contribution to the project or team.] e.g., APK, setups, firebase* <br><br>
+2. **u7724723, Qiutong Zeng**  I have % contribution, as follows: <br>
+   - **Code Contribution in the final App**
+      - Feature FB-Auth: Use firebase to verify user login - class LoginActivity: [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
+      - Feature FB-Persist: Use firebase to persist user profile - class UserProfileActivity: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) - class FriendProfileActivity: [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+      - Feature Data-Profile: Display personal information and an avatar for each user - class UserProfileActivity: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)- class FriendProfileActivity: [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
 
-2. **UID2, Name2**  I have xx% contribution, as follows: <br>
-  - ...
+3. **u7611510, HengSun**  I have % contribution, as follows: <br>
+   - **Code Contribution in the final App**
+       - Feature Data-GPS: use Google Maps api to display map, locate the movement position in real time, 
+       continuously draw poly line according to the user's position in the map,  calculate the movement distance, time, 
+       and calories in real time - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
+       - Feature FB-Persist: use firebase to persist user exercise record - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
+       - Feature Data-graphical: get user exercise record from firebase,
+       display exercise record in detail including exercise path img,distance,duration,date - class ExerciseRecordDetailActivity:[ExerciseRecordDetailActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
+       -class ExerciseRecordAdaptor:[ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)<br>
+   - **Code and App Design**
+       - proposed using AVL tree to store the friend relationship data structure, which can reduce the query waiting time<br><br>
 
+4. **u6812566, Runyao Wang**  I have xx% contribution, as follows: <br>
+   - **Code Contribution in the final App**
+       - Feature P2P-DM: Real-time messaging implementation and relative UI -
+         [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java),
+         [activity_chat.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_login.xml)
+       - Feature Search: Search user by username with AVL tree-
+         [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java),
+         [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java)
+       - User adapter to create list to display users in search result and friends list -
+         [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
+       - Add/delete friend [Link]
+   - **Code and App Design**
+       - Use Recycle view to display list items (user list, messages)
 
-
+5. **uid**  I have xx% contribution, as follows: <br>
+   - **Code Contribution in the final App**
+       - xxx
+   - **Code and App Design**
+       - Use Recycle view to display list items (user list, messages)
 ## Application Description
 
 *[What is your application, what does it do? Include photos or diagrams if necessary]*
@@ -120,8 +152,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
 <hr> 
 
 ### Application UML
-
-![ClassDiagramExample](media/_examples/ClassDiagramExample.png) <br>
+![Application UML](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/Java2_g48_UML.jpg) <br>
 *[Replace the above with a class diagram. You can look at how we have linked an image here as an example of how you can do it too.]*
 
 <hr>
@@ -181,13 +212,33 @@ Here is a partial (short) example for the subsection `Data Structures`:*
 
 Production Rules:
 
-    <Non-Terminal> ::= <some output>
-    <Non-Terminal> ::= <some output>
+    <query> ::= <field>
+    <query> ::= <field><separator><query>
+    <field> ::= <username_field> | <email_field> | <gender_field>
+    <username_field> ::= "name="<username>
+    <email_field> ::= "email="<email>
+    <gender_field> ::= "gender="<gender>
+    
+Terminals:
 
+    <username>, <email> ::= Any string doesn't include = or ;
+    <gender> ::= m | f | o
+    <separator> ::= ;
+*The gender terminals represents male, female and other genders respectively.
 
 ### <u>Tokenizers and Parsers</u>
 
-*[Where do you use tokenisers and parsers? How are they built? What are the advantages of the designs?]*
+Tokenizer and Parser are used in user search with tokens. The search grammar is stated above.
+An simple query example would be:
+
+    name=1;email=1;gender=f
+There should be at least one field and the order of fields doesn't matter.
+
+The tokenizer for this grammar splits the input query into tokens using the semicolon ";" as a delimiter. Each token represents a potential field within the query based on the prefix ("name=", "email=", "gender=").
+
+With the tokens generated by the tokenizer, the parser verifies each token against the grammar rules. It checks if each token correctly fits the expected format for the field it represents, and data integrity is therefore ensured.
+ 
+Using tokenized search enriches the possibility and accuracy of current search function. It is designed for who wants to find a specific group of users.
 
 <hr>
 
@@ -214,7 +265,14 @@ Production Rules:
 
 3. ...
    <br>
-
+4. ....
+    <br>
+5. [Search]. Users are able to search other users by username or tokens.
+    * Code: [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java), [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java), [Tokenizer.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Tokenizer.java), [Parser.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Parser.java)
+    * The search function offers users the option to perform either a token-based search, which follows a predefined context-free grammar (CFG) as described above, or a simpler partial username search. 
+      If the user's input is not tokenizable, the system will automatically perform a search based on partial username matches.
+    * Both search method utilize an AVL tree algorithm. All user data is inserted into an AVL tree when the app starts. Then the search activity determines the appropriate search method based on user query, and invoke corresponding search method in the AVL tree.
+<br>
 ### Custom Features
 Feature Category: Privacy <br>
 1. [Privacy-Request]. Description of the feature  (easy)
@@ -286,9 +344,9 @@ Feature Category: Firebase Integration <br>
 * Your meetings should also have a reasonable date spanning across Week 6 to 11.*
 
 
-- *[Team Meeting 1](meeting-template.md)*
-- ...
-- ...
+- *[Team Meeting 1](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240411.md)*
+- *[Team Meeting 2](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240415.md)*
+- *[Team Meeting 3](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240422.md)*
 - [Team Meeting 4](link_to_md_file.md)
 - ... (Add any descriptions if needed) ...
 

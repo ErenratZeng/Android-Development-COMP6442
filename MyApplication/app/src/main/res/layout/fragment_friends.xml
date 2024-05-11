@@ -42,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@id/imageBack">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/userRecyclerView"
+                android:id="@+id/recyclerViewFriends"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"

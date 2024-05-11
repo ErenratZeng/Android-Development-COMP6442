@@ -4,6 +4,7 @@ import com.example.kangarun.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserAVLTree {
     private UserNode root;
@@ -105,6 +106,59 @@ public class UserAVLTree {
         searchPartialHelper(node.left, query, results);
         searchPartialHelper(node.right, query, results);
     }
+
+    public List<User> searchToken(Map<String, String> query) {
+        List<User> results = new ArrayList<>();
+        searchTokenHelper(root, query, results);
+        return results;
+    }
+    private void searchTokenHelper(UserNode node, Map<String, String> query, List<User> results) {
+        if (node == null) return;
+
+        // Ensure there is a user object and it matches all provided query fields.
+        if (node.value != null) {
+            boolean match = true;
+
+            // Check if the username is in the query and matches the current node's username
+            if (query.containsKey("username") && query.get("username") != null) {
+                String queryUsername = query.get("username").toLowerCase();
+                match &= node.value.getUsername().toLowerCase().contains(queryUsername);
+            }
+
+            // Check if the email is in the query and matches the current node's email
+            if (query.containsKey("email") && query.get("email") != null) {
+                String queryEmail = query.get("email").toLowerCase();
+                match &= node.value.getEmail().toLowerCase().contains(queryEmail);
+            }
+
+            // Check if the gender is in the query and matches the current node's gender
+            if (query.containsKey("gender") && query.get("gender") != null) {
+                String queryGender = query.get("gender").toLowerCase();
+                String gender = node.value.getGender();
+                if (gender == null){
+                    gender = "o";
+                } else if(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("m")){
+                    gender = "m";
+                } else if (gender.equalsIgnoreCase("female") || gender.equalsIgnoreCase("f")) {
+                    gender = "f";
+                } else {
+                    gender = "o";
+                }
+                match &= gender.equals(queryGender);
+            }
+
+            // If all applicable checks are true, add the user to the results
+            if (match) {
+                results.add(node.value);
+            }
+        }
+
+        // Recursively search in the left and right subtrees
+        searchTokenHelper(node.left, query, results);
+        searchTokenHelper(node.right, query, results);
+    }
+
+    // Display the tree structure
     public String display() {
         if (root == null) return "The tree is empty";
         return display(root, 0);
@@ -125,5 +179,4 @@ public class UserAVLTree {
 
         return sb.toString();
     }
-    // Optionally, implement display method if needed
 }

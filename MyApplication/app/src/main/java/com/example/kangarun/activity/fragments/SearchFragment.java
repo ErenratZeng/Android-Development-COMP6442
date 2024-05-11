@@ -20,12 +20,16 @@ import com.example.kangarun.activity.FriendProfileActivity;
 import com.example.kangarun.adapter.UserAdapter;
 import com.example.kangarun.databinding.FragmentSearchBinding;
 import com.example.kangarun.activity.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment implements UserListener {
     private FragmentSearchBinding binding;
+    private List<String> blockedUsers = new ArrayList<>();
 
     @Nullable
     @Override
@@ -34,7 +38,7 @@ public class SearchFragment extends Fragment implements UserListener {
 
         String query = getActivity().getIntent().getStringExtra("query");
         binding.searchView.setQuery(query, false);
-        searchUsers(query);
+        loadBlockedUsers(() -> searchUsers(query));
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -53,19 +57,47 @@ public class SearchFragment extends Fragment implements UserListener {
         return binding.getRoot();
     }
 
+    private void loadBlockedUsers(Runnable onComplete) {
+        String currentUserId = User.getCurrentUserId();
+        if (currentUserId != null) {
+            FirebaseFirestore.getInstance().collection("user").document(currentUserId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            blockedUsers = (List<String>) documentSnapshot.get("blockedContents");
+                        }
+                        if (blockedUsers == null) {
+                            blockedUsers = new ArrayList<>();
+                        }
+                        onComplete.run();
+                    })
+                    .addOnFailureListener(e -> Log.e("SearchFragment", "Error loading blocked users", e));
+        }
+    }
+
     private void searchUsers(String query) {
         if (query == null || query.isEmpty()) {
-            // 如果 query 是 null 或为空，显示提示或返回
             Toast.makeText(getActivity(), "Please enter a search term", Toast.LENGTH_SHORT).show();
             return;
         }
         List<User> users = MainActivity.tree.searchPartial(query);
 
-        if (!users.isEmpty()) {
-            for (User user : users) {
+        // Debugging: Print the blockedUsers list
+        Log.d("BlockedUsers", "Blocked Users: " + blockedUsers);
+
+        // Filter out blocked users
+        List<User> filteredUsers = new ArrayList<>();
+        for (User user : users) {
+            if (!blockedUsers.contains(user.getUserId())) {
+                filteredUsers.add(user);
+            }
+        }
+
+        if (!filteredUsers.isEmpty()) {
+            for (User user : filteredUsers) {
                 Log.d("treeRet", user.getUsername());
             }
-            UserAdapter adapter = new UserAdapter(users, this);
+            UserAdapter adapter = new UserAdapter(filteredUsers, this);
             binding.userRecyclerView.setAdapter(adapter);
             binding.userRecyclerView.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), "Search success", Toast.LENGTH_SHORT).show();

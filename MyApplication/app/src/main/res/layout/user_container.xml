@@ -5,11 +5,15 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageProfile"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/circular"
+        android:src="@drawable/person_icon"
+        android:background="@drawable/circular_bg"
+        android:backgroundTint="@color/my_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
