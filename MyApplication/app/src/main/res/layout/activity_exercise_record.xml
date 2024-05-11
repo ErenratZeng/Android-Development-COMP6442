@@ -2,17 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="#D8D8D8"
     tools:context=".activity.ExerciseRecordActivity">
 
     <LinearLayout
         android:id="@+id/RecordButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,6 +19,9 @@
             android:id="@+id/SortByDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#9e9694"
+            android:textColor="@color/black"
+            app:cornerRadius="5dp"
             android:text=" Date"
             android:drawableRight="@drawable/ic_sort_descending"/>
 
@@ -27,12 +29,18 @@
             android:id="@+id/SortByDistanceButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#9e9694"
+            android:textColor="@color/black"
+            app:cornerRadius="5dp"
             android:text=" Distance" />
 
         <Button
             android:id="@+id/SortByDurationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#9e9694"
+            android:textColor="@color/black"
+            app:cornerRadius="5dp"
             android:text=" Duration" />
 
 
