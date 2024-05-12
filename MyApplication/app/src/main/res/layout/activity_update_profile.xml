@@ -8,6 +8,7 @@
     android:layout_margin="20dp"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@color/Microsoftblue"
     tools:context=".activity.UserProfileActivity">
 
     <com.google.android.material.imageview.ShapeableImageView
