@@ -56,18 +56,7 @@ public class UserAdapter extends BaseAdapter<UserAdapter.UserViewHolder> {
         UserViewHolder(UserContainerBinding b) {
             super(b.getRoot());
             binding = b;
-// Add block/unblock functionality
-            binding.blockButton.setOnClickListener(v -> {
-                User user = users.get(getAdapterPosition());
-                if (currentUser.getBlockList().contains(user.getUserId())) {
-                    currentUser.unblockUser(user.getUserId());
-                    binding.blockButton.setText("Block");
-                } else {
-                    currentUser.blockUser(user.getUserId());
-                    binding.blockButton.setText("Unblock");
-                }
-                currentUser.uploadProfile();  // Ensure changes are saved to the database
-            });
+
 
 
             binding.buttonMessage.setOnClickListener(new View.OnClickListener() {

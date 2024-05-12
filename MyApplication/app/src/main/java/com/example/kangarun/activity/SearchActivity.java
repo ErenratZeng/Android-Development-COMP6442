@@ -1,8 +1,6 @@
 package com.example.kangarun.activity;
 
-// Import statements
 import static com.example.kangarun.activity.LoginActivity.currentUser;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,7 +97,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     private void searchUsers(String query) {
         boolean invalid = false;
         List<User> users = new ArrayList<>();
-        List<String> blockedUsers = currentUser.getBlockList();  // Initialize blockedUsers here
+        List<String> blockedUsers = currentUser != null ? currentUser.getBlockList() : new ArrayList<>(); // Initialize blockedUsers
 
         // Try tokenize
         Map<String, String> tokens = Tokenizer.tokenize(query);
@@ -121,26 +119,27 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
         // Filter users based on the block list
         userList = users.stream()
-                .filter(user -> !blockedUsers.contains(user.getUserId()))
+                .filter(user -> !blockedUsers.contains(user.getUserId())) // Exclude blocked users
                 .collect(Collectors.toList());
 
         createUserView(userList, query, invalid);
     }
 
     private void createUserView(List<User> users, String query, boolean invalid) {
-        if (!users.isEmpty() || query == null) {
+        if (!users.isEmpty()) {
             for (User user : users) {
                 Log.d("treeRet", user.getUsername());
             }
             UserAdapter adapter = new UserAdapter(users, this);
             binding.userRecyclerView.setAdapter(adapter);
             binding.userRecyclerView.setVisibility(View.VISIBLE);
+            binding.textErrorMessage.setVisibility(View.GONE);
             if (query != null) {
                 Toast.makeText(getApplicationContext(), "Search <" + query + "> success", Toast.LENGTH_SHORT).show();
             }
         } else {
-            // Handle case where no users are found or list is empty
             binding.userRecyclerView.setVisibility(View.GONE);
+            binding.textErrorMessage.setVisibility(View.VISIBLE);
             if (invalid) {
                 Toast.makeText(getApplicationContext(), "Expression <" + query +
                         "> is invalid, please check grammar", Toast.LENGTH_SHORT).show();

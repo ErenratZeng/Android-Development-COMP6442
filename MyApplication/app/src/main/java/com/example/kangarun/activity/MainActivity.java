@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Button startExerciseButton = findViewById(R.id.startExerciseButton);
         startExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "User Profile", Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+
                 startActivity(intent);
             }
         });
