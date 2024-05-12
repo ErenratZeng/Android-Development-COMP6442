@@ -64,32 +64,33 @@ public class MainActivity extends AppCompatActivity {
         loadUsersIntoAVL(tree);
         circleMenu = (CircleMenu) findViewById(R.id.circle_menu);
 
-        circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.mipmap.icon_menu, R.mipmap.icon_cancel)
-                .addSubMenu(Color.parseColor("#30A400"), R.mipmap.icon_cancel)
-                .addSubMenu(Color.parseColor("#FF4B32"), R.mipmap.icon_cancel)
-                .addSubMenu(Color.parseColor("#258CFF"), R.mipmap.icon_cancel)
-                .addSubMenu(Color.parseColor("#FF6A00"), R.mipmap.icon_cancel)
+        circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.drawable.icon_menu, R.drawable.exit)
+                .addSubMenu(Color.parseColor("#30A400"), R.drawable.search)
+                .addSubMenu(Color.parseColor("#FF4B32"), R.drawable.chat)
+                .addSubMenu(Color.parseColor("#258CFF"), R.drawable.sport)
+                .addSubMenu(Color.parseColor("#FF6A00"), R.drawable.record)
                 .setOnMenuSelectedListener(new OnMenuSelectedListener() {
 
                     @Override
                     public void onMenuSelected(int index) {
                         switch (index) {
-                            case 1:
-                                Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
-                                startActivity(intent);
-                                break;
                             case 0:
                                 Intent intent1 = new Intent(getApplicationContext(), SearchActivity.class);
                                 startActivity(intent1);
                                 break;
-                            case 3:
-                                Intent intent2 = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
-                                startActivity(intent2);
+                            case 1:
+                                Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
+                                startActivity(intent);
                                 break;
                             case 2:
                                 Intent intent3 = new Intent(getApplicationContext(), MapsActivity.class);
                                 startActivity(intent3);
                                 break;
+                            case 3:
+                                Intent intent2 = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
+                                startActivity(intent2);
+                                break;
+
                         }
                     }
 
