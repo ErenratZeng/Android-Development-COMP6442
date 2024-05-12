@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -68,27 +69,32 @@ public class MainActivity extends AppCompatActivity {
                 .addSubMenu(Color.parseColor("#30A400"), R.drawable.search)
                 .addSubMenu(Color.parseColor("#FF4B32"), R.drawable.chat)
                 .addSubMenu(Color.parseColor("#258CFF"), R.drawable.sport)
-                .addSubMenu(Color.parseColor("#FF6A00"), R.drawable.record)
+                .addSubMenu(Color.parseColor("#6650a5"), R.drawable.record)
+                .addSubMenu(Color.parseColor("#F7AD19"), R.drawable.profile)
                 .setOnMenuSelectedListener(new OnMenuSelectedListener() {
 
                     @Override
                     public void onMenuSelected(int index) {
                         switch (index) {
                             case 0:
-                                Intent intent1 = new Intent(getApplicationContext(), SearchActivity.class);
-                                startActivity(intent1);
-                                break;
-                            case 1:
-                                Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                                 startActivity(intent);
                                 break;
+                            case 1:
+                                Intent intent1 = new Intent(getApplicationContext(), FriendListActivity.class);
+                                startActivity(intent1);
+                                break;
                             case 2:
-                                Intent intent3 = new Intent(getApplicationContext(), MapsActivity.class);
-                                startActivity(intent3);
+                                Intent intent2 = new Intent(getApplicationContext(), MapsActivity.class);
+                                startActivity(intent2);
                                 break;
                             case 3:
-                                Intent intent2 = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
-                                startActivity(intent2);
+                                Intent intent3 = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
+                                startActivity(intent3);
+                                break;
+                            case 4:
+                                Intent intent4 = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                startActivity(intent4);
                                 break;
 
                         }
@@ -97,7 +103,9 @@ public class MainActivity extends AppCompatActivity {
                 }).setOnMenuStatusChangeListener(new OnMenuStatusChangeListener() {
 
                     @Override
-                    public void onMenuOpened() {}
+                    public void onMenuOpened() {
+                        Log.d("Qiutong","Error Here");
+                    }
 
                     @Override
                     public void onMenuClosed() {}
