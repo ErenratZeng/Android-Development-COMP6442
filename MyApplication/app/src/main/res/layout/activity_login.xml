@@ -86,7 +86,7 @@
 
             <Button
                 android:id="@+id/buttonLogin"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:text="Login"
                 android:backgroundTint="@color/Button"
@@ -99,7 +99,7 @@
 
             <Button
                 android:id="@+id/buttonCreateAccount"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:text="Create an account"
                 android:padding="16dp"
@@ -111,7 +111,7 @@
 
             <Button
                 android:id="@+id/buttonAutoLogin"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:backgroundTint="@color/Notice"
                 android:text="Auto Login (Test ONLY)"

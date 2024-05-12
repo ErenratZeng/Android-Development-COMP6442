@@ -30,32 +30,13 @@ import com.hitomi.cmlibrary.OnMenuStatusChangeListener;
 public class MainActivity extends AppCompatActivity {
     public static UserAVLTree tree;
     ImageView profileButton;
+    CircleMenu circleMenu;
     StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Button startExerciseButton = findViewById(R.id.startExerciseButton);
-        startExerciseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Start Exercise", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        Button exerciseRecordButton = findViewById(R.id.exerciseRecordButton);
-        exerciseRecordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Exercise Record", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
-                startActivity(intent);
-            }
-        });
 
         Button logoutButton = findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         storageReference = FirebaseStorage.getInstance().getReference();
         profileButton = findViewById(R.id.main_profile_image_view);
         profileButton.setOnClickListener(new View.OnClickListener() {
@@ -78,29 +60,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button friendsbutton = findViewById(R.id.button_friends);
-        friendsbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Friends List", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
-                startActivity(intent);
-            }
-        });
-
         tree = new UserAVLTree();
         loadUsersIntoAVL(tree);
-
-        Button searchView = findViewById(R.id.searchButton);
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circle_menu);
+        circleMenu = (CircleMenu) findViewById(R.id.circle_menu);
 
         circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.mipmap.icon_menu, R.mipmap.icon_cancel)
                 .addSubMenu(Color.parseColor("#30A400"), R.mipmap.icon_cancel)
@@ -116,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
                                 startActivity(intent);
                                 break;
-                            case 2:
+                            case 0:
                                 Intent intent1 = new Intent(getApplicationContext(), SearchActivity.class);
                                 startActivity(intent1);
                                 break;
@@ -124,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent2 = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
                                 startActivity(intent2);
                                 break;
-                            case 4:
+                            case 2:
                                 Intent intent3 = new Intent(getApplicationContext(), MapsActivity.class);
                                 startActivity(intent3);
                                 break;
