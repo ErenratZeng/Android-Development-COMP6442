@@ -75,7 +75,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 usergender.setText("Gender: " + value.getString("gender"));
                 userweight.setText("Weight: " + String.valueOf(value.getDouble("weight")) + "kg");
                 userheight.setText("Height: " + String.valueOf(value.getDouble("height")) + "cm");
-                //TODO Add label in each text
             }
         });
 

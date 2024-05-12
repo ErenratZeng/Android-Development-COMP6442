@@ -1,5 +1,16 @@
 package com.example.kangarun;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginState {
     private static LoginState instance;
     private String id;
@@ -22,4 +33,5 @@ public class LoginState {
     public void setUserId(String id) {
         this.id = id;
     }
+
 }
