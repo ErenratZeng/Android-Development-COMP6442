@@ -4,6 +4,7 @@ import static com.example.kangarun.activity.LoginActivity.currentUser;
 import static com.example.kangarun.utils.FirebaseUtil.loadUsersIntoAVL;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+import com.hitomi.cmlibrary.CircleMenu;
+import com.hitomi.cmlibrary.OnMenuSelectedListener;
+import com.hitomi.cmlibrary.OnMenuStatusChangeListener;
 
 public class MainActivity extends AppCompatActivity {
     public static UserAVLTree tree;
@@ -96,7 +100,51 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circle_menu);
+
+        circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.mipmap.icon_menu, R.mipmap.icon_cancel)
+                .addSubMenu(Color.parseColor("#30A400"), R.mipmap.icon_cancel)
+                .addSubMenu(Color.parseColor("#FF4B32"), R.mipmap.icon_cancel)
+                .addSubMenu(Color.parseColor("#258CFF"), R.mipmap.icon_cancel)
+                .addSubMenu(Color.parseColor("#FF6A00"), R.mipmap.icon_cancel)
+                .setOnMenuSelectedListener(new OnMenuSelectedListener() {
+
+                    @Override
+                    public void onMenuSelected(int index) {
+                        switch (index) {
+                            case 1:
+                                Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
+                                startActivity(intent);
+                                break;
+                            case 2:
+                                Intent intent1 = new Intent(getApplicationContext(), SearchActivity.class);
+                                startActivity(intent1);
+                                break;
+                            case 3:
+                                Intent intent2 = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
+                                startActivity(intent2);
+                                break;
+                            case 4:
+                                Intent intent3 = new Intent(getApplicationContext(), MapsActivity.class);
+                                startActivity(intent3);
+                                break;
+                        }
+                    }
+
+                }).setOnMenuStatusChangeListener(new OnMenuStatusChangeListener() {
+
+                    @Override
+                    public void onMenuOpened() {}
+
+                    @Override
+                    public void onMenuClosed() {}
+
+                });
+
+
     }
+
+
 
     @Override
     public void onBackPressed() {
