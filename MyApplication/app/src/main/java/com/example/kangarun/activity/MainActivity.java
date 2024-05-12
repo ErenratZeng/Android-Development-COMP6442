@@ -4,8 +4,10 @@ import static com.example.kangarun.activity.LoginActivity.currentUser;
 import static com.example.kangarun.utils.FirebaseUtil.loadUsersIntoAVL;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,36 +24,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+import com.hitomi.cmlibrary.CircleMenu;
+import com.hitomi.cmlibrary.OnMenuSelectedListener;
+import com.hitomi.cmlibrary.OnMenuStatusChangeListener;
 
 public class MainActivity extends AppCompatActivity {
     public static UserAVLTree tree;
     ImageView profileButton;
+    CircleMenu circleMenu;
     StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Button startExerciseButton = findViewById(R.id.startExerciseButton);
-        startExerciseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Start Exercise", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        Button exerciseRecordButton = findViewById(R.id.exerciseRecordButton);
-        exerciseRecordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Exercise Record", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
-                startActivity(intent);
-            }
-        });
 
         Button logoutButton = findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         storageReference = FirebaseStorage.getInstance().getReference();
         profileButton = findViewById(R.id.main_profile_image_view);
         profileButton.setOnClickListener(new View.OnClickListener() {
@@ -74,29 +61,61 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button friendsbutton = findViewById(R.id.button_friends);
-        friendsbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Friends List", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
-                startActivity(intent);
-            }
-        });
-
         tree = new UserAVLTree();
         loadUsersIntoAVL(tree);
+        circleMenu = (CircleMenu) findViewById(R.id.circle_menu);
 
-        Button searchView = findViewById(R.id.searchButton);
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivity(intent);
-            }
-        });
+        circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.drawable.icon_menu, R.drawable.exit)
+                .addSubMenu(Color.parseColor("#30A400"), R.drawable.search)
+                .addSubMenu(Color.parseColor("#FF4B32"), R.drawable.chat)
+                .addSubMenu(Color.parseColor("#258CFF"), R.drawable.sport)
+                .addSubMenu(Color.parseColor("#6650a5"), R.drawable.record)
+                .addSubMenu(Color.parseColor("#F7AD19"), R.drawable.profile)
+                .setOnMenuSelectedListener(new OnMenuSelectedListener() {
+
+                    @Override
+                    public void onMenuSelected(int index) {
+                        switch (index) {
+                            case 0:
+                                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                                startActivity(intent);
+                                break;
+                            case 1:
+                                Intent intent1 = new Intent(getApplicationContext(), FriendListActivity.class);
+                                startActivity(intent1);
+                                break;
+                            case 2:
+                                Intent intent2 = new Intent(getApplicationContext(), MapsActivity.class);
+                                startActivity(intent2);
+                                break;
+                            case 3:
+                                Intent intent3 = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
+                                startActivity(intent3);
+                                break;
+                            case 4:
+                                Intent intent4 = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                startActivity(intent4);
+                                break;
+
+                        }
+                    }
+
+                }).setOnMenuStatusChangeListener(new OnMenuStatusChangeListener() {
+
+                    @Override
+                    public void onMenuOpened() {
+                        Log.d("Qiutong","Error Here");
+                    }
+
+                    @Override
+                    public void onMenuClosed() {}
+
+                });
+
 
     }
+
+
 
     @Override
     public void onBackPressed() {

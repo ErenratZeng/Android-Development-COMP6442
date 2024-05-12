@@ -24,8 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button buttonRegister;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
-    private double weight;
-    private double height;
+    private double weight, height;
 
 
     @Override

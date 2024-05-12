@@ -22,4 +22,5 @@ public class LoginState {
     public void setUserId(String id) {
         this.id = id;
     }
+
 }

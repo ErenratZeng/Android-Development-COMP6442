@@ -34,7 +34,7 @@ import com.squareup.picasso.Picasso;
 
 public class UserProfileActivity extends AppCompatActivity {
     TextView useremail, username, usergender, userweight, userheight;
-    Button uploadImageButton, updateInfoButton;
+    Button updateInfoButton;
     ImageView profile_image_view;
     StorageReference storageReference;
 
@@ -53,7 +53,6 @@ public class UserProfileActivity extends AppCompatActivity {
         userweight = findViewById(R.id.userweight);
         userheight = findViewById(R.id.userheight);
         profile_image_view = findViewById(R.id.profile_image_view);
-        uploadImageButton = findViewById(R.id.uploadImageButton);
         updateInfoButton = findViewById(R.id.uploadInfoButton);
 
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -75,18 +74,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 usergender.setText("Gender: " + value.getString("gender"));
                 userweight.setText("Weight: " + String.valueOf(value.getDouble("weight")) + "kg");
                 userheight.setText("Height: " + String.valueOf(value.getDouble("height")) + "cm");
-                //TODO Add label in each text
-            }
-        });
-
-        uploadImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImagePicker.with(UserProfileActivity.this)
-                        .crop(1f, 1f)                //Crop image to 1:1
-                        .compress(240)            //Compress image file size
-                        .maxResultSize(540, 540)    // Image max size
-                        .start();
             }
         });
 
