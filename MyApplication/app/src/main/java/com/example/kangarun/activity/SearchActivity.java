@@ -99,7 +99,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         List<User> users = new ArrayList<>();
         List<String> blockedUsers = currentUser != null ? currentUser.getBlockList() : new ArrayList<>(); // Initialize blockedUsers
 
-        // Try tokenize
+        // Try tokenizeall
         Map<String, String> tokens = Tokenizer.tokenize(query);
         if (!query.contains("=")) {
             users = MainActivity.tree.searchPartial(query);

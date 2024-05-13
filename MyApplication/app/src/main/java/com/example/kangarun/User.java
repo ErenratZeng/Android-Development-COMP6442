@@ -128,18 +128,6 @@ public class User implements Serializable, Comparable<User> {
         return blockList;
     }
 
-    // Methods to manage friends
-    public boolean addFriend(String friendId) {
-        if (!friendsList.contains(friendId)) {
-            friendsList.add(friendId);
-            return true;
-        }
-        return false;
-    }
-
-    public void removeFriend(String friendId) {
-        friendsList.remove(friendId);
-    }
 
     public boolean block(String id) {
         if (!blockList.contains(id)) {
@@ -154,9 +142,8 @@ public class User implements Serializable, Comparable<User> {
         if (blockList.remove(id)) {
             saveBlockListToStorage();
         }
-
-
     }
+
     private void saveBlockListToStorage() {
         String uid = getCurrentUserId();
         if (uid != null) {
@@ -165,12 +152,6 @@ public class User implements Serializable, Comparable<User> {
                     .addOnSuccessListener(aVoid -> Log.d(TAG, "Block list updated successfully!"))
                     .addOnFailureListener(e -> Log.e(TAG, "Error updating block list", e));
         }
-    }
-    // Method to update user profile
-    public void updateProfile(String newUsername, String newEmail) {
-        setUsername(newUsername);
-        setEmail(newEmail);
-        uploadProfile();
     }
 
     public boolean compareGender(String g){
@@ -188,6 +169,7 @@ public class User implements Serializable, Comparable<User> {
             throw new RuntimeException("invalid gender input");
         }
     }
+
     public void uploadProfile() {
         String uid = currentUser.getUserId();
         if (uid != null) {
