@@ -51,8 +51,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
-        String userId = currentUser.getUserId();
-
 
         editTextUserName = findViewById(R.id.username);
         editTextGender = findViewById(R.id.usergender);
@@ -105,7 +103,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 String gender = editTextGender.getText().toString();
                 weight = Double.parseDouble(editTextWeight.getText().toString());
                 height = Double.parseDouble(editTextHeight.getText().toString());
-                String email = textemail.getText().toString();
 
                 try {
                     weight = Double.parseDouble(editTextWeight.getText().toString());
@@ -120,14 +117,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 }
                 DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentUser.getUserId());
 
-                // Create a Map to hold the updates.
                 Map<String, Object> updates = new HashMap<>();
-                updates.put("username", userName); // Replace "newUsername" with the actual new username
-                updates.put("gender", gender);     // Replace "newGender" with the actual new gender
-                updates.put("height", height);             // Replace 175 with the actual new height in centimeters
-                updates.put("weight", weight);              // Replace 70 with the actual new weight in kilograms
+                updates.put("username", userName);
+                updates.put("gender", gender);
+                updates.put("height", height);
+                updates.put("weight", weight);
 
-// Perform the update operation.
                 currentDocRef.update(updates)
                         .addOnSuccessListener(aVoid -> {
                             // Handle success scenario, e.g., show a success message.
