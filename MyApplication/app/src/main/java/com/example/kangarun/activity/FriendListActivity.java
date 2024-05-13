@@ -44,7 +44,7 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
                 List<User> users = new ArrayList<>();
                 for (QueryDocumentSnapshot queryDocumentSnapshot : t.getResult()) {
                     List<String> friends = (List<String>) queryDocumentSnapshot.get("friendList");
-                    if (friends != null){
+                    if (friends != null && !friends.isEmpty()){
                         if (!currentUid.equals(queryDocumentSnapshot.getId())
                                 && friends.contains(currentUid)) {
                             User user = new User();
