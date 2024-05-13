@@ -3,6 +3,15 @@ plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.google.gms.google-services")
 }
+dependencies {
+    implementation("com.airbnb.android:lottie:3.4.0")
+    implementation("androidx.fragment:fragment:1.7.0")
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
+
+}
+
+
+
 
 android {
     namespace = "com.example.kangarun"

@@ -54,7 +54,7 @@ public class UserAdapter extends BaseAdapter<UserAdapter.UserViewHolder> {
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder {
-        UserContainerBinding binding;
+        public UserContainerBinding binding;
 
         UserViewHolder(UserContainerBinding b) {
             super(b.getRoot());

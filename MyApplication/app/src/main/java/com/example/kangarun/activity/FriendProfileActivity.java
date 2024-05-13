@@ -83,7 +83,6 @@ public class FriendProfileActivity extends AppCompatActivity {
             }
         });
         currentId = currentUser.getUserId();
-//        currentId = User.getCurrentUserId();
         profileDocRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {

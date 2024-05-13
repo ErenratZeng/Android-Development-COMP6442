@@ -199,4 +199,9 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void onUserUnblocked(User user) {
+
+    }
 }
