@@ -16,8 +16,10 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-public class BlacklistUserAdapter extends RecyclerView.Adapter<BlacklistUserAdapter.UserViewHolder> {
+/**
+ * @author Yan Jin u7779907, Bingnan Zhao u6508459
+ */
+public class BlacklistUserAdapter extends BaseAdapter<BlacklistUserAdapter.UserViewHolder> {
 
     private final List<User> users;
     private final UserListener userListener;
@@ -29,7 +31,7 @@ public class BlacklistUserAdapter extends RecyclerView.Adapter<BlacklistUserAdap
 
     @NonNull
     @Override
-    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserViewHolder createView(@NonNull ViewGroup parent, int viewType) {
         ItemContainerBlacklistUserBinding binding = ItemContainerBlacklistUserBinding.inflate(
                 LayoutInflater.from(parent.getContext()),
                 parent,
@@ -39,7 +41,7 @@ public class BlacklistUserAdapter extends RecyclerView.Adapter<BlacklistUserAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+    public void bindView(@NonNull UserViewHolder holder, int position) {
         User user = users.get(position);
         holder.setUserData(user);
 
@@ -51,7 +53,7 @@ public class BlacklistUserAdapter extends RecyclerView.Adapter<BlacklistUserAdap
     }
 
     @Override
-    public int getItemCount() {
+    public int getDataCount() {
         return users.size();
     }
 
@@ -66,8 +68,7 @@ public class BlacklistUserAdapter extends RecyclerView.Adapter<BlacklistUserAdap
 
         void setUserData(User user) {
             binding.textName.setText(user.getUsername());
-            binding.textEmail.setText(user.getEmail());
-            binding.imageProfile.setImageResource(R.drawable.profile_icon); // Set default image
+            binding.textEmail.setText(user.getEmail());// Set default image
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }
