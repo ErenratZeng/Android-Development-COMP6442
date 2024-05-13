@@ -131,7 +131,8 @@ public class ExerciseRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sort By Date", Toast.LENGTH_SHORT).show();
-                adapter.updateData(dateDescending? dateAsclist : dateDeslist);
+                if(!dateAsclist.isEmpty() && !dateDeslist.isEmpty())
+                    adapter.updateData(dateDescending? dateAsclist : dateDeslist);
                 dateDescending = !dateDescending;
                 toggleSortDirection(dateDescending, sortByDateButton);
             }
@@ -141,7 +142,8 @@ public class ExerciseRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sort By Distance", Toast.LENGTH_SHORT).show();
-                adapter.updateData(distanceDescending? distanceAsclist : distanceDeslist);
+                if(!distanceAsclist.isEmpty() && !distanceDeslist.isEmpty())
+                    adapter.updateData(distanceDescending? distanceAsclist : distanceDeslist);
                 distanceDescending = !distanceDescending;
                 toggleSortDirection(distanceDescending, sortByDistanceButton);
             }
@@ -151,7 +153,8 @@ public class ExerciseRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sort By Duration", Toast.LENGTH_SHORT).show();
-                adapter.updateData(durationDescending? durationAsclist : durationDeslist);
+                if(!durationAsclist.isEmpty() && !durationDeslist.isEmpty())
+                    adapter.updateData(durationDescending? durationAsclist : durationDeslist);
                 durationDescending = !durationDescending;
                 toggleSortDirection(durationDescending, sortByDurationButton);
             }
