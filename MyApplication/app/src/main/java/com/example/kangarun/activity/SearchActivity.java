@@ -1,6 +1,6 @@
 package com.example.kangarun.activity;
 
-import android.app.Activity;
+import static com.example.kangarun.activity.LoginActivity.currentUser;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,9 +21,9 @@ import com.example.kangarun.adapter.UserAdapter;
 import com.example.kangarun.databinding.ActivitySearchBinding;
 import com.example.kangarun.utils.Parser;
 import com.example.kangarun.utils.Tokenizer;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,6 +34,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     private Button sortName;
     private Button sortEmail;
     private String query;
+    private List<String> blockedUsers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,50 +43,64 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         setContentView(binding.getRoot());
 
         sortName = findViewById(R.id.sortUsername);
-        sortName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CharSequence currentDescription = sortName.getText();
+        sortName.setOnClickListener(v -> {
+            CharSequence currentDescription = sortName.getText();
 
-                if (currentDescription.equals(getString(R.string.nameAscending))) {
-                    // Currently ascending, sort descending next
-                    userList.sort((u1, u2) -> u2.getUsername().compareToIgnoreCase(u1.getUsername()));
-                    sortName.setText(R.string.nameDescending); // Update icon to descending
-                } else {
-                    // Currently descending, sort ascending next
-                    userList.sort((u1, u2) -> u1.getUsername().compareToIgnoreCase(u2.getUsername()));
-                    sortName.setText(R.string.nameAscending);
-                }
-                createUserView(userList, query, false);
+            if (currentDescription.equals(getString(R.string.nameAscending))) {
+                // Currently ascending, sort descending next
+                userList.sort((u1, u2) -> u2.getUsername().compareToIgnoreCase(u1.getUsername()));
+                sortName.setText(R.string.nameDescending); // Update icon to descending
+            } else {
+                // Currently descending, sort ascending next
+                userList.sort((u1, u2) -> u1.getUsername().compareToIgnoreCase(u2.getUsername()));
+                sortName.setText(R.string.nameAscending);
             }
+            createUserView(userList, query, false);
         });
+
         sortEmail = findViewById(R.id.sortEmail);
-        sortEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CharSequence currentDescription = sortEmail.getText();
+        sortEmail.setOnClickListener(v -> {
+            CharSequence currentDescription = sortEmail.getText();
 
-                if (currentDescription.equals(getString(R.string.emailAscending))) {
-                    // Currently ascending, sort descending next
-                    userList.sort((u1, u2) -> u2.getEmail().compareToIgnoreCase(u1.getEmail()));
-                    sortEmail.setText(R.string.emailDescending); // Update icon to descending
-                } else {
-                    // Currently descending, sort ascending next
-                    userList.sort((u1, u2) -> u1.getEmail().compareToIgnoreCase(u2.getEmail()));
-                    sortEmail.setText(R.string.emailAscending);
-                }
-                createUserView(userList, query, false);
+            if (currentDescription.equals(getString(R.string.emailAscending))) {
+                // Currently ascending, sort descending next
+                userList.sort((u1, u2) -> u2.getEmail().compareToIgnoreCase(u1.getEmail()));
+                sortEmail.setText(R.string.emailDescending); // Update icon to descending
+            } else {
+                // Currently descending, sort ascending next
+                userList.sort((u1, u2) -> u1.getEmail().compareToIgnoreCase(u2.getEmail()));
+                sortEmail.setText(R.string.emailAscending);
             }
+            createUserView(userList, query, false);
         });
+
         setupGenderFilter();
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("user")
+                .document(currentUser.getUserId())
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        if (documentSnapshot.exists()) {
+                            User user = documentSnapshot.toObject(User.class);
+                            if (user != null) {
+                                blockedUsers = user.getBlockList();
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Log the error or handle the failure case
+                    Log.e("Firestore", "Error fetching blocked users", e);
+                });
         // Search
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Show all users, for test only
-                if (query.equals("all")){
+                if (query.equals("all")) {
                     query = "";
                 }
                 searchUsers(query);
@@ -94,17 +109,16 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 return false;
             }
         });
-
     }
 
     private void searchUsers(String query) {
         boolean invalid = false;
         List<User> users = new ArrayList<>();
-        // Try tokenize
+
+        // Try tokenizeall
         Map<String, String> tokens = Tokenizer.tokenize(query);
         if (!query.contains("=")) {
             users = MainActivity.tree.searchPartial(query);
@@ -121,32 +135,35 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                 }
             }
         }
-        userList = users;
-        createUserView(users, query, invalid);
+
+        // Filter users based on the block list
+        userList = users.stream()
+                .filter(user -> (!blockedUsers.contains(user.getUserId())
+                        && !user.getUserId().equals(currentUser.getUserId()))) // Exclude blocked users
+                .collect(Collectors.toList());
+
+        createUserView(userList, query, invalid);
     }
 
-    private void createUserView(List<User> users, String query, boolean invalid){
-        if (!users.isEmpty() || query == null) {
-            for (User user : users) {
-                Log.d("treeRet", user.getUsername());
-            }
+    private void createUserView(List<User> users, String query, boolean invalid) {
+        if (!users.isEmpty()) {
             UserAdapter adapter = new UserAdapter(users, this);
             binding.userRecyclerView.setAdapter(adapter);
             binding.userRecyclerView.setVisibility(View.VISIBLE);
-            if (query != null){
-                Toast.makeText(getApplicationContext(), "Search <"+query+"> success", Toast.LENGTH_SHORT).show();
+            if (query != null) {
+                Toast.makeText(getApplicationContext(), "Search <" + query + "> success", Toast.LENGTH_SHORT).show();
             }
         } else {
-            // Handle case where no users are found or list is empty
             binding.userRecyclerView.setVisibility(View.GONE);
-            if (invalid){
+            if (invalid) {
                 Toast.makeText(getApplicationContext(), "Expression <" + query +
                         "> is invalid, please check grammar", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), "Search <"+query+"> no result", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Search <" + query + "> no result", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
     private void setupGenderFilter() {
         Spinner spinner = findViewById(R.id.genderFilter);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -170,6 +187,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             }
         });
     }
+
     // Go to profile if click the user
     @Override
     public void onUserClicked(User user) {
@@ -178,6 +196,4 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         startActivity(intent);
         finish();
     }
-
-
 }

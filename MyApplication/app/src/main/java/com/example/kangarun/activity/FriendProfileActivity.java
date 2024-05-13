@@ -112,6 +112,13 @@ public class FriendProfileActivity extends AppCompatActivity {
                 }
             }
         });
+        blockUserButton.setOnClickListener(v -> {
+            if (blockUserButton.getText().equals("Block")) {
+                blockUser();
+            } else {
+                unblockUser();
+            }
+        });
 
     }
 
@@ -173,5 +180,28 @@ public class FriendProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void blockUser() {
+        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
+        currentDocRef.update(
+                        "blockList", FieldValue.arrayUnion(profileId),
+                        "friendList", FieldValue.arrayRemove(profileId)
+                )
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("BlockUser", "User blocked successfully!");
+                    blockUserButton.setText("Unblock");
+                    Toast.makeText(FriendProfileActivity.this, "User blocked", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Log.e("BlockUser", "Error blocking user", e));
+    }
+    private void unblockUser() {
+        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
+        currentDocRef.update("blockList", FieldValue.arrayRemove(profileId))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("UnblockUser", "User unblocked successfully!");
+                    blockUserButton.setText("Block");
+                    Toast.makeText(FriendProfileActivity.this, "User unblocked", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Log.e("UnblockUser", "Error unblocking user", e));
+    }
 
 }

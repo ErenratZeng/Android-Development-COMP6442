@@ -5,6 +5,7 @@ import static com.example.kangarun.activity.LoginActivity.currentUser;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +36,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UpdateProfileActivity extends AppCompatActivity {
     private EditText  editTextUserName, editTextGender, editTextWeight, editTextHeight;
     private TextView textemail;
@@ -47,8 +51,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
-        String userId = currentUser.getUserId();
-
 
         editTextUserName = findViewById(R.id.username);
         editTextGender = findViewById(R.id.usergender);
@@ -101,7 +103,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 String gender = editTextGender.getText().toString();
                 weight = Double.parseDouble(editTextWeight.getText().toString());
                 height = Double.parseDouble(editTextHeight.getText().toString());
-                String email = textemail.getText().toString();
 
                 try {
                     weight = Double.parseDouble(editTextWeight.getText().toString());
@@ -114,14 +115,26 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 } catch (NumberFormatException e) {
                     Toast.makeText(UpdateProfileActivity.this, "Invalid height", Toast.LENGTH_SHORT).show();
                 }
-                User user = new User();
-                user.setUsername(userName);
-                user.setEmail(email);
-                user.setUserId(userId);
-                user.setGender(gender);
-                user.setWeight(weight);
-                user.setHeight(height);
-                user.uploadProfile();
+                DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentUser.getUserId());
+
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("username", userName);
+                updates.put("gender", gender);
+                updates.put("height", height);
+                updates.put("weight", weight);
+
+                currentDocRef.update(updates)
+                        .addOnSuccessListener(aVoid -> {
+                            // Handle success scenario, e.g., show a success message.
+                            Log.d("UpdateSuccess", "Document successfully updated!");
+                            Toast.makeText(UpdateProfileActivity.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            // Handle failure scenario, e.g., show an error message.
+                            Log.w("UpdateFailure", "Error updating document", e);
+                            Toast.makeText(UpdateProfileActivity.this, "Update Failed", Toast.LENGTH_SHORT).show();
+                        });
+
             }
         });
 

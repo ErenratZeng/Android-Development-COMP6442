@@ -124,18 +124,10 @@ public class User implements Serializable, Comparable<User> {
         return activityHistory;
     }
 
-    // Methods to manage friends
-    public boolean addFriend(String friendId) {
-        if (!friendsList.contains(friendId)) {
-            friendsList.add(friendId);
-            return true;
-        }
-        return false;
+    public List<String> getBlockList() {
+        return blockList;
     }
 
-    public void removeFriend(String friendId) {
-        friendsList.remove(friendId);
-    }
 
     public boolean block(String id) {
         if (!blockList.contains(id)) {
@@ -145,15 +137,21 @@ public class User implements Serializable, Comparable<User> {
         return false;
     }
 
+
     public void unBlock(String id) {
-        blockList.remove(id);
+        if (blockList.remove(id)) {
+            saveBlockListToStorage();
+        }
     }
 
-    // Method to update user profile
-    public void updateProfile(String newUsername, String newEmail) {
-        setUsername(newUsername);
-        setEmail(newEmail);
-        uploadProfile();
+    private void saveBlockListToStorage() {
+        String uid = getCurrentUserId();
+        if (uid != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("user").document(uid).update("blockList", blockList)
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Block list updated successfully!"))
+                    .addOnFailureListener(e -> Log.e(TAG, "Error updating block list", e));
+        }
     }
 
     public boolean compareGender(String g){
@@ -171,8 +169,31 @@ public class User implements Serializable, Comparable<User> {
             throw new RuntimeException("invalid gender input");
         }
     }
+
     public void uploadProfile() {
-//        String uid = currentUser.getUserId();
+        String uid = currentUser.getUserId();
+        if (uid != null) {
+            Map<String, Object> userProfile = new HashMap<>();
+            userProfile.put("username", getUsername());
+            userProfile.put("gender", getGender());
+            userProfile.put("height", getHeight());
+            userProfile.put("weight", getWeight());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("user").document(uid).set(userProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error writing document", e);
+                }
+            });
+        }
+    }
+
+    public void uploadNewuserProfile() {
         String uid = getCurrentUserId();
         if (uid != null) {
             Map<String, Object> userProfile = new HashMap<>();

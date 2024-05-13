@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#D8D8D8"
-    tools:context=".activity.FriendListActivity">
+    android:background="#D8D8D8">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageBack"
@@ -23,7 +21,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_user"
+        android:text="Blacklist"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -36,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:background="@color/Microsoftblue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageBack">
 
@@ -59,6 +56,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:gravity="center"
+            android:text="No blocked users"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:visibility="gone" />
@@ -66,4 +64,3 @@
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

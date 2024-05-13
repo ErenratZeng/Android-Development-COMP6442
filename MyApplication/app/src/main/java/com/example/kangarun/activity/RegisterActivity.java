@@ -86,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                             newUser.setGender(gender);
                             newUser.setWeight(weight);
                             newUser.setHeight(height);
-                            newUser.uploadProfile();
+                            newUser.uploadNewuserProfile();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Toast.makeText(RegisterActivity.this, "Account Created Failed " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

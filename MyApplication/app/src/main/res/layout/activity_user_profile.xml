@@ -107,5 +107,11 @@
 
 
 
+    <!-- Added blacklist button -->
+    <Button
+        android:id="@+id/blacklistButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Blacklist" />
 
 </LinearLayout>

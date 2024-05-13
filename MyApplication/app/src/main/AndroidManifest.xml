@@ -25,6 +25,9 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".activity.BlacklistActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.UpdateProfileActivity"
             android:exported="false" />
         <activity

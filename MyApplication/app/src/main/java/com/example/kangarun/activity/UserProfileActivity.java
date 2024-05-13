@@ -1,16 +1,15 @@
 package com.example.kangarun.activity;
 
 import static com.example.kangarun.activity.LoginActivity.currentUser;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,16 +31,18 @@ import com.google.firebase.storage.UploadTask;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
+import java.util.List;
 
 public class UserProfileActivity extends AppCompatActivity {
     TextView useremail, username, usergender, userweight, userheight;
-    Button updateInfoButton;
+    Button  updateInfoButton, blacklistButton;
     ImageView profile_image_view;
     StorageReference storageReference;
+    FirebaseFirestore firebaseFirestore;
+    String profileId, currentId;
 
-    public UserProfileActivity() {
-
-    }
+    public UserProfileActivity() {}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,12 @@ public class UserProfileActivity extends AppCompatActivity {
         userheight = findViewById(R.id.userheight);
         profile_image_view = findViewById(R.id.profile_image_view);
         updateInfoButton = findViewById(R.id.uploadInfoButton);
+        blacklistButton = findViewById(R.id.blacklistButton);
 
         storageReference = FirebaseStorage.getInstance().getReference();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        currentId = currentUser != null ? currentUser.getUserId() : null;
         StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -77,15 +83,90 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        updateInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UserProfileActivity.this, UpdateProfileActivity.class);
-                startActivity(intent);
-            }
+        Log.i("User in userprofile",currentId);
+        if (currentId!=null)
+
+        { profileId=currentId;
+            loadUserProfile(currentId);}
+
+        updateInfoButton.setOnClickListener(v -> {
+            Intent intent = new Intent(UserProfileActivity.this, UpdateProfileActivity.class);
+            startActivity(intent);
         });
 
+        blacklistButton.setOnClickListener(v -> {
+            if (blacklistButton.getText().equals("Blacklist")) {
+                if (profileId != null && currentId != null) {
+                    blacklistUser();
+                    Intent intent = new Intent(getApplicationContext(), BlacklistActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(UserProfileActivity.this, "User IDs are not set", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
+    private void loadUserProfile(String userId) {
+        StorageReference profileRef = storageReference.child("user/" + userId + "/profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(uri -> Picasso.get().load(uri).into(profile_image_view))
+                .addOnFailureListener(e -> Log.e("FirebaseStorage", "Error fetching profile image", e));
+
+        DocumentReference documentReference = firebaseFirestore.collection("user").document(userId);
+        documentReference.addSnapshotListener(this, (value, error) -> {
+            if (value != null && value.exists()) {
+                username.setText("Username: " + value.getString("username"));
+                useremail.setText("Email: " + value.getString("email"));
+                usergender.setText("Gender: " + value.getString("gender"));
+                userweight.setText("Weight: " + value.getDouble("weight") + "kg");
+                userheight.setText("Height: " + value.getDouble("height") + "cm");
+
+//                List<String> blockList = (List<String>) value.get("blockList");
+//                if (blockList != null && blockList.contains(currentId)) {
+//                    blacklistButton.setText("Unblacklist");
+//                } else {
+//                    blacklistButton.setText("Blacklist");
+//                }
+            }
+        });
+    }
+
+    private void blacklistUser() {
+        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
+        DocumentReference profileDocRef = firebaseFirestore.collection("user").document(profileId);
+
+        currentDocRef.update("blockList", FieldValue.arrayUnion(profileId))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("BlacklistUser", "User blacklisted successfully!");
+                    Toast.makeText(UserProfileActivity.this, "User blacklisted", Toast.LENGTH_SHORT).show();
+//                    blacklistButton.setText("Unblacklist");
+                    removeFromFriendList();
+                })
+                .addOnFailureListener(e -> Log.e("BlacklistUser", "Error blacklisting user", e));
+    }
+
+    private void unblacklistUser() {
+        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
+        currentDocRef.update("blockList", FieldValue.arrayRemove(profileId))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("UnblacklistUser", "User unblacklisted successfully!");
+                    Toast.makeText(UserProfileActivity.this, "User unblacklisted", Toast.LENGTH_SHORT).show();
+                    blacklistButton.setText("Blacklist");
+                })
+                .addOnFailureListener(e -> Log.e("UnblacklistUser", "Error unblacklisting user", e));
+    }
+
+    private void removeFromFriendList() {
+        DocumentReference profileDocRef = firebaseFirestore.collection("user").document(profileId);
+        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
+
+        profileDocRef.update("friendList", FieldValue.arrayRemove(currentId))
+                .addOnSuccessListener(aVoid -> Log.d("RemoveFriend", "Removed from friend's friend list"))
+                .addOnFailureListener(e -> Log.e("RemoveFriend", "Error removing from friend's friend list", e));
+
+        currentDocRef.update("friendList", FieldValue.arrayRemove(profileId))
+                .addOnSuccessListener(aVoid -> Log.d("RemoveFriend", "Removed from current user's friend list"))
+                .addOnFailureListener(e -> Log.e("RemoveFriend", "Error removing from current user's friend list", e));
     }
 
     @Override
