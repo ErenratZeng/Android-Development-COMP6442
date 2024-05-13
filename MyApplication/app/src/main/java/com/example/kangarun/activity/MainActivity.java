@@ -1,55 +1,146 @@
 package com.example.kangarun.activity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+import static com.example.kangarun.utils.FirebaseUtil.loadUsersIntoAVL;
 
-import androidx.annotation.NonNull;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.SearchView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.example.kangarun.R;
-import com.example.kangarun.activity.fragments.FriendsFragment;
-import com.example.kangarun.activity.fragments.ProfileFragment;
-import com.example.kangarun.activity.fragments.SearchFragment;
-import com.example.kangarun.activity.fragments.SportsFragment;
+import com.example.kangarun.User;
 import com.example.kangarun.utils.UserAVLTree;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+import com.hitomi.cmlibrary.CircleMenu;
+import com.hitomi.cmlibrary.OnMenuSelectedListener;
+import com.hitomi.cmlibrary.OnMenuStatusChangeListener;
 
+/**
+ * @author Heng Sun u7611510, Qiutong Zeng u7724723,Runyao Wang u6812566
+ */
 public class MainActivity extends AppCompatActivity {
-
     public static UserAVLTree tree;
+    ImageView profileButton;
+    CircleMenu circleMenu;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setOnNavigationItemSelectedListener(item -> {
-            Fragment selectedFragment = null;
-            int itemId = item.getItemId();
-            if (itemId == R.id.navigation_search) {
-                selectedFragment = new SearchFragment();
-            } else if (itemId == R.id.navigation_sports) {
-                selectedFragment = new SportsFragment();
-            } else if (itemId == R.id.navigation_friends) {
-                selectedFragment = new FriendsFragment();
-            } else if (itemId == R.id.navigation_profile) {
-                selectedFragment = new ProfileFragment();
+        Button logoutButton = findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                currentUser.setUserId("");
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
             }
-
-            if (selectedFragment != null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-                return true;
-            }
-            return false;
         });
 
-        // 默认加载 ProfileFragment
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
-        }
+        storageReference = FirebaseStorage.getInstance().getReference();
+        profileButton = findViewById(R.id.main_profile_image_view);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "User Profile", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tree = new UserAVLTree();
+        loadUsersIntoAVL(tree);
+        circleMenu = (CircleMenu) findViewById(R.id.circle_menu);
+
+        circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.drawable.icon_menu, R.drawable.exit)
+                .addSubMenu(Color.parseColor("#30A400"), R.drawable.search)
+                .addSubMenu(Color.parseColor("#FF4B32"), R.drawable.chat)
+                .addSubMenu(Color.parseColor("#258CFF"), R.drawable.sport)
+                .addSubMenu(Color.parseColor("#6650a5"), R.drawable.record)
+                .addSubMenu(Color.parseColor("#F7AD19"), R.drawable.profile)
+                .setOnMenuSelectedListener(new OnMenuSelectedListener() {
+
+                    @Override
+                    public void onMenuSelected(int index) {
+                        switch (index) {
+                            case 0:
+                                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                                startActivity(intent);
+                                break;
+                            case 1:
+                                Intent intent1 = new Intent(getApplicationContext(), FriendListActivity.class);
+                                startActivity(intent1);
+                                break;
+                            case 2:
+                                Intent intent2 = new Intent(getApplicationContext(), MapsActivity.class);
+                                startActivity(intent2);
+                                break;
+                            case 3:
+                                Intent intent3 = new Intent(getApplicationContext(), ExerciseRecordActivity.class);
+                                startActivity(intent3);
+                                break;
+                            case 4:
+                                Intent intent4 = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                startActivity(intent4);
+                                break;
+
+                        }
+                    }
+
+                }).setOnMenuStatusChangeListener(new OnMenuStatusChangeListener() {
+
+                    @Override
+                    public void onMenuOpened() {
+                        Log.d("Qiutong","Error Here");
+                    }
+
+                    @Override
+                    public void onMenuClosed() {}
+
+                });
+
+
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+//        Toast.makeText(this, "You cannot return to last page", Toast.LENGTH_SHORT).show();
+        //Ban return button
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setProfileImage();
+    }
+
+    private void setProfileImage() {
+        StorageReference profileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
+
+//        StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileButton);
+            }
+        });
     }
 }
-

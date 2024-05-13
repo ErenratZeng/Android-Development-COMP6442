@@ -1,5 +1,7 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,7 +35,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
+/**
+ * @author Runyao Wang u6812566,Qiutong Zeng u7724723,Heng Sun u7611510
+ */
 public class ChatActivity extends AppCompatActivity {
     private static final String TAG = "messages";
     private ActivityChatBinding binding;
@@ -105,7 +109,8 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatAdapter(
                 receiver.getUserId(),
                 messageList,
-                User.getCurrentUserId()
+                currentUser.getUserId()
+//                User.getCurrentUserId()
         );
         binding.chatRecycleView.setAdapter(adapter);
         db = FirebaseFirestore.getInstance();
@@ -113,7 +118,8 @@ public class ChatActivity extends AppCompatActivity {
 
     public void sendMessage() {
         HashMap<String, Object> message = new HashMap<>();
-        message.put("senderId", User.getCurrentUserId());
+        message.put("senderId", currentUser.getUserId());
+//        message.put("senderId", User.getCurrentUserId());
         message.put("receiverId", receiver.getUserId());
         message.put("message", binding.inputMessage.getText().toString());
         message.put("time", new Date());
@@ -136,12 +142,14 @@ public class ChatActivity extends AppCompatActivity {
 
     private void listenMessage() {
         db.collection("collection_chat")
-                .whereEqualTo("senderId", User.getCurrentUserId())
+                .whereEqualTo("senderId", currentUser.getUserId())
+//                .whereEqualTo("senderId", User.getCurrentUserId())
                 .whereEqualTo("receiverId", receiver.getUserId())
                 .addSnapshotListener(eventListener);
         db.collection("collection_chat")
                 .whereEqualTo("senderId", receiver.getUserId())
-                .whereEqualTo("receiverId", User.getCurrentUserId())
+                .whereEqualTo("receiverId", currentUser.getUserId())
+//                .whereEqualTo("receiverId", User.getCurrentUserId())
                 .addSnapshotListener(eventListener);
     }
 

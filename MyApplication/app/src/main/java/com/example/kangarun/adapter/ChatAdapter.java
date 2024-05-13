@@ -18,6 +18,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/**
+ * @author Runyao Wang u6812566
+ */
 public class ChatAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     public static final int VIEW_TYPE_SENT = 1;
     public static final int VIEW_TYPE_RECEIVED = 2;

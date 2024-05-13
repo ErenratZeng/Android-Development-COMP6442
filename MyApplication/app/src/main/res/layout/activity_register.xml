@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/Microsoftblue">
 
 
     <EditText
@@ -30,6 +31,30 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:id="@+id/editTextGender"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Gender"
+        android:inputType="text"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Weight(kg)"
+        android:inputType="text"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:id="@+id/editTextHeight"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Height(cm)"
+        android:inputType="text"
         android:layout_marginBottom="20dp"/>
 
     <Button

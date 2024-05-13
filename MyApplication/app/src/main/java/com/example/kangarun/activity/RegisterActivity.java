@@ -18,12 +18,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * @author Qiutong Zeng u7724723
+ */
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText editTextEmail, editTextPassword, editTextUserName;
+    private EditText editTextEmail, editTextPassword, editTextUserName, editTextGender, editTextWeight, editTextHeight;
     private Button buttonRegister;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
+    private double weight, height;
 
 
     @Override
@@ -34,14 +38,12 @@ public class RegisterActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextUserName = findViewById(R.id.editTextUserName);
+        editTextGender = findViewById(R.id.editTextGender);
+        editTextWeight = findViewById(R.id.editTextWeight);
+        editTextHeight = findViewById(R.id.editTextHeight);
         buttonRegister = findViewById(R.id.buttonRegister);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
-        if (firebaseAuth.getCurrentUser() != null) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
-        }
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +51,21 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
                 String userName = editTextUserName.getText().toString();
+                String gender = editTextGender.getText().toString();
+                weight = 0;
+                height = 0;
+
+                try {
+                    weight = Double.parseDouble(editTextWeight.getText().toString());
+                } catch (NumberFormatException e) {
+                    Toast.makeText(RegisterActivity.this, "Invalid weight", Toast.LENGTH_SHORT).show();
+                }
+
+                try {
+                    height = Double.parseDouble(editTextHeight.getText().toString());
+                } catch (NumberFormatException e) {
+                    Toast.makeText(RegisterActivity.this, "Invalid height", Toast.LENGTH_SHORT).show();
+                }
 
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please enter all details", Toast.LENGTH_SHORT).show();
@@ -59,17 +76,20 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
-                            User user = new User();
-                            user.setUsername(userName);
-                            user.setEmail(email);
-                            user.setUserId(User.getCurrentUserId());
-                            //TODO Add more profile data, see User.class uploadProfile();
-                            user.uploadProfile();
+                            User newUser = new User();
+                            newUser.setUsername(userName);
+                            newUser.setEmail(email);
+                            newUser.setUserId(User.getCurrentUserId());
+                            newUser.setGender(gender);
+                            newUser.setWeight(weight);
+                            newUser.setHeight(height);
+                            newUser.uploadNewuserProfile();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Toast.makeText(RegisterActivity.this, "Account Created Failed " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

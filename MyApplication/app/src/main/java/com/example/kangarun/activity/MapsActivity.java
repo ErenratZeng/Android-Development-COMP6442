@@ -1,5 +1,7 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -53,6 +55,9 @@ import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * @author Heng Sun u7611510, Bingnan Zhao u6508459,Qiutong Zeng u7724723
+ */
 public class MapsActivity extends AppCompatActivity
         implements
         GoogleMap.OnMyLocationButtonClickListener,
@@ -94,9 +99,7 @@ public class MapsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        String uid = User.getCurrentUserId();
-
+        String uid = currentUser.getUserId();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         SupportMapFragment mapFragment =
@@ -161,7 +164,7 @@ public class MapsActivity extends AppCompatActivity
      */
     private void startDrawingPath() {
         mPathTimer = new Timer();
-        mPathTimer.scheduleAtFixedRate(new TimerTask() {
+        mPathTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (mMap != null) {
@@ -196,7 +199,7 @@ public class MapsActivity extends AppCompatActivity
         // Start counting from 00:00
         mStartTimeMillis = System.currentTimeMillis();
         mDurationTimer = new Timer();
-        mDurationTimer.scheduleAtFixedRate(new TimerTask() {
+        mDurationTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 long elapsedTimeMillis = System.currentTimeMillis() - mStartTimeMillis;
@@ -354,7 +357,8 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void uploadMapSnapshotToFirebase(byte[] imageBytes) {
-        String filePath = "exerciseRecord/" + User.getCurrentUserId() + exerciseDate + "/mapSnapshot.png";
+        String filePath = "exerciseRecord/" + currentUser.getUserId() + exerciseDate + "/mapSnapshot.png";
+//        String filePath = "exerciseRecord/" + User.getCurrentUserId() + exerciseDate + "/mapSnapshot.png";
         StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(filePath);
 
         // upload to Firebase Storage
