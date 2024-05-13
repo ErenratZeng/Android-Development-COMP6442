@@ -67,17 +67,8 @@ public class MapsActivity extends AppCompatActivity
 
     //    private FusedLocationProviderClient mFusedLocationProviderClient;
     public static final String TAG = "MapActivity";
-    /**
-     * Request code for location permission request.
-     *
-     * @see #onRequestPermissionsResult(int, String[], int[])
-     */
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    /**
-     * Flag indicating whether a requested permission has been denied after returning in {@link
-     * #onRequestPermissionsResult(int, String[], int[])}.
-     */
     private boolean permissionDenied = false;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationClient;
