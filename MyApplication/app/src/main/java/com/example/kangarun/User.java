@@ -10,8 +10,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -22,9 +20,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * @author Runyao Wang u6812566
+ * @author Runyao Wang u6812566, Qiutong Zeng u7724723
  */
-// Make it serializable to pass the data through Intent
+
 public class User implements Serializable, Comparable<User> {
     public static final String TAG = "User";
     protected String userId;

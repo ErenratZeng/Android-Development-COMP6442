@@ -30,7 +30,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * @author Bingnan Zhao u6508459,Qiutong Zeng u7724723,Heng Sun u7611510
+ * @author Bingnan Zhao u6508459
  */
 public class ExerciseRecordActivity extends AppCompatActivity {
 

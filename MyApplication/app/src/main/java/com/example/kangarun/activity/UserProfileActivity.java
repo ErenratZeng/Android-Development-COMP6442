@@ -131,7 +131,6 @@ public class UserProfileActivity extends AppCompatActivity {
     private void blacklistUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         DocumentReference profileDocRef = firebaseFirestore.collection("user").document(profileId);
-Log.i("block ","here");
         currentDocRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult().exists()) {
                 profileDocRef.get().addOnCompleteListener(task2 -> {
@@ -203,7 +202,6 @@ Log.i("block ","here");
 
     private void uploadPictureToFirebase(Uri pictureUri) {
         StorageReference fileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
-//        StorageReference fileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
         fileRef.putFile(pictureUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
