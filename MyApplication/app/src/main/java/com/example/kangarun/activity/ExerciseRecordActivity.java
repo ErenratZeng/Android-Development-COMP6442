@@ -70,7 +70,6 @@ public class ExerciseRecordActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize RecyclerView and adapter
         RecyclerView recyclerView = findViewById(R.id.exerciseRecordView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ExerciseRecordAdapter(new ArrayList<>());
@@ -79,7 +78,6 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         CollectionReference records = db.collection("exerciseRecord");
         LoginState currentUser = LoginState.getInstance();
         String uid = currentUser.getUserId();
-        //String uid = User.getCurrentUserId();
         Log.d("ExerciseRecord", "uid:" + uid);
         if (uid != null) {
             Query userRecords = records.whereEqualTo("uid", uid);
