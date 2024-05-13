@@ -1,6 +1,7 @@
 package com.example.kangarun.activity;
 
 import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,17 +37,18 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author Qiutong Zeng u7724723,Bingnan Zhao u6508459,Yan Jin u7779907
+ * @author Qiutong Zeng u7724723,Bingnan Zhao u6508459,Yan Jin u7779907, Runyao Wang u6812566
  */
 public class UserProfileActivity extends AppCompatActivity {
     TextView useremail, username, usergender, userweight, userheight;
-    Button  updateInfoButton, blacklistButton;
+    Button updateInfoButton, blacklistButton;
     ImageView profile_image_view;
     StorageReference storageReference;
     FirebaseFirestore firebaseFirestore;
-    String profileId, currentId;
+    String currentId;
 
-    public UserProfileActivity() {}
+    public UserProfileActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +89,10 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        Log.i("User in userprofile",currentId);
-        if (currentId!=null)
+        Log.i("User in userprofile", currentId);
 
-        { profileId=currentId;
-            loadUserProfile(currentId);}
+        loadUserProfile(currentId);
+
 
         updateInfoButton.setOnClickListener(v -> {
             Intent intent = new Intent(UserProfileActivity.this, UpdateProfileActivity.class);
@@ -100,7 +101,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         blacklistButton.setOnClickListener(v -> {
             if (blacklistButton.getText().equals("Blacklist")) {
-                if (profileId != null && currentId != null) {
+                if (currentId != null) {
                     blacklistUser();
                 } else {
                     Toast.makeText(UserProfileActivity.this, "User IDs are not set", Toast.LENGTH_SHORT).show();
@@ -122,75 +123,16 @@ public class UserProfileActivity extends AppCompatActivity {
                 usergender.setText("Gender: " + value.getString("gender"));
                 userweight.setText("Weight: " + value.getDouble("weight") + "kg");
                 userheight.setText("Height: " + value.getDouble("height") + "cm");
-
-
             }
         });
     }
 
     private void blacklistUser() {
-        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
-        DocumentReference profileDocRef = firebaseFirestore.collection("user").document(profileId);
-        currentDocRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult().exists()) {
-                profileDocRef.get().addOnCompleteListener(task2 -> {
-                    if (task2.isSuccessful() && task2.getResult().exists()) {
-                        // Both documents exist, proceed with batch update
-                        WriteBatch batch = firebaseFirestore.batch();
-                        batch.update(currentDocRef, "blockList", FieldValue.arrayUnion(profileId));
-                        batch.update(currentDocRef, "friendList", FieldValue.arrayRemove(profileId));
-                        batch.update(profileDocRef, "friendList", FieldValue.arrayRemove(currentId));
-
-                        batch.commit()
-                                .addOnSuccessListener(aVoid -> {
-                                    Log.d("BlacklistUser", "User blacklisted successfully!");
-                                    Toast.makeText(UserProfileActivity.this, "User blacklisted", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), BlacklistActivity.class);
-                                    startActivity(intent);
-                                    finish(); // Close the current activity
-                                })
-                                .addOnFailureListener(e -> {
-                                    Log.e("BlacklistUser", "Error blacklisting user", e);
-                                    Toast.makeText(UserProfileActivity.this, "Failed to blacklist user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
-                    } else {
-                        // Profile document does not exist
-                        Log.e("BlacklistUser", "Profile document does not exist");
-                        Toast.makeText(UserProfileActivity.this, "Profile user does not exist", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                // Current user document does not exist
-                Log.e("BlacklistUser", "Current user document does not exist");
-                Toast.makeText(UserProfileActivity.this, "Current user does not exist", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(e -> {
-            Log.e("BlacklistUser", "Error fetching current user document", e);
-            Toast.makeText(UserProfileActivity.this, "Error fetching current user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        });
-    }
-    private void unblacklistUser() {
-        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
-        currentDocRef.update("blockList", FieldValue.arrayRemove(profileId))
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("UnblacklistUser", "User unblacklisted successfully!");
-                    Toast.makeText(UserProfileActivity.this, "User unblacklisted", Toast.LENGTH_SHORT).show();
-                    blacklistButton.setText("Blacklist");
-                })
-                .addOnFailureListener(e -> Log.e("UnblacklistUser", "Error unblacklisting user", e));
-    }
-
-    private void removeFromFriendList() {
-        DocumentReference profileDocRef = firebaseFirestore.collection("user").document(profileId);
-        DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
-
-        profileDocRef.update("friendList", FieldValue.arrayRemove(currentId))
-                .addOnSuccessListener(aVoid -> Log.d("RemoveFriend", "Removed from friend's friend list"))
-                .addOnFailureListener(e -> Log.e("RemoveFriend", "Error removing from friend's friend list", e));
-
-        currentDocRef.update("friendList", FieldValue.arrayRemove(profileId))
-                .addOnSuccessListener(aVoid -> Log.d("RemoveFriend", "Removed from current user's friend list"))
-                .addOnFailureListener(e -> Log.e("RemoveFriend", "Error removing from current user's friend list", e));
+        Log.d("BlacklistUser", "User blacklisted successfully!");
+        Toast.makeText(UserProfileActivity.this, "User blacklisted", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), BlacklistActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
