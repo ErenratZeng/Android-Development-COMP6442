@@ -68,14 +68,6 @@ public class BlacklistUserAdapter extends RecyclerView.Adapter<BlacklistUserAdap
             binding.textName.setText(user.getUsername());
             binding.textEmail.setText(user.getEmail());
             binding.imageProfile.setImageResource(R.drawable.profile_icon); // Set default image
-
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference()
-                    .child("user/" + user.getUserId() + "/profile.jpg");
-
-            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                Picasso.get().load(uri).into(binding.imageProfile);
-            });
-
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }

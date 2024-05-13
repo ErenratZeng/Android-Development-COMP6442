@@ -16,8 +16,10 @@ import com.example.kangarun.User;
 import com.example.kangarun.UserListener;
 import com.example.kangarun.adapter.BlacklistUserAdapter;
 import com.example.kangarun.databinding.ActivityBlacklistBinding;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,6 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
 
         ImageView imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> {
-            // Finish the current activity to go back to the previous one
             finish();
         });
         if (currentUser != null && currentUser.getUserId() != null) {
@@ -72,17 +73,25 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
 
     private void fetchBlockedUsersDetails(List<String> blockList) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        for (String userId : blockList) {
-            db.collection("user").document(userId).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    User user = task.getResult().toObject(User.class);
-                    if (user != null) {
+        String currentUid = currentUser.getUserId();
+        db.collection("user").get().addOnCompleteListener(t -> {
+            if (t.isSuccessful() && t.getResult() != null) {
+                List<User> users = new ArrayList<>();
+
+                for (QueryDocumentSnapshot queryDocumentSnapshot : t.getResult()) {
+                    String userId = queryDocumentSnapshot.getString("uid");
+                    if (blockList.contains(userId)) {
+
+                        User user = new User();
+                        user.setUsername(queryDocumentSnapshot.getString("username"));
+                        user.setEmail(queryDocumentSnapshot.getString("email"));
+                        user.setUserId(userId);
                         blockedUsers.add(user);
                     }
                 }
-                updateUI(); // 每次获取数据后更新UI
-            });
-        }
+                updateUI();
+            }
+        });
     }
 
     private void updateUI() {
