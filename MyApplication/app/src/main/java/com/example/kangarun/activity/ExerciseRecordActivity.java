@@ -36,13 +36,13 @@ public class ExerciseRecordActivity extends AppCompatActivity {
     private boolean distanceDescending;
     private boolean durationDescending;
 
-    private List<DocumentSnapshot> list;
-    private List<DocumentSnapshot> dateDeslist;
-    private List<DocumentSnapshot> dateAsclist;
-    private List<DocumentSnapshot> distanceDeslist;
-    private List<DocumentSnapshot> distanceAsclist;
-    private List<DocumentSnapshot> durationDeslist;
-    private List<DocumentSnapshot> durationAsclist;
+    public List<DocumentSnapshot> list;
+    public List<DocumentSnapshot> dateDeslist;
+    public List<DocumentSnapshot> dateAsclist;
+    public List<DocumentSnapshot> distanceDeslist;
+    public List<DocumentSnapshot> distanceAsclist;
+    public List<DocumentSnapshot> durationDeslist;
+    public List<DocumentSnapshot> durationAsclist;
 
     private ExerciseRecordAdapter adapter;
     private Button sortByDateButton;
@@ -67,7 +67,7 @@ public class ExerciseRecordActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 初始化RecyclerView和适配器
+        db = FirebaseFirestore.getInstance();
         RecyclerView recyclerView = findViewById(R.id.exerciseRecordView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ExerciseRecordAdapter(new ArrayList<>());
@@ -159,6 +159,46 @@ public class ExerciseRecordActivity extends AppCompatActivity {
 
         EdgeToEdge.enable(this);
     }
+
+    public void implementSortLists() {
+        dateDeslist = new ArrayList<>(list);
+        distanceDeslist = new ArrayList<>(list);
+        durationDeslist = new ArrayList<>(list);
+        dateAsclist = new ArrayList<>(list);
+        distanceAsclist = new ArrayList<>(list);
+        durationAsclist = new ArrayList<>(list);
+        Collections.sort(dateAsclist, new Comparator<DocumentSnapshot>() {
+            @Override
+            public int compare(DocumentSnapshot doc1, DocumentSnapshot doc2) {
+                String date1 = doc1.contains("date") ? doc1.getString("date") : "0";
+                String date2 = doc2.contains("date") ? doc2.getString("date") : "0";
+                return date1.compareTo(date2);
+            }
+        });
+        dateDeslist =  new ArrayList<>(dateAsclist);
+        Collections.reverse(dateDeslist);
+        Collections.sort(distanceAsclist, new Comparator<DocumentSnapshot>() {
+            @Override
+            public int compare(DocumentSnapshot doc1, DocumentSnapshot doc2) {
+                double distance1 = doc1.contains("distance") ? doc1.getDouble("distance") : 0;
+                double distance2 = doc2.contains("distance") ? doc2.getDouble("distance") : 0;
+                return Double.compare(distance1, distance2);
+            }
+        });
+        distanceDeslist = new ArrayList<>(distanceAsclist);
+        Collections.reverse(distanceDeslist);
+        Collections.sort(durationAsclist, new Comparator<DocumentSnapshot>() {
+            @Override
+            public int compare(DocumentSnapshot doc1, DocumentSnapshot doc2) {
+                String duration1 = doc1.contains("duration") ? doc1.getString("duration") : "0";
+                String duration2 = doc2.contains("duration") ? doc2.getString("duration") : "0";
+                return duration1.compareTo(duration2);
+            }
+        });
+        durationDeslist = new ArrayList<>(durationAsclist);
+        Collections.reverse(durationDeslist);
+    }
+
     private void toggleSortDirection(boolean descending, Button button) {
         sortByDateButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         sortByDistanceButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
