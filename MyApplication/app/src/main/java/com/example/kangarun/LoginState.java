@@ -33,17 +33,6 @@ public class LoginState {
     public void setUserId(String id) {
         this.id = id;
         // Fetch block list from Firestore when user ID is set
-        FirebaseFirestore.getInstance().collection("user")
-                .document(id)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        User user = documentSnapshot.toObject(User.class);
-                        if (user != null) {
-                            blockList = user.getBlockList();
-                        }
-                    }
-                });
     }
 
     // Getter for block list

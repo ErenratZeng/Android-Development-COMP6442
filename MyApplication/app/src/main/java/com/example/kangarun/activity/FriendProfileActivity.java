@@ -179,6 +179,7 @@ public class FriendProfileActivity extends AppCompatActivity {
             }
         });
     }
+
     private void blockUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         currentDocRef.update("blockList", FieldValue.arrayUnion(profileId))
