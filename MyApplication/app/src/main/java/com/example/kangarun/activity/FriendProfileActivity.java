@@ -182,7 +182,10 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     private void blockUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
-        currentDocRef.update("blockList", FieldValue.arrayUnion(profileId))
+        currentDocRef.update(
+                        "blockList", FieldValue.arrayUnion(profileId),
+                        "friendList", FieldValue.arrayRemove(profileId)
+                )
                 .addOnSuccessListener(aVoid -> {
                     Log.d("BlockUser", "User blocked successfully!");
                     blockUserButton.setText("Unblock");
@@ -190,7 +193,6 @@ public class FriendProfileActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.e("BlockUser", "Error blocking user", e));
     }
-
     private void unblockUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         currentDocRef.update("blockList", FieldValue.arrayRemove(profileId))
