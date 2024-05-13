@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextUserEmail, editTextPassword;
     private Button buttonLogin, buttonCreateAccount, buttonAutoLogin;
+    private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
     public static LoginState currentUser = LoginState.getInstance();
 
@@ -45,12 +47,18 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonCreateAccount = findViewById(R.id.buttonCreateAccount);
+        progressBar = findViewById(R.id.progressBar);
 
         //TODO These code below are test only
         buttonAutoLogin = findViewById(R.id.buttonAutoLogin);
         buttonAutoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (progressBar.getVisibility() == View.INVISIBLE) {
+                    progressBar.setVisibility(View.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
                 editTextUserEmail.setText("sb@gmail.com");
                 editTextPassword.setText("sbsbsb");
                 String email = editTextUserEmail.getText().toString().trim();
@@ -72,6 +80,11 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (progressBar.getVisibility() == View.INVISIBLE) {
+                    progressBar.setVisibility(View.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
                 String email = editTextUserEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
 
@@ -100,6 +113,11 @@ public class LoginActivity extends AppCompatActivity {
         buttonCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (progressBar.getVisibility() == View.INVISIBLE) {
+                    progressBar.setVisibility(View.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
                 Toast.makeText(LoginActivity.this, "Navigate to registration", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);

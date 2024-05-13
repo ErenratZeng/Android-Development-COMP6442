@@ -1,15 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF6200EE">
+    android:background="@color/Microsoftblue">
 
     <TextView
         android:id="@+id/textViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome!"
+        android:textColor="@color/black"
         android:textSize="24sp"
-        android:textColor="#FFFFFF"
         android:layout_gravity="center" />
 
     <Button
@@ -17,6 +17,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:text="Let's go"
+        android:backgroundTint="@color/Button"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="200dp" />
 </FrameLayout>

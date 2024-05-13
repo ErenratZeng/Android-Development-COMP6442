@@ -36,7 +36,7 @@ import java.util.List;
 
 public class UserProfileActivity extends AppCompatActivity {
     TextView useremail, username, usergender, userweight, userheight;
-    Button uploadImageButton, updateInfoButton, blacklistButton;
+    Button  updateInfoButton, blacklistButton;
     ImageView profile_image_view;
     StorageReference storageReference;
     FirebaseFirestore firebaseFirestore;
@@ -55,7 +55,6 @@ public class UserProfileActivity extends AppCompatActivity {
         userweight = findViewById(R.id.userweight);
         userheight = findViewById(R.id.userheight);
         profile_image_view = findViewById(R.id.profile_image_view);
-        uploadImageButton = findViewById(R.id.uploadImageButton);
         updateInfoButton = findViewById(R.id.uploadInfoButton);
         blacklistButton = findViewById(R.id.blacklistButton);
 
@@ -63,26 +62,32 @@ public class UserProfileActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         currentId = currentUser != null ? currentUser.getUserId() : null;
+        StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profile_image_view);
+            }
+        });
 
-//        User user = (User) getIntent().getSerializableExtra("user");
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                username.setText("Username: " + value.getString("username"));
+                useremail.setText("Email: " + value.getString("email"));
+                usergender.setText("Gender: " + value.getString("gender"));
+                userweight.setText("Weight: " + String.valueOf(value.getDouble("weight")) + "kg");
+                userheight.setText("Height: " + String.valueOf(value.getDouble("height")) + "cm");
+            }
+        });
+
         Log.i("User in userprofile",currentId);
         if (currentId!=null)
 
-        { profileId=currentId;loadUserProfile(currentId);}
-//
-//        if (user != null) {
-//            profileId = user.getUserId();
-//            loadUserProfile(profileId);
-//        }else {
-//            Toast.makeText(this, "Failed to get user details", Toast.LENGTH_SHORT).show();
-//            Log.e("UserProfileActivity", "User object is null in intent");
-//        }
-
-        uploadImageButton.setOnClickListener(v -> ImagePicker.with(UserProfileActivity.this)
-                .crop(1f, 1f) // Crop image to 1:1
-                .compress(240) // Compress image file size
-                .maxResultSize(540, 540) // Image max size
-                .start());
+        { profileId=currentId;
+            loadUserProfile(currentId);}
 
         updateInfoButton.setOnClickListener(v -> {
             Intent intent = new Intent(UserProfileActivity.this, UpdateProfileActivity.class);
@@ -167,23 +172,29 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            uploadPictureToFirebase(uri);
-        } else {
-            Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
-        }
+        Uri uri = data.getData();
+        uploadPictureToFirebase(uri);
     }
 
     private void uploadPictureToFirebase(Uri pictureUri) {
-        if (pictureUri != null && currentId != null) {
-            StorageReference fileRef = storageReference.child("user/" + currentId + "/profile.jpg");
-            fileRef.putFile(pictureUri).addOnSuccessListener(taskSnapshot -> {
+        StorageReference fileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
+//        StorageReference fileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        fileRef.putFile(pictureUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(UserProfileActivity.this, "Picture uploaded", Toast.LENGTH_SHORT).show();
-                fileRef.getDownloadUrl().addOnSuccessListener(uri -> Picasso.get().load(uri).into(profile_image_view));
-            }).addOnFailureListener(e -> Toast.makeText(UserProfileActivity.this, "Picture upload failed", Toast.LENGTH_SHORT).show());
-        } else {
-            Toast.makeText(this, "Invalid picture or user ID", Toast.LENGTH_SHORT).show();
-        }
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profile_image_view);
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(UserProfileActivity.this, "Picture uploaded failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

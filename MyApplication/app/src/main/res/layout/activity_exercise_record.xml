@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#D8D8D8"
+    android:background="@color/Microsoftblue"
     android:id="@+id/exercise_record_main"
     tools:context=".activity.ExerciseRecordActivity">
 
@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button

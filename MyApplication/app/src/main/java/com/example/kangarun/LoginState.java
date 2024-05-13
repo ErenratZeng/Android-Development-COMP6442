@@ -98,5 +98,6 @@ public class LoginState {
                     Log.e("LoginState", "Error updating profile", e);
                 });
     }
+
 }
 

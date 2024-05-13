@@ -53,7 +53,7 @@ public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.Rec
         StorageReference imageRef = storageRef.child(path);
 
         holder.textViewDate.setText(date);
-        holder.textViewDistance.setText("Distance: " + distance + " km");
+        holder.textViewDistance.setText("Distance: " + distance + " m");
         holder.textViewDuration.setText("Duration: " + duration);
         holder.textViewCalories.setText("Calories: " + calories + " kcal");
 
