@@ -95,4 +95,12 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void onUserUnblocked(User user) {
+
+    }
+
+
 }
+

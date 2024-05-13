@@ -30,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.squareup.picasso.Picasso;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.Collections;
 import java.util.List;
@@ -98,8 +99,6 @@ public class UserProfileActivity extends AppCompatActivity {
             if (blacklistButton.getText().equals("Blacklist")) {
                 if (profileId != null && currentId != null) {
                     blacklistUser();
-                    Intent intent = new Intent(getApplicationContext(), BlacklistActivity.class);
-                    startActivity(intent);
                 } else {
                     Toast.makeText(UserProfileActivity.this, "User IDs are not set", Toast.LENGTH_SHORT).show();
                 }
@@ -121,12 +120,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 userweight.setText("Weight: " + value.getDouble("weight") + "kg");
                 userheight.setText("Height: " + value.getDouble("height") + "cm");
 
-//                List<String> blockList = (List<String>) value.get("blockList");
-//                if (blockList != null && blockList.contains(currentId)) {
-//                    blacklistButton.setText("Unblacklist");
-//                } else {
-//                    blacklistButton.setText("Blacklist");
-//                }
+
             }
         });
     }
@@ -134,17 +128,45 @@ public class UserProfileActivity extends AppCompatActivity {
     private void blacklistUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         DocumentReference profileDocRef = firebaseFirestore.collection("user").document(profileId);
+Log.i("block ","here");
+        currentDocRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                profileDocRef.get().addOnCompleteListener(task2 -> {
+                    if (task2.isSuccessful() && task2.getResult().exists()) {
+                        // Both documents exist, proceed with batch update
+                        WriteBatch batch = firebaseFirestore.batch();
+                        batch.update(currentDocRef, "blockList", FieldValue.arrayUnion(profileId));
+                        batch.update(currentDocRef, "friendList", FieldValue.arrayRemove(profileId));
+                        batch.update(profileDocRef, "friendList", FieldValue.arrayRemove(currentId));
 
-        currentDocRef.update("blockList", FieldValue.arrayUnion(profileId))
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("BlacklistUser", "User blacklisted successfully!");
-                    Toast.makeText(UserProfileActivity.this, "User blacklisted", Toast.LENGTH_SHORT).show();
-//                    blacklistButton.setText("Unblacklist");
-                    removeFromFriendList();
-                })
-                .addOnFailureListener(e -> Log.e("BlacklistUser", "Error blacklisting user", e));
+                        batch.commit()
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d("BlacklistUser", "User blacklisted successfully!");
+                                    Toast.makeText(UserProfileActivity.this, "User blacklisted", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), BlacklistActivity.class);
+                                    startActivity(intent);
+                                    finish(); // Close the current activity
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("BlacklistUser", "Error blacklisting user", e);
+                                    Toast.makeText(UserProfileActivity.this, "Failed to blacklist user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        // Profile document does not exist
+                        Log.e("BlacklistUser", "Profile document does not exist");
+                        Toast.makeText(UserProfileActivity.this, "Profile user does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                // Current user document does not exist
+                Log.e("BlacklistUser", "Current user document does not exist");
+                Toast.makeText(UserProfileActivity.this, "Current user does not exist", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> {
+            Log.e("BlacklistUser", "Error fetching current user document", e);
+            Toast.makeText(UserProfileActivity.this, "Error fetching current user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
-
     private void unblacklistUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         currentDocRef.update("blockList", FieldValue.arrayRemove(profileId))
