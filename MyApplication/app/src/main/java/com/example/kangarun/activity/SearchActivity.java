@@ -21,6 +21,7 @@ import com.example.kangarun.adapter.UserAdapter;
 import com.example.kangarun.databinding.ActivitySearchBinding;
 import com.example.kangarun.utils.Parser;
 import com.example.kangarun.utils.Tokenizer;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     private Button sortName;
     private Button sortEmail;
     private String query;
+    private List<String> blockedUsers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,24 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
         setupGenderFilter();
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("user")
+                .document(currentUser.getUserId())
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        if (documentSnapshot.exists()) {
+                            User user = documentSnapshot.toObject(User.class);
+                            if (user != null) {
+                                blockedUsers = user.getBlockList();
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Log the error or handle the failure case
+                    Log.e("Firestore", "Error fetching blocked users", e);
+                });
         // Search
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -97,7 +117,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     private void searchUsers(String query) {
         boolean invalid = false;
         List<User> users = new ArrayList<>();
-        List<String> blockedUsers = currentUser != null ? currentUser.getBlockList() : new ArrayList<>(); // Initialize blockedUsers
 
         // Try tokenizeall
         Map<String, String> tokens = Tokenizer.tokenize(query);

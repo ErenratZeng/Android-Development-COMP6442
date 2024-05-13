@@ -7,10 +7,9 @@ import java.util.List;
 public class LoginState {
     private static LoginState instance;
     private String id;
-    private List<String> blockList;
 
     private LoginState() {
-        blockList = new ArrayList<>();
+
     }
 
     // Singleton instance accessor
@@ -31,9 +30,5 @@ public class LoginState {
         this.id = id;
     }
 
-    // Getter for block list
-    public List<String> getBlockList() {
-        return blockList;
-    }
 }
 
