@@ -31,7 +31,9 @@ import com.squareup.picasso.Picasso;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * @author Runyao Wang u6812566,Qiutong Zeng u7724723,Yan Jin u7779907
+ */
 public class FriendProfileActivity extends AppCompatActivity {
     TextView useremail, username, usergender, userweight, userheight;
     Button blockUserButton, addFriendButton;

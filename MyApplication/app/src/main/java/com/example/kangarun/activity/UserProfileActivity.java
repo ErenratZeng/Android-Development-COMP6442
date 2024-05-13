@@ -35,6 +35,9 @@ import com.google.firebase.firestore.WriteBatch;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Qiutong Zeng u7724723,Bingnan Zhao u6508459,Yan Jin u7779907
+ */
 public class UserProfileActivity extends AppCompatActivity {
     TextView useremail, username, usergender, userweight, userheight;
     Button  updateInfoButton, blacklistButton;

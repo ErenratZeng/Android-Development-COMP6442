@@ -20,6 +20,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import static com.example.kangarun.activity.LoginActivity.currentUser;
 
+/**
+ * @author Runyao Wang u6812566
+ */
 public class UserAdapter extends BaseAdapter<UserAdapter.UserViewHolder> {
     private final List<User> users;
     private UserListener userListener;

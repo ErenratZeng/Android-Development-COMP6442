@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kangarun.R;
 
+/**
+ * @author Yan Jin u7779907
+ */
 public class WelcomeActivity extends AppCompatActivity {
 
     @Override

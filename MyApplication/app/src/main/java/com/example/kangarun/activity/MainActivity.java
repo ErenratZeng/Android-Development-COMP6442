@@ -28,6 +28,9 @@ import com.hitomi.cmlibrary.CircleMenu;
 import com.hitomi.cmlibrary.OnMenuSelectedListener;
 import com.hitomi.cmlibrary.OnMenuStatusChangeListener;
 
+/**
+ * @author Heng Sun u7611510, Qiutong Zeng u7724723,Runyao Wang u6812566
+ */
 public class MainActivity extends AppCompatActivity {
     public static UserAVLTree tree;
     ImageView profileButton;

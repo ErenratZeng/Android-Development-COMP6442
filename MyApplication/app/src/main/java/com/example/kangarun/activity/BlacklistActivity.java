@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Yan Jin u7779907
+ */
 public class BlacklistActivity extends AppCompatActivity implements UserListener {
 
     private ActivityBlacklistBinding binding;

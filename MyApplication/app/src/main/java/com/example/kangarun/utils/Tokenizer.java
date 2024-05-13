@@ -3,6 +3,9 @@ package com.example.kangarun.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Runyao Wang u6812566
+ */
 public class Tokenizer {
     // Tokenize the query and return null if invalid
     public static Map<String, String> tokenize(String input) {

@@ -39,6 +39,9 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Qiutong Zeng u7724723,Bingnan Zhao u6508459
+ */
 public class UpdateProfileActivity extends AppCompatActivity {
     private EditText  editTextUserName, editTextGender, editTextWeight, editTextHeight;
     private TextView textemail;

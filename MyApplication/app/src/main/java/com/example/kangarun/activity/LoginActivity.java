@@ -25,6 +25,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * @author Qiutong Zeng u7724723,Runyao Wang u6812566,Heng Sun u7611510
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextUserEmail, editTextPassword;
@@ -32,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
     public static LoginState currentUser = LoginState.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,11 +126,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        currentUser.setUserId(User.getCurrentUserId());
-//    }
-
 }
