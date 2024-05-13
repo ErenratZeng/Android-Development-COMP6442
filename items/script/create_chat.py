@@ -4,14 +4,13 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from google.cloud.firestore import SERVER_TIMESTAMP
 
-# 加载服务账户密钥
 cred = credentials.Certificate("comp6442-e1d42-firebase-adminsdk-blpir-bfcfaafbe6.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
+docs = db.collection('user').stream()
 
 
 def get_user_list():
-    docs = db.collection('user').stream()
     user_id = [doc.id for doc in docs]
     return user_id
 
@@ -28,24 +27,43 @@ def get_friend(id):
     return friend
 
 
-def create_chat():
-    sender_id = random.sample(users, 1)
-    receiver_id = get_friend(sender_id)
+def add_friend():
+    user1, user2 = random.sample(users, 2)
+    user1_ref = db.collection('user').document(user1)
+    user2_ref = db.collection('user').document(user2)
+    batch = db.batch()
+    batch.update(user1_ref, {'friendList': firestore.ArrayUnion([user2])})
+    batch.update(user2_ref, {'friendList': firestore.ArrayUnion([user1])})
+    batch.commit()
+    for i in range(5):
+        create_chat(user1, user2)
+        create_chat(user2, user1)
+    print("Friends added successfully: {} <-> {}".format(user1, user2))
+
+
+def create_chat(user1, user2):
+    sender_id = user1
+    receiver_id = user2
     min_length, max_length = 10, 30
     length = random.randint(min_length, min_length + max_length)
     start_index = random.randint(0, len(article) - length)
     message = article[start_index:start_index + length]
     message_data = {
-        'sender_id': sender_id,
-        'receiver_id': receiver_id,
+        'senderId': sender_id,
+        'receiverId': receiver_id,
         'message': message,
-        'time': SERVER_TIMESTAMP  # 使用服务器时间戳
+        'time': SERVER_TIMESTAMP
     }
     db.collection('collection_chat').add(message_data)
 
 
+for i in range(50):
+    add_friend()
+'''
 for i in range(10):
     create_chat()
-
+'''
+docs1 = list(db.collection('collection_chat').stream())
+print(len(docs1))
 
 
