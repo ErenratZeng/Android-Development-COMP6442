@@ -61,9 +61,9 @@ public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.Rec
         StorageReference imageRef = storageRef.child(path);
 
         holder.textViewDate.setText(date);
-        holder.textViewDistance.setText("Distance: " + distance + " m");
+        holder.textViewDistance.setText("Distance: " + formattedDistance + " m");
         holder.textViewDuration.setText("Duration: " + duration);
-        holder.textViewCalories.setText("Calories: " + calories + " kcal");
+        holder.textViewCalories.setText("Calories: " + formattedCalories + " kcal");
 
         holder.itemView.setOnClickListener(v -> {
             imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
