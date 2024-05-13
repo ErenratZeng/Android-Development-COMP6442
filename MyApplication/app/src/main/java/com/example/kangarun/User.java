@@ -189,7 +189,29 @@ public class User implements Serializable, Comparable<User> {
         }
     }
     public void uploadProfile() {
-//        String uid = currentUser.getUserId();
+        String uid = currentUser.getUserId();
+        if (uid != null) {
+            Map<String, Object> userProfile = new HashMap<>();
+            userProfile.put("username", getUsername());
+            userProfile.put("gender", getGender());
+            userProfile.put("height", getHeight());
+            userProfile.put("weight", getWeight());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("user").document(uid).set(userProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error writing document", e);
+                }
+            });
+        }
+    }
+
+    public void uploadNewuserProfile() {
         String uid = getCurrentUserId();
         if (uid != null) {
             Map<String, Object> userProfile = new HashMap<>();

@@ -119,7 +119,8 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
         // Filter users based on the block list
         userList = users.stream()
-                .filter(user -> !blockedUsers.contains(user.getUserId())) // Exclude blocked users
+                .filter(user -> (!blockedUsers.contains(user.getUserId())
+                        && !user.getUserId().equals(currentUser.getUserId()))) // Exclude blocked users
                 .collect(Collectors.toList());
 
         createUserView(userList, query, invalid);
@@ -127,19 +128,14 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
     private void createUserView(List<User> users, String query, boolean invalid) {
         if (!users.isEmpty()) {
-            for (User user : users) {
-                Log.d("treeRet", user.getUsername());
-            }
             UserAdapter adapter = new UserAdapter(users, this);
             binding.userRecyclerView.setAdapter(adapter);
             binding.userRecyclerView.setVisibility(View.VISIBLE);
-            binding.textErrorMessage.setVisibility(View.GONE);
             if (query != null) {
                 Toast.makeText(getApplicationContext(), "Search <" + query + "> success", Toast.LENGTH_SHORT).show();
             }
         } else {
             binding.userRecyclerView.setVisibility(View.GONE);
-            binding.textErrorMessage.setVisibility(View.VISIBLE);
             if (invalid) {
                 Toast.makeText(getApplicationContext(), "Expression <" + query +
                         "> is invalid, please check grammar", Toast.LENGTH_SHORT).show();

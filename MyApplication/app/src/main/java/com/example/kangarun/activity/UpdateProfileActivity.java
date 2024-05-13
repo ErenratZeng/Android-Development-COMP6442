@@ -5,6 +5,7 @@ import static com.example.kangarun.activity.LoginActivity.currentUser;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +35,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpdateProfileActivity extends AppCompatActivity {
     private EditText  editTextUserName, editTextGender, editTextWeight, editTextHeight;
@@ -114,14 +118,28 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 } catch (NumberFormatException e) {
                     Toast.makeText(UpdateProfileActivity.this, "Invalid height", Toast.LENGTH_SHORT).show();
                 }
-                User user = new User();
-                user.setUsername(userName);
-                user.setEmail(email);
-                user.setUserId(userId);
-                user.setGender(gender);
-                user.setWeight(weight);
-                user.setHeight(height);
-                user.uploadProfile();
+                DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentUser.getUserId());
+
+                // Create a Map to hold the updates.
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("username", userName); // Replace "newUsername" with the actual new username
+                updates.put("gender", gender);     // Replace "newGender" with the actual new gender
+                updates.put("height", height);             // Replace 175 with the actual new height in centimeters
+                updates.put("weight", weight);              // Replace 70 with the actual new weight in kilograms
+
+// Perform the update operation.
+                currentDocRef.update(updates)
+                        .addOnSuccessListener(aVoid -> {
+                            // Handle success scenario, e.g., show a success message.
+                            Log.d("UpdateSuccess", "Document successfully updated!");
+                            Toast.makeText(UpdateProfileActivity.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            // Handle failure scenario, e.g., show an error message.
+                            Log.w("UpdateFailure", "Error updating document", e);
+                            Toast.makeText(UpdateProfileActivity.this, "Update Failed", Toast.LENGTH_SHORT).show();
+                        });
+
             }
         });
 
