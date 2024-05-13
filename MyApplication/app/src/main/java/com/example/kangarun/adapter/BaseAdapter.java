@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * @author @author Bingnan Zhao u6508459
+ */
 public abstract class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
     protected abstract T createView(ViewGroup parent, int viewType);
     protected abstract void bindView(T holder, int position);

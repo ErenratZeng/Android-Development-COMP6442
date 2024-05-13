@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Runyao Wang u6812566
+ */
 public class UserAVLTree {
     private UserNode root;
 

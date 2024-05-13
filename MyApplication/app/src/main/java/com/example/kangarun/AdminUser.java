@@ -1,5 +1,8 @@
 package com.example.kangarun;
 
+/**
+ * @author Runyao Wang u6812566
+ */
 public class AdminUser extends User {
 
     public AdminUser(String userName, String password) {

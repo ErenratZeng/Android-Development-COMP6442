@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * @author Runyao Wang u6812566
+ */
 // Make it serializable to pass the data through Intent
 public class User implements Serializable, Comparable<User> {
     public static final String TAG = "User";

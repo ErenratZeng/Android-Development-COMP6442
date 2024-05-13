@@ -20,6 +20,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Wang u6812566,Yan Jin u7779907
+ */
 public class FriendListActivity extends AppCompatActivity implements UserListener {
 
     private ActivityFriendListBinding binding;

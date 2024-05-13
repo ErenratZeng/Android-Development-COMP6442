@@ -7,6 +7,9 @@ import com.example.kangarun.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+/**
+ * @author Runyao Wang u6812566
+ */
 public class FirebaseUtil {
     public static void loadUsersIntoAVL(UserAVLTree tree_arg) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

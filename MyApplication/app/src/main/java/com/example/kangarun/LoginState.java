@@ -4,6 +4,9 @@ package com.example.kangarun;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Heng Sun u7611510
+ */
 public class LoginState {
     private static LoginState instance;
     private String id;

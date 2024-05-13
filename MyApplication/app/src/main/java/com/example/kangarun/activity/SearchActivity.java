@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * @author Runyao Wang u6812566,Bingnan Zhao u6508459
+ */
 public class SearchActivity extends AppCompatActivity implements UserListener {
     private ActivitySearchBinding binding;
     private List<User> userList = new ArrayList<>();

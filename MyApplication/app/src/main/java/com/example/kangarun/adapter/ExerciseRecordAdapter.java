@@ -26,6 +26,9 @@ import com.google.firebase.storage.StorageReference;
 import java.text.DecimalFormat;
 import java.util.List;
 
+/**
+ * @author Heng Sun u7611510,Bingnan Zhao u6508459
+ */
 public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.RecordViewHolder> {
 
     private List<DocumentSnapshot> recordsList;

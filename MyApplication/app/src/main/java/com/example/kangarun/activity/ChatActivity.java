@@ -35,7 +35,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
+/**
+ * @author Runyao Wang u6812566,Qiutong Zeng u7724723,Heng Sun u7611510
+ */
 public class ChatActivity extends AppCompatActivity {
     private static final String TAG = "messages";
     private ActivityChatBinding binding;

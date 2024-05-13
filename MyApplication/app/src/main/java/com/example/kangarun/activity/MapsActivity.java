@@ -55,6 +55,9 @@ import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * @author Heng Sun u7611510, Bingnan Zhao u6508459,Qiutong Zeng u7724723
+ */
 public class MapsActivity extends AppCompatActivity
         implements
         GoogleMap.OnMyLocationButtonClickListener,

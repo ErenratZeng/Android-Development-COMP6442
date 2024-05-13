@@ -13,6 +13,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.kangarun.R;
 import com.squareup.picasso.Picasso;
 
+/**
+ * @author Heng Sun u7611510
+ */
 public class ExerciseRecordDetailActivity extends AppCompatActivity {
 
     @Override

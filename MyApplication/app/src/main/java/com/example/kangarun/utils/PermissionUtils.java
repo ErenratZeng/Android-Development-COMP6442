@@ -17,6 +17,7 @@ import com.example.kangarun.R;
 
 /**
  * Utility class for access to runtime permissions.
+ * @author Bingnan Zhao u6508459
  */
 public abstract class PermissionUtils {
 
