@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.RecordViewHolder> {
@@ -43,9 +44,16 @@ public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.Rec
     protected void bindView(RecordViewHolder holder, int position) {
         DocumentSnapshot document = recordsList.get(position);
         String date = document.getString("date");
+
         double distance = document.getDouble("distance");
+        // 格式化距离
+        DecimalFormat dfDistance = new DecimalFormat("#.##"); // 设置精度到小数点后两位
+        String formattedDistance = dfDistance.format(distance); // 将距离格式化为字符串
+
         String duration = document.getString("duration");
         double calories = document.getDouble("calories");
+        String formattedCalories = dfDistance.format(calories); // 将距离格式化为字符串
+
         Log.d("Adapter", position + " " + date + " " + distance + " " + duration + " " + calories);
         String path = "exerciseRecord/" + currentUser.getUserId() + date + "/mapSnapshot.png";
 //        String path = "exerciseRecord/" + User.getCurrentUserId() + date + "/mapSnapshot.png";
@@ -64,9 +72,9 @@ public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.Rec
                     // 创建 Intent 并开始新的 Activity
                     Intent intent = new Intent(holder.itemView.getContext(), ExerciseRecordDetailActivity.class);
                     intent.putExtra("date", date);
-                    intent.putExtra("distance", String.valueOf(distance));
+                    intent.putExtra("distance", formattedDistance);
                     intent.putExtra("duration", duration);
-                    intent.putExtra("calories", String.valueOf(calories));
+                    intent.putExtra("calories", formattedCalories);
                     intent.putExtra("imagePath", uri.toString()); // 传递图片的下载 URL
                     holder.itemView.getContext().startActivity(intent);
                 }
