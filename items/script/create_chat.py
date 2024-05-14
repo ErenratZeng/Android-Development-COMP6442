@@ -8,11 +8,12 @@ cred = credentials.Certificate("comp6442-e1d42-firebase-adminsdk-blpir-bfcfaafbe
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 docs = db.collection('user').stream()
+users_data = {doc.id: doc.to_dict() for doc in docs}
+user_refs = {doc.id: doc.reference for doc in docs}
 
 
 def get_user_list():
-    user_id = [doc.id for doc in docs]
-    return user_id
+    return list(users_data.keys())
 
 
 users = get_user_list()
@@ -21,19 +22,19 @@ article ="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in sceler
 
 
 def get_friend(id):
-    user = db.collection('user').document(id).get()
-    friend_list = user.to_dict()['friendList']
+    friend_list = users_data[id]['friendList']
     friend = random.sample(friend_list, 1)
     return friend
 
 
 def add_friend():
     user1, user2 = random.sample(users, 2)
-    user1_ref = db.collection('user').document(user1)
-    user2_ref = db.collection('user').document(user2)
+    # Update local data
+    users_data[user1]['friendList'].append(user2)
+    users_data[user2]['friendList'].append(user1)
     batch = db.batch()
-    batch.update(user1_ref, {'friendList': firestore.ArrayUnion([user2])})
-    batch.update(user2_ref, {'friendList': firestore.ArrayUnion([user1])})
+    batch.update(user_refs[user1], {'friendList': firestore.ArrayUnion([user2])})
+    batch.update(user_refs[user2], {'friendList': firestore.ArrayUnion([user1])})
     batch.commit()
     for i in range(5):
         create_chat(user1, user2)

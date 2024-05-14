@@ -81,6 +81,10 @@ public class UserProfileActivity extends AppCompatActivity {
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(value == null){
+                    Log.e("NULL USER", "value is null, skip it");
+                    return;
+                }
                 username.setText("Username: " + value.getString("username"));
                 useremail.setText("Email: " + value.getString("email"));
                 usergender.setText("Gender: " + value.getString("gender"));

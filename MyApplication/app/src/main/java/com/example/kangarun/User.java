@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -136,6 +137,20 @@ public class User implements Serializable, Comparable<User> {
             return true;
         }
         return false;
+    }
+
+    public void block(String id, OnSuccessListener<Void> onSuccessListener) {
+        if (!blockList.contains(id)) {
+            blockList.add(id);
+            // Add current user to the block list of the user being blocked
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("user").document(id).update("blockList", FieldValue.arrayUnion(getCurrentUserId()))
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d(TAG, "Block list updated successfully!");
+                        onSuccessListener.onSuccess(aVoid);
+                    })
+                    .addOnFailureListener(e -> Log.e(TAG, "Error updating block list", e));
+        }
     }
 
 

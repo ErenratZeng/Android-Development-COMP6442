@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,6 +36,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
 /**
  * @author Runyao Wang u6812566,Qiutong Zeng u7724723,Heng Sun u7611510
  */
@@ -44,6 +46,11 @@ public class ChatActivity extends AppCompatActivity {
     private User receiver;
     private List<Message> messageList;
     private ChatAdapter adapter;
+    private List<String> currentUserBlockList;
+    private List<String> receiverBlockList;
+    private boolean isCurrentUserBlockListLoaded = false;
+    private boolean isReceiverBlockListLoaded = false;
+
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -61,7 +68,6 @@ public class ChatActivity extends AppCompatActivity {
                     messageList.add(m);
                 }
             }
-            // Sort messages by date
             messageList.sort(Comparator.comparing(m -> m.dateObj));
             if (count == 0) {
                 adapter.notifyDataSetChanged();
@@ -78,30 +84,26 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
-
         setContentView(binding.getRoot());
+
         binding.imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
-        binding.layoutSend.setOnClickListener(v -> sendMessage());
+        binding.layoutSend.setOnClickListener(v -> attemptSendMessage());
+
         receiver = getIntent().getSerializableExtra("user", com.example.kangarun.User.class);
         assert receiver != null;
-
         binding.textName.setText(receiver.getUsername());
+
         init();
         listenMessage();
 
-
         ImageView profileButton = findViewById(R.id.imageInfo);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "User Profile", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), FriendProfileActivity.class);
-                intent.putExtra("user", receiver);
-                //TODO Show current user profile
-                startActivity(intent);
-            }
+        profileButton.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "User Profile", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), FriendProfileActivity.class);
+            intent.putExtra("user", receiver);
+            //TODO Show current user profile
+            startActivity(intent);
         });
-
     }
 
     private void init() {
@@ -110,32 +112,90 @@ public class ChatActivity extends AppCompatActivity {
                 receiver.getUserId(),
                 messageList,
                 currentUser.getUserId()
-//                User.getCurrentUserId()
         );
         binding.chatRecycleView.setAdapter(adapter);
         db = FirebaseFirestore.getInstance();
+
+        // Load current user's block list
+        db.collection("user").document(currentUser.getUserId()).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                currentUserBlockList = (List<String>) documentSnapshot.get("blockList");
+                isCurrentUserBlockListLoaded = true;
+                attemptSendMessage(); // Attempt to send message after loading block list
+            } else {
+                Log.e(TAG, "Current user's block list not found.");
+            }
+        });
+
+        // Load receiver's block list
+        db.collection("user").document(receiver.getUserId()).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                receiverBlockList = (List<String>) documentSnapshot.get("blockList");
+                isReceiverBlockListLoaded = true;
+                attemptSendMessage(); // Attempt to send message after loading block list
+            } else {
+                Log.e(TAG, "Receiver's block list not found.");
+            }
+        });
     }
 
-    public void sendMessage() {
+    private void attemptSendMessage() {
+        loadBlockLists();
+        if (!isCurrentUserBlockListLoaded || !isReceiverBlockListLoaded) {
+            // Ensure both block lists are loaded
+            return;
+        }
+            String senderId = currentUser.getUserId();
+            String receiverId = receiver.getUserId();
+
+            if (receiverBlockList != null && receiverBlockList.contains(senderId)) {
+                Log.d(TAG, "Sender is blocked by the receiver. Message not sent.");
+                Toast.makeText(ChatActivity.this, "You are blocked by this user.", Toast.LENGTH_SHORT).show();
+            } else if (currentUserBlockList != null && currentUserBlockList.contains(receiverId)) {
+                Log.d(TAG, "Receiver is blocked by the sender. Message not sent.");
+                Toast.makeText(ChatActivity.this, "You have blocked this user.", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d(TAG, "Neither user is blocked. Sending message...");
+                sendMessage();
+            }
+        }
+
+
+    private void loadBlockLists() {
+        // Load current user's block list
+        db.collection("user").document(currentUser.getUserId()).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                currentUserBlockList = (List<String>) documentSnapshot.get("blockList");
+                isCurrentUserBlockListLoaded = true;
+            } else {
+                Log.e(TAG, "Current user's block list not found.");
+            }
+        });
+
+        // Load receiver's block list
+        db.collection("user").document(receiver.getUserId()).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                receiverBlockList = (List<String>) documentSnapshot.get("blockList");
+                isReceiverBlockListLoaded = true;
+            } else {
+                Log.e(TAG, "Receiver's block list not found.");
+            }
+        });
+    }
+
+    private void sendMessage() {
         HashMap<String, Object> message = new HashMap<>();
         message.put("senderId", currentUser.getUserId());
-//        message.put("senderId", User.getCurrentUserId());
         message.put("receiverId", receiver.getUserId());
         message.put("message", binding.inputMessage.getText().toString());
         message.put("time", new Date());
         db.collection("collection_chat")
                 .add(message)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "Message written with ID: " + documentReference.getId());
-                    }
+                .addOnSuccessListener(documentReference -> {
+                    Log.d(TAG, "Message written with ID: " + documentReference.getId());
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "Error adding document", e);
                 });
         binding.inputMessage.setText(null);
     }
@@ -143,17 +203,14 @@ public class ChatActivity extends AppCompatActivity {
     private void listenMessage() {
         db.collection("collection_chat")
                 .whereEqualTo("senderId", currentUser.getUserId())
-//                .whereEqualTo("senderId", User.getCurrentUserId())
                 .whereEqualTo("receiverId", receiver.getUserId())
                 .addSnapshotListener(eventListener);
         db.collection("collection_chat")
                 .whereEqualTo("senderId", receiver.getUserId())
                 .whereEqualTo("receiverId", currentUser.getUserId())
-//                .whereEqualTo("receiverId", User.getCurrentUserId())
                 .addSnapshotListener(eventListener);
     }
 
-    // Decode encoded image string
     private Bitmap getBitmapFromEncoded(String encoded) {
         byte[] bytes = Base64.getDecoder().decode(encoded);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
