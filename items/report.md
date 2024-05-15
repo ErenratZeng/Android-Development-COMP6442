@@ -149,32 +149,41 @@ Kangarun is a sports-centric social application designed for tracking your every
 
 
 ### Application Use Cases and or Examples
+#### Use Case 1: Casual Jogger
+- **User**: Alex, a college student who jogs casually.
+- **Goal**: To stay fit and share activities with friends.
+- **Actions**:
+    1. Alex logs into Kangarun to start a jogging session, using the app to track his route and performance.
+    2. After the jog, he reviews the distance covered and calories burned displayed on the app.
+    3. He shares his running route and stats on his Kangarun feed, receiving likes and comments from friends.
+    4. Alex checks his friends' recent activities on the app to stay motivated and plans joint runs.
 
-*[Provide use cases and examples of people using your application. Who are the target users of your application? How do the users use your application?]*
+#### Use Case 2: Competitive Runner
+- **User**: Maria, a competitive runner training for a marathon.
+- **Goal**: To optimize training and track performance over time.
+- **Actions**:
+    1. Maria uses Kangarun's advanced features to monitor detailed stats like pace, elevation, and heart rate.
+    2. She sets personal goals in the app and tracks her progress against these targets.
+    3. Maria analyzes the comprehensive data collected to adjust her training regimen.
+    4. She participates in virtual challenges and competitions through Kangarun to rank her performance against others.
 
-*Here is a pet training application example*
+#### Use Case 3: Fitness Trainer
+- **User**: John, a fitness trainer.
+- **Goal**: To manage his clients' workouts and motivate them.
+- **Actions**:
+    1. John creates group activities for his clients on Kangarun and monitors their participation.
+    2. He reviews each client's activity data to provide personalized feedback and adjustments to their exercise plans.
+    3. John uses the app's messaging feature to send motivational messages and workout tips.
+    4. He organizes weekly challenges through the app to encourage competition and community among his clients.
 
-*Molly wants to inquiry about her cat, McPurr's recent troublesome behaviour*
-1. *Molly notices that McPurr has been hostile since...*
-2. *She makes a post about... with the tag...*
-3. *Lachlan, a vet, writes a reply to Molly's post...*
-4. ...
-5. *Molly gives Lachlan's reply a 'tick' response*
-
-*Here is a map navigation application example*
-
-*Targets Users: *
-
-* *Users can use it to navigate in order to reach the destinations.*
-* *Users can learn the traffic conditions*
-* ...
-
-*Target Users: Those who want to find some good restaurants*
-
-* *Users can find nearby restaurants and the application can give recommendations*
-* ...
-
-*List all the use cases in text descriptions or create use case diagrams. Please refer to https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-use-case-diagram/ for use case diagram.*
+#### Use Case 4: Health Enthusiast
+- **User**: Linda, who is focused on overall wellness and likes to keep a healthy lifestyle.
+- **Goal**: To maintain a balanced exercise routine and connect with like-minded individuals.
+- **Actions**:
+    1. Linda uses Kangarun to track various types of activities, including running, cycling, and yoga.
+    2. She follows her friends and joins public groups within the app to find inspiration and new workout ideas.
+    3. Linda shares her own tips and success stories, engaging with others through comments and messages.
+    4. She uses the app’s reminder feature to keep a consistent workout schedule.
 
 <hr> 
 
