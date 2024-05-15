@@ -1,10 +1,8 @@
 package com.example.kangarun.utils;
 
-import com.example.kangarun.activity.MainActivity;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -47,11 +45,6 @@ public class Parser {
         }
 
         return result;
-    }
-
-    private static boolean validateEmail(String email) {
-        Matcher matcher = EMAIL_PATTERN.matcher(email);
-        return matcher.matches();
     }
 
     private static boolean validateGender(String gender) {

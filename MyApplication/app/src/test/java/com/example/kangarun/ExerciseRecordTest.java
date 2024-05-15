@@ -9,6 +9,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import org.junit.Test;
 import org.robolectric.RobolectricTestRunner;
 import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
 import com.example.kangarun.activity.ExerciseRecordActivity;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class ExerciseRecordTest {
     private ExerciseRecordActivity testActivity;
 

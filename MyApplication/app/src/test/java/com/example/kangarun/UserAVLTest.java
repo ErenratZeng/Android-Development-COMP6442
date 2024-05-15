@@ -20,6 +20,7 @@ public class UserAVLTest {
             tree.insert(new User("Jane Doe", "jane.doe@example.com", "female"));
             tree.insert(new User("Alice Johnson", "alice@example.com", "female"));
             tree.insert(new User("Bob Smith", "bob@example.com", "male"));
+            tree.insert(new User("zzzz", "zzzz@dad.com", "alien"));
         }
 
         @Test
@@ -51,13 +52,16 @@ public class UserAVLTest {
             Map<String, String> query = Map.of("gender", "m");
             List<User> results = tree.searchToken(query);
             assertEquals(2, results.size());
+            query = Map.of("gender", "o");
+            results = tree.searchToken(query);
+            assertEquals(1, results.size());
         }
 
         @Test
         public void testSearchTokenNoCriteria() {
             Map<String, String> query = Map.of();
             List<User> results = tree.searchToken(query);
-            assertEquals(4, results.size());
+            assertEquals(5, results.size());
         }
 
         @Test

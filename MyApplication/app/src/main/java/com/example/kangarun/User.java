@@ -27,23 +27,11 @@ public class User implements Serializable, Comparable<User> {
     protected String userId;
     protected String gender;
     protected String username;
-    protected String password;
     private String email;
     private double weight;
     private double height;
     private List<String> friendsList;  // Storing friend IDs
     private List<String> blockList;  // Blocked users
-    private List<String> activityHistory;  // Storing activity IDs for simplicity
-
-    public User(String username, String password) {
-        this.userId = UUID.randomUUID().toString();
-        this.username = username;
-        this.password = password;
-        this.friendsList = new ArrayList<>();
-        this.blockList = new ArrayList<>();
-        this.activityHistory = new ArrayList<>();
-
-    }
 
     public User() {
 
@@ -120,22 +108,10 @@ public class User implements Serializable, Comparable<User> {
         return friendsList;
     }
 
-    public List<String> getActivityHistory() {
-        return activityHistory;
-    }
-
     public List<String> getBlockList() {
         return blockList;
     }
 
-
-    public boolean block(String id) {
-        if (!blockList.contains(id)) {
-            blockList.add(id);
-            return true;
-        }
-        return false;
-    }
 
     public void block(String id, OnSuccessListener<Void> onSuccessListener) {
         if (!blockList.contains(id)) {
@@ -151,17 +127,20 @@ public class User implements Serializable, Comparable<User> {
         }
     }
 
-
+    // Compare user's gender with given type. The give type can only be Male, Female or Other
     public boolean compareGender(String g) {
+        // null gender if the user doesn't provide gender. It should be classified as other
         if (gender == null) {
             return g.equals("Other") || g.equals("All Genders");
         }
+        // Always true
         if (g.equals("All Genders")) {
             return true;
         }
         if (g.equals("Male") || g.equals("Female")) {
             return gender.equalsIgnoreCase(g);
         } else if (g.equals("Other")) {
+            // If given type is other, return true if user is not male or female.
             return !gender.equals("Male") && !gender.equals("Female");
         } else {
             throw new RuntimeException("invalid gender input");
