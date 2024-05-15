@@ -188,7 +188,7 @@ Kangarun is a sports-centric social application designed for tracking your every
 <hr> 
 
 ### Application UML
-![Application UML](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/java2%20g48%20UML.png) <br>
+![Application UML](./java2%20g48%20UML.png) <br>
 
 
 <hr>
