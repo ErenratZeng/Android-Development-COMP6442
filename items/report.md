@@ -23,6 +23,10 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
   - [Summary of Individual Contributions](#summary-of-individual-contributions)
   - [Application Description](#application-description)
     - [Application Use Cases and or Examples](#application-use-cases-and-or-examples)
+      - [Use Case 1: Casual Jogger](#use-case-1-casual-jogger)
+      - [Use Case 2: Competitive Runner](#use-case-2-competitive-runner)
+      - [Use Case 3: Fitness Trainer](#use-case-3-fitness-trainer)
+      - [Use Case 4: Health Enthusiast](#use-case-4-health-enthusiast)
     - [Application UML](#application-uml)
   - [Code Design and Decisions](#code-design-and-decisions)
     - [Data Structures](#data-structures)
@@ -35,6 +39,7 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
     - [Basic Features](#basic-features)
     - [Custom Features](#custom-features)
     - [Surprise Features](#surprise-features)
+      - [Code smells](#code-smells)
   - [Summary of Known Errors and Bugs](#summary-of-known-errors-and-bugs)
   - [Testing Summary](#testing-summary)
   - [Team Management](#team-management)
@@ -52,12 +57,12 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
 The key area(s) of responsibilities for each member
 
 | UID      |   Name   |                                                                  Role |
-|:---------|:--------:|----------------------------------------------------------------------:|
+|:---------|:--------:|:----------------------------------------------------------------------:|
 | u7724723 | Qiutong Zeng |      Responsible for Database Management, User profile, Firebase Auth |
-| u7611510 | Heng Sun |                                      Responsible for exercise feature |
+| u7611510 | Heng Sun      |Responsible for exercise feature               |
 | u6812566 | Runyao Wang |                    Responsible for Message, Search and Social Network |
 | u6508459 | Bingnan Zhao | Responsible for exercise records and firestore and data upload script |
-| u7779907 |  Yan Jin  |                                                                [role] |
+| u7779907 |  Yan Jin  |                                          [role] |
 
 
 ## Summary of Individual Contributions
@@ -77,7 +82,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
 
 *Here is an example: (Note that you should remove the entire section (e.g. "others") if it is not applicable)*
 
-1. **UID1, Name1**  I have 30% contribution, as follows: <br>
+1. **u7779907 , Yan Jin**  I have % contribution, as follows: <br>
   - **Code Contribution in the final App**
     - Feature A1, A2, A3 - class Dummy: [Dummy.java](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java)
     - XYZ Design Pattern -  class AnotherClass: [functionOne()](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43), [function2()](the-URL)
@@ -96,7 +101,8 @@ Note that the core criteria of contribution is based on `code contribution` (the
       - Feature FB-Persist: Use firebase to persist user profile - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) & [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
       - Feature Data-Profile: Display personal information and an avatar for each user - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)-  [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
    - **Code and App Design**
-       - Implement media file display and upload through Picasso and imagepicker <br><br>
+       - Implement media file display and upload through Picasso and imagepicker
+       - Conceptualize the GUI of the entire app <br><br>
 
 3. **u7611510, HengSun**  I have % contribution, as follows: <br>
    - **Code Contribution in the final App**
@@ -303,7 +309,7 @@ Using tokenized search enriches the possibility and accuracy of current search f
 
 ### Basic Features
 1. [LogIn]. Description of the feature ... (easy)
-   * Code: [Class X, methods Z, Y](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and Class Y, ...
+   * Code: [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
    * Description of feature: ... <br>
    * Description of your implementation: ... <br>
 

@@ -31,6 +31,7 @@
     <string name="nameAscending">Name ↑</string>
     <string name="emailAscending">Email ↑</string>
     <string name="exercise_records">Exercise Records</string>
+    <string name="back_button_description">back</string>
 
     <string-array name="gender_options">
         <item>All Genders</item>
