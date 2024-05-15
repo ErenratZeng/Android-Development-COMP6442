@@ -96,7 +96,6 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
         Intent intent = new Intent(getApplicationContext(), FriendProfileActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
-        finish();
     }
 
     @Override

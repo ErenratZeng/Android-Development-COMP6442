@@ -76,6 +76,10 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
+        // Back button
+        ImageView imageBack = findViewById(R.id.imageBack);
+        imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -136,7 +140,6 @@ public class UserProfileActivity extends AppCompatActivity {
         Toast.makeText(UserProfileActivity.this, "User blacklisted", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), BlacklistActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @Override

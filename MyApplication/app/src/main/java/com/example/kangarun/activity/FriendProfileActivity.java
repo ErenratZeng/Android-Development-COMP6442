@@ -63,6 +63,10 @@ public class FriendProfileActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        // Back button
+        ImageView imageBack = findViewById(R.id.imageBack);
+        imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+
         StorageReference profileRef = storageReference.child("user/" + user.getUserId() + "/profile.jpg");
         DocumentReference profileDocRef = firebaseFirestore.collection("user").document(user.getUserId());
 

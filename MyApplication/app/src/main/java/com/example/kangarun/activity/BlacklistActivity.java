@@ -41,7 +41,7 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
 
         ImageView imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> {
-            finish();
+            getOnBackPressedDispatcher().onBackPressed();
         });
         if (currentUser != null && currentUser.getUserId() != null) {
             getBlockedUsers();

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -51,6 +52,7 @@ public class ExerciseRecordActivity extends AppCompatActivity {
     private Button sortByDateButton;
     private Button sortByDistanceButton;
     private Button sortByDurationButton;
+    private ImageView imageBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,10 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ExerciseRecordAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+
+        // Back button
+        imageBack = findViewById(R.id.imageBack);
+        imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         CollectionReference records = db.collection("exerciseRecord");
         LoginState currentUser = LoginState.getInstance();

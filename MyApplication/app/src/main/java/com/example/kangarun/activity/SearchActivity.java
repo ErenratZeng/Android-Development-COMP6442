@@ -199,7 +199,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         Intent intent = new Intent(getApplicationContext(), FriendProfileActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
-        finish();
     }
 
     @Override

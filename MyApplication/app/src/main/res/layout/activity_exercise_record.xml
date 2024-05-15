@@ -8,7 +8,16 @@
     android:background="@color/Microsoftblue"
     android:id="@+id/exercise_record_main"
     tools:context=".activity.ExerciseRecordActivity">
-
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:src="@drawable/icon_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <LinearLayout
         android:id="@+id/RecordButtons"
         android:layout_width="match_parent"
