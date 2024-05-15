@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -141,6 +142,15 @@ public class MapsActivity extends AppCompatActivity
                 }
             }
         });
+        // Add the back button functionality
+        ImageButton backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+
     }
 
 
