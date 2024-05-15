@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/Microsoftblue"
+    android:background="#D8D8D8"
     android:id="@+id/exercise_record_main"
     tools:context=".activity.ExerciseRecordActivity">
     <androidx.appcompat.widget.AppCompatImageView
@@ -18,13 +18,25 @@
         android:src="@drawable/icon_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exercise_records"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imageBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imageBack" />
     <LinearLayout
         android:id="@+id/RecordButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="#D8D8D8"
+        app:layout_constraintTop_toBottomOf="@+id/imageBack">
 
         <Button
             android:id="@+id/SortByDateButton"
@@ -60,15 +72,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"
+        android:background="@color/Microsoftblue"
         app:layout_constraintTop_toBottomOf="@id/RecordButtons"
-        app:layout_constraintBottom_toTopOf="@+id/chartCard"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/chartCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        app:cardBackgroundColor="@color/Microsoftblue"
+        app:cardBackgroundColor="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
         app:cardCornerRadius="35dp"
