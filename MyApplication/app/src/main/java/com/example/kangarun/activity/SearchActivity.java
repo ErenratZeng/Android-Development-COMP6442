@@ -45,6 +45,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // sort by username
         sortName = findViewById(R.id.sortUsername);
         sortName.setOnClickListener(v -> {
             CharSequence currentDescription = sortName.getText();
@@ -61,6 +62,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             createUserView(userList, query, false);
         });
 
+        // sort by email
         sortEmail = findViewById(R.id.sortEmail);
         sortEmail.setOnClickListener(v -> {
             CharSequence currentDescription = sortEmail.getText();
@@ -121,7 +123,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         boolean invalid = false;
         List<User> users = new ArrayList<>();
 
-        // Try tokenizeall
+        // Try tokenize, if not tokenizable, use normal username search
         Map<String, String> tokens = Tokenizer.tokenize(query);
         if (!query.contains("=")) {
             users = MainActivity.tree.searchPartial(query);

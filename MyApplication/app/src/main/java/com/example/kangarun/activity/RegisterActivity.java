@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 
 /**
  * @author Qiutong Zeng u7724723
@@ -82,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
+                            currentUser.setUserId(User.getCurrentUserId());
                             User newUser = new User();
                             newUser.setUsername(userName);
                             newUser.setEmail(email);
