@@ -114,15 +114,18 @@ Note that the core criteria of contribution is based on `code contribution` (the
    - **Code Contribution in the final App**
        - Feature P2P-DM: Real-time messaging implementation and relative UI -
          [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java),
+         [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java),
          [activity_chat.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_login.xml)
        - Feature Search: Search user by username with AVL tree-
          [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java),
          [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java)
        - User adapter to create list to display users in search result and friends list -
-         [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
-       - Add/delete friend [Link]
+         [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java), 
+       - Chat adapter to display messages in list [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
+       - Add/delete friend [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+       - Friend list [FriendListActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java)
    - **Code and App Design**
-       - Use Recycle view to display list items (user list, messages)<br><br>
+       - Use Recycle view and adapter to display list items (user list, messages)<br><br>
 
 5. **uid**  I have xx% contribution, as follows: <br>
    - **Code Contribution in the final App**
@@ -191,13 +194,12 @@ Here is a partial (short) example for the subsection `Data Structures`:*
 
 *I used the following data structures in my project:*
 
-1. *LinkedList*
-   * *Objective: used for storing xxxx for xxx feature.*
-   * *Code Locations: defined in [Class X, methods Z, Y](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and [class AnotherClass, lines l1-l2](url); processed using [dataStructureHandlerMethod](url) and ...
+1. *AVL Tree*
+   * *Objective: used for storing user information for search feature.*
+   * *Code Locations: defined in [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java); processed using [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java).
    * *Reasons:*
-      * *It is more efficient than Arraylist for insertion with a time complexity O(1)*
-      * *We don't need to access the item by index for xxx feature because...*
-      * For the (part), the data ... (characteristics) ...
+      * *It is more efficient than Arraylist for search with a time complexity O(log(n))*
+      * *The tree is created upon app start to reduce the number of requests to firebase*
 
 2. ...
 
@@ -297,16 +299,21 @@ Using tokenized search enriches the possibility and accuracy of current search f
     * The search function offers users the option to perform either a token-based search, which follows a predefined context-free grammar (CFG) as described above, or a simpler partial username search. 
       If the user's input is not tokenizable, the system will automatically perform a search based on partial username matches.
     * Both search method utilize an AVL tree algorithm. All user data is inserted into an AVL tree when the app starts. Then the search activity determines the appropriate search method based on user query, and invoke corresponding search method in the AVL tree.
-<br>
+   <br>
 ### Custom Features
-Feature Category: Privacy <br>
-1. [Privacy-Request]. Description of the feature  (easy)
-   * Code: [Class X, methods Z, Y](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and Class Y, ...
-   * Description of your implementation: ... <br>
+Feature Category: Peer to Peer Messaging <br>
+1. [P2P-DM]. Users can chat with other users in a real-time direct message. (hard)
+   * Code: [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java),
+     [activity_chat.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_login.xml), [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
+   * It is based on Firestore for persistent and real-time data synchronization, ensuring that messages are consistently updated and displayed. The messages are displayed by a recycle view adapter to handle asynchronous data loading and UI updates to provide a responsive user experience.
+   <br>
      <br>
-
-2. [Privacy-Block]. Description ... ... (medium)
-   ... ...
+   
+Feature Category: Search-related features <br>
+2. [Search-Filter]. Sort and filter the search result (easy)
+    * Code: [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java)
+    * Sort button to sort by username or email. Filter button for user-selected gender.
+    * Based on O(n logn) Collеctions.sort()
    <br><br>
 
 Feature Category: Firebase Integration <br>
@@ -341,8 +348,8 @@ Feature Category: Greater Data Usage, Handling and Sophistication<br>
 *Here is an example:*
 
 1. *Bug 1:*
-   - *A space bar (' ') in the sign in email will crash the application.*
-   - ...
+   - *The length of chat message container is fixed. It may looks weird in landscape mode.*
+   - The reason of fixed container width is to eliminate extra spaces with *wrap_content(0dp)* in Recycle View.
 
 2. *Bug 2:*
 3. ...
