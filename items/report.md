@@ -336,8 +336,34 @@ Feature Category: Greater Data Usage, Handling and Sophistication<br>
 <hr>
 
 ### Surprise Features
-- Use the user singleton to avoid having to look up user-related information from filebase every time it needs to be called
+#### Four code smell
+code smell 1: query firebase every time when need the current logged-in user id<br>
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/b3ad484654b3e47cd1f61cf7823f55c876ed115b)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/53262b4b45eae4306f61cb2f934c41727372c747)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/a6a55fd24aa3ed89d328f2eed747fec09b240991)
 
+code smell 2: Many adaptors have similar functionality without using the template pattern<br>
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/82f7dfe31026057d045af06873274a665eb643b0)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/624c27bb412c5b7d4629a78cc525ec57ef87c2cb)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/cce2b1f2a6dbeb5895107ba895030660ba00f2f3)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/de77f53b1aadd61c1c38bf2a783547997029e824)
+
+code smell 3: The display of data is not restricted to two decimal places, resulting in a lot of screen space being used to display meaningless decimals<br>
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/624c27bb412c5b7d4629a78cc525ec57ef87c2cb)
+
+code smell 4: <br>
+
+#### Two Correction
+- The code has been improved by leveraging a singleton login state to directly access the current user's ID instead of querying Firebase repeatedly. This modification enhances performance by eliminating redundant database calls and enhances code clarity by centralizing user authentication data management.</br>
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/44701b1ae64f375620857c36aa6ff8f988971510)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/deeb9c917d327177cff5ddb1ce183be0f390b618)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/9b59babaa79722d0fc546670405666e7d7a990a9)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/9765590f50a7f8b489bf2066b7f5d52e8941fc2d)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/e3f3bad97b29a4428455f6d8fcd041ad428c66a8)
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/82411964179f30bad0735de79696db58b74b90d6)
+
+- The adapters have been refactored to adhere to the template method pattern by introducing a BaseAdapter template class. This pattern abstracts the common functionality shared among adapters while allowing subclasses to implement specific details. Now, each adapter extends the BaseAdapter and overrides methods as needed, promoting code reuse and maintaining a consistent structure across adapters.
+(https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/c6d72c0d1b55c8a4d9b6a42aa4d59f9a6dbe435a)
 <br> <hr>
 
 ## Summary of Known Errors and Bugs
