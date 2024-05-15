@@ -1,5 +1,6 @@
 package com.example.kangarun.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,28 +18,33 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kangarun.LoginState;
 import com.example.kangarun.R;
-import com.example.kangarun.User;
 import com.example.kangarun.adapter.ExerciseRecordAdapter;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * @author Bingnan Zhao u6508459
  */
 public class ExerciseRecordActivity extends AppCompatActivity {
-
-    FirebaseFirestore db;
-    private boolean dateDescending;
-    private boolean distanceDescending;
-    private boolean durationDescending;
 
     public List<DocumentSnapshot> list;
     public List<DocumentSnapshot> dateDeslist;
@@ -47,12 +53,17 @@ public class ExerciseRecordActivity extends AppCompatActivity {
     public List<DocumentSnapshot> distanceAsclist;
     public List<DocumentSnapshot> durationDeslist;
     public List<DocumentSnapshot> durationAsclist;
-
+    FirebaseFirestore db;
+    private boolean dateDescending;
+    private boolean distanceDescending;
+    private boolean durationDescending;
+    private List<DocumentSnapshot> allRecords;
     private ExerciseRecordAdapter adapter;
     private Button sortByDateButton;
     private Button sortByDistanceButton;
     private Button sortByDurationButton;
     private ImageView imageBack;
+    private LineChart chart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,25 +88,26 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ExerciseRecordAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+        chart = findViewById(R.id.exerciseChart);
 
         // Back button
         imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         CollectionReference records = db.collection("exerciseRecord");
+        allRecords = new ArrayList<>();
         LoginState currentUser = LoginState.getInstance();
         String uid = currentUser.getUserId();
-        Log.d("ExerciseRecord", "uid:" + uid);
         if (uid != null) {
-            Query userRecords = records.whereEqualTo("uid", uid);
-            userRecords.get().addOnCompleteListener(task -> {
+            records.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        list.add(document);
+                    allRecords.clear();
+                    for (DocumentSnapshot document : task.getResult()) {
+                        allRecords.add(document);
+                        loadUserRecords();
+                        updateChart(dateDeslist);
                     }
-                    Log.d("Firestore", "Total documents fetched: " + list.size());
-                    implementSortLists();
-                    adapter.updateData(dateDescending? dateDeslist : dateAsclist);
+                    Log.d("Firestore", "Total documents fetched: " + allRecords.size());
                 } else {
                     Log.d("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -107,8 +119,8 @@ public class ExerciseRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sort By Date", Toast.LENGTH_SHORT).show();
-                if(!dateAsclist.isEmpty() && !dateDeslist.isEmpty())
-                    adapter.updateData(dateDescending? dateAsclist : dateDeslist);
+                if (!dateAsclist.isEmpty() && !dateDeslist.isEmpty())
+                    adapter.updateData(dateDescending ? dateAsclist : dateDeslist);
                 dateDescending = !dateDescending;
                 toggleSortDirection(dateDescending, sortByDateButton);
             }
@@ -118,8 +130,8 @@ public class ExerciseRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sort By Distance", Toast.LENGTH_SHORT).show();
-                if(!distanceAsclist.isEmpty() && !distanceDeslist.isEmpty())
-                    adapter.updateData(distanceDescending? distanceAsclist : distanceDeslist);
+                if (!distanceAsclist.isEmpty() && !distanceDeslist.isEmpty())
+                    adapter.updateData(distanceDescending ? distanceAsclist : distanceDeslist);
                 distanceDescending = !distanceDescending;
                 toggleSortDirection(distanceDescending, sortByDistanceButton);
             }
@@ -129,14 +141,86 @@ public class ExerciseRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sort By Duration", Toast.LENGTH_SHORT).show();
-                if(!durationAsclist.isEmpty() && !durationDeslist.isEmpty())
-                    adapter.updateData(durationDescending? durationAsclist : durationDeslist);
+                if (!durationAsclist.isEmpty() && !durationDeslist.isEmpty())
+                    adapter.updateData(durationDescending ? durationAsclist : durationDeslist);
                 durationDescending = !durationDescending;
                 toggleSortDirection(durationDescending, sortByDurationButton);
             }
         });
 
         EdgeToEdge.enable(this);
+    }
+
+    private void updateChart(List<DocumentSnapshot> recordsList) {
+        List<Entry> entries = extractEntriesFromRecords(recordsList);
+        LineDataSet dataSet = new LineDataSet(entries, "Daily Distance");
+        LineData lineData = new LineData(dataSet);
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setDrawLabels(false);
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setDrawLabels(false);
+        dataSet.setColor(Color.RED);
+        dataSet.setLineWidth(2f);
+        dataSet.setCircleColor(Color.RED);
+        dataSet.setCircleRadius(3f);
+        Description description = new Description();
+        description.setEnabled(false);
+        chart.setDescription(description);
+        chart.setData(lineData);
+        chart.invalidate();
+    }
+
+    private List<Entry> extractEntriesFromRecords(List<DocumentSnapshot> recordsList) {
+        Map<Integer, Float> dailyDistances = new LinkedHashMap<>();
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+        Calendar cal = Calendar.getInstance();
+        int today = cal.get(Calendar.DAY_OF_YEAR);
+        for (int i = 0; i < 7; i++) {
+            dailyDistances.put(i + 1, 0.0f);
+        }
+
+        for (DocumentSnapshot doc : recordsList) {
+            try {
+                Date date = inputFormat.parse(doc.getString("date"));
+                cal.setTime(date);
+                int dayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+                int daysAgo = today - dayOfYear;
+
+                if (daysAgo >= 0 && daysAgo < 7) {
+                    Double distance = doc.getDouble("distance");
+                    if (distance != null && distance < 100000000) {
+                        float floatDistance = distance.floatValue();
+                        dailyDistances.put(7 - daysAgo, dailyDistances.get(7 - daysAgo) + floatDistance);
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        List<Entry> entries = new ArrayList<>();
+        for (int i = 1; i <= 7; i++) {
+            entries.add(new Entry(i, dailyDistances.get(i)));
+        }
+        return entries;
+    }
+
+    public void loadUserRecords() {
+        LoginState currentUser = LoginState.getInstance();
+        String uid = currentUser.getUserId();
+        Log.d("ExerciseRecord", "uid:" + uid);
+        if (uid != null) {
+            list.clear();
+            for (DocumentSnapshot document : allRecords) {
+                if (uid.equals(document.getString("uid"))) {
+                    list.add(document);
+                }
+            }
+            Log.d("Firestore", "Total user documents fetched: " + list.size());
+            implementSortLists();
+            adapter.updateData(dateDescending ? dateDeslist : dateAsclist);
+        }
     }
 
     public void implementSortLists() {
@@ -154,7 +238,7 @@ public class ExerciseRecordActivity extends AppCompatActivity {
                 return date1.compareTo(date2);
             }
         });
-        dateDeslist =  new ArrayList<>(dateAsclist);
+        dateDeslist = new ArrayList<>(dateAsclist);
         Collections.reverse(dateDeslist);
         Collections.sort(distanceAsclist, new Comparator<DocumentSnapshot>() {
             @Override

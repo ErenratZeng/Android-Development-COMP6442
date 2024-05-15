@@ -1,5 +1,7 @@
 package com.example.kangarun.activity;
 
+import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,8 +18,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import static com.example.kangarun.activity.LoginActivity.currentUser;
 
 
 /**
@@ -28,7 +28,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword, editTextUserName, editTextGender, editTextWeight, editTextHeight;
     private Button buttonRegister;
     private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore firebaseFirestore;
     private double weight, height;
 
 
@@ -96,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Toast.makeText(RegisterActivity.this, "Account Created Failed " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            //TODO Fixed bug for message
                         }
                     }
                 });

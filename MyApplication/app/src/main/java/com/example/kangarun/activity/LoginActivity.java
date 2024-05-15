@@ -3,7 +3,6 @@ package com.example.kangarun.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,20 +20,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * @author Qiutong Zeng u7724723,Runyao Wang u6812566,Heng Sun u7611510
  */
 public class LoginActivity extends AppCompatActivity {
 
+    public static LoginState currentUser = LoginState.getInstance();
     private EditText editTextUserEmail, editTextPassword;
     private Button buttonLogin, buttonCreateAccount, buttonAutoLogin;
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
-    public static LoginState currentUser = LoginState.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

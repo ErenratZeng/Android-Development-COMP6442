@@ -11,22 +11,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kangarun.R;
-import com.example.kangarun.User;
 import com.example.kangarun.utils.UserAVLTree;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 import com.hitomi.cmlibrary.CircleMenu;
 import com.hitomi.cmlibrary.OnMenuSelectedListener;
 import com.hitomi.cmlibrary.OnMenuStatusChangeListener;
+import com.squareup.picasso.Picasso;
 
 /**
  * @author Heng Sun u7611510, Qiutong Zeng u7724723,Runyao Wang u6812566
@@ -107,17 +105,17 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onMenuOpened() {
-                        Log.d("Qiutong","Error Here");
+                        Log.d("Qiutong", "Error Here");
                     }
 
                     @Override
-                    public void onMenuClosed() {}
+                    public void onMenuClosed() {
+                    }
 
                 });
 
 
     }
-
 
 
     @Override
@@ -134,8 +132,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setProfileImage() {
         StorageReference profileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
-
-//        StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

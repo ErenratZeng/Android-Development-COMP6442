@@ -4,11 +4,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.kangarun.R;
 import com.squareup.picasso.Picasso;
@@ -37,9 +33,9 @@ public class ExerciseRecordDetailActivity extends AppCompatActivity {
         String imagePath = getIntent().getStringExtra("imagePath");
 
         textViewDate.setText("Date " + date);
-        textViewDistance.setText("Distance: "+distance+" km");
-        textViewDuration.setText("Duration: "+duration);
-        textViewCalories.setText("Calories: " + calories +" kcal");
+        textViewDistance.setText("Distance: " + distance + " km");
+        textViewDuration.setText("Duration: " + duration);
+        textViewCalories.setText("Calories: " + calories + " kcal");
 
         // Load images from Firebase Storage
         Picasso.get().load(imagePath).into(imageViewMapSnapshot);

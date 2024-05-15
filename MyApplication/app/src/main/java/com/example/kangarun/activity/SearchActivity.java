@@ -1,6 +1,7 @@
 package com.example.kangarun.activity;
 
 import static com.example.kangarun.activity.LoginActivity.currentUser;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;

@@ -23,6 +23,10 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
   - [Summary of Individual Contributions](#summary-of-individual-contributions)
   - [Application Description](#application-description)
     - [Application Use Cases and or Examples](#application-use-cases-and-or-examples)
+      - [Use Case 1: Casual Jogger](#use-case-1-casual-jogger)
+      - [Use Case 2: Competitive Runner](#use-case-2-competitive-runner)
+      - [Use Case 3: Fitness Trainer](#use-case-3-fitness-trainer)
+      - [Use Case 4: Health Enthusiast](#use-case-4-health-enthusiast)
     - [Application UML](#application-uml)
   - [Code Design and Decisions](#code-design-and-decisions)
     - [Data Structures](#data-structures)
@@ -35,6 +39,7 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
     - [Basic Features](#basic-features)
     - [Custom Features](#custom-features)
     - [Surprise Features](#surprise-features)
+      - [Code smells](#code-smells)
   - [Summary of Known Errors and Bugs](#summary-of-known-errors-and-bugs)
   - [Testing Summary](#testing-summary)
   - [Team Management](#team-management)
@@ -51,13 +56,13 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
 ## Team Members and Roles
 The key area(s) of responsibilities for each member
 
-| UID      |   Name   |                             Role |
-|:---------|:--------:|---------------------------------:|
-| u7724723 | Qiutong Zeng | Responsible for Database Management, User profile, Firebase Auth |
-| u7611510 | Heng Sun | Responsible for exercise feature |
-| u6812566 | Runyao Wang | Responsible for Message, Search and Social Network |
-| u6508459 | Bingnan Zhao |                        [role] |
-| u7779907 |  Yan Jin  |                           [role] |
+| UID      |   Name   |                                                                  Role |
+|:---------|:--------:|:----------------------------------------------------------------------:|
+| u7724723 | Qiutong Zeng |      Responsible for Database Management, User profile, Firebase Auth |
+| u7611510 | Heng Sun      |Responsible for exercise feature               |
+| u6812566 | Runyao Wang |                    Responsible for Message, Search and Social Network |
+| u6508459 | Bingnan Zhao | Responsible for exercise records and firestore and data upload script |
+| u7779907 |  Yan Jin  |                                          [role] |
 
 
 ## Summary of Individual Contributions
@@ -77,7 +82,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
 
 *Here is an example: (Note that you should remove the entire section (e.g. "others") if it is not applicable)*
 
-1. **UID1, Name1**  I have 30% contribution, as follows: <br>
+1. **u7779907 , Yan Jin**  I have % contribution, as follows: <br>
   - **Code Contribution in the final App**
     - Feature A1, A2, A3 - class Dummy: [Dummy.java](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java)
     - XYZ Design Pattern -  class AnotherClass: [functionOne()](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43), [function2()](the-URL)
@@ -96,7 +101,8 @@ Note that the core criteria of contribution is based on `code contribution` (the
       - Feature FB-Persist: Use firebase to persist user profile - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) & [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
       - Feature Data-Profile: Display personal information and an avatar for each user - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)-  [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
    - **Code and App Design**
-       - Implement media file display and upload through Picasso and imagepicker <br><br>
+       - Implement media file display and upload through Picasso and imagepicker
+       - Conceptualize the GUI of the entire app <br><br>
 
 3. **u7611510, HengSun**  I have % contribution, as follows: <br>
    - **Code Contribution in the final App**
@@ -127,47 +133,68 @@ Note that the core criteria of contribution is based on `code contribution` (the
    - **Code and App Design**
        - Use Recycle view and adapter to display list items (user list, messages)<br><br>
 
-5. **uid**  I have xx% contribution, as follows: <br>
+5. **u6508459, Bingnan ZHao**  I have xx% contribution, as follows: <br>
    - **Code Contribution in the final App**
-       - xxx
+       - Feature Exercise Record: Check exercise history in different orders.
+         [ExerciseRecordActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java)
+         [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
+       - Template method for adapters
+         [BaseAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java)
+         [BlacklistUserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BlacklistUserAdapter.java)
+         [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
+         [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
+         [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
+       - Script to create test messages
+         [create_chat.py](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/script/create_chat.py)
    - **Code and App Design**
-       - Use Recycle view to display list items (user list, messages)
+       - Designed template method and proposed the use of singleton
+       - UI for maps activity and exercise record activity.
+
 ## Application Description
 Kangarun is a sports-centric social application designed for tracking your every workout. With our app, you can log your exercise duration, calories burned, distance covered, and even visualize your route through map images. You can add your workout buddies to the app, chat with them, hang out, and exercise together.
 
 
 ### Application Use Cases and or Examples
+#### Use Case 1: Casual Jogger
+- **User**: Alex, a college student who jogs casually.
+- **Goal**: To stay fit and share activities with friends.
+- **Actions**:
+    1. Alex logs into Kangarun to start a jogging session, using the app to track his route and performance.
+    2. After the jog, he reviews the distance covered and calories burned displayed on the app.
+    3. He shares his running route and stats on his Kangarun feed, receiving likes and comments from friends.
+    4. Alex checks his friends' recent activities on the app to stay motivated and plans joint runs.
 
-*[Provide use cases and examples of people using your application. Who are the target users of your application? How do the users use your application?]*
+#### Use Case 2: Competitive Runner
+- **User**: Maria, a competitive runner training for a marathon.
+- **Goal**: To optimize training and track performance over time.
+- **Actions**:
+    1. Maria uses Kangarun's advanced features to monitor detailed stats like pace, elevation, and heart rate.
+    2. She sets personal goals in the app and tracks her progress against these targets.
+    3. Maria analyzes the comprehensive data collected to adjust her training regimen.
+    4. She participates in virtual challenges and competitions through Kangarun to rank her performance against others.
 
-*Here is a pet training application example*
+#### Use Case 3: Fitness Trainer
+- **User**: John, a fitness trainer.
+- **Goal**: To manage his clients' workouts and motivate them.
+- **Actions**:
+    1. John creates group activities for his clients on Kangarun and monitors their participation.
+    2. He reviews each client's activity data to provide personalized feedback and adjustments to their exercise plans.
+    3. John uses the app's messaging feature to send motivational messages and workout tips.
+    4. He organizes weekly challenges through the app to encourage competition and community among his clients.
 
-*Molly wants to inquiry about her cat, McPurr's recent troublesome behaviour*
-1. *Molly notices that McPurr has been hostile since...*
-2. *She makes a post about... with the tag...*
-3. *Lachlan, a vet, writes a reply to Molly's post...*
-4. ...
-5. *Molly gives Lachlan's reply a 'tick' response*
-
-*Here is a map navigation application example*
-
-*Targets Users: *
-
-* *Users can use it to navigate in order to reach the destinations.*
-* *Users can learn the traffic conditions*
-* ...
-
-*Target Users: Those who want to find some good restaurants*
-
-* *Users can find nearby restaurants and the application can give recommendations*
-* ...
-
-*List all the use cases in text descriptions or create use case diagrams. Please refer to https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-use-case-diagram/ for use case diagram.*
+#### Use Case 4: Health Enthusiast
+- **User**: Linda, who is focused on overall wellness and likes to keep a healthy lifestyle.
+- **Goal**: To maintain a balanced exercise routine and connect with like-minded individuals.
+- **Actions**:
+    1. Linda uses Kangarun to track various types of activities, including running, cycling, and yoga.
+    2. She follows her friends and joins public groups within the app to find inspiration and new workout ideas.
+    3. Linda shares her own tips and success stories, engaging with others through comments and messages.
+    4. She uses the app’s reminder feature to keep a consistent workout schedule.
 
 <hr> 
 
 ### Application UML
-![Application UML](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/java2%20g48%20UML.png) <br>
+![Application UML](./java2%20g48%20UML.png) <br>
 
 
 <hr>
@@ -223,8 +250,8 @@ Here is a partial (short) example for the subsection `Data Structures`:*
       * used to separate the business logic from the data persistence logic, promoting better code organization and maintainability. It abstracts the database operations, providing a clean interface for accessing and manipulating data, which enhances code readability and reusability.
 
 3. *Template Pattern*
-   * *Objective: used for storing xxxx for xxx feature.*
-   * *Code Locations: defined in [Class BaseAdaptor](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java) and [Class ChatAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java) and [Class ExerciseRecordAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java) and [Class UserAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
+   * *Objective: used to promote code reuse by placing the common structure in the base adapter, while specific details are implemented in the subclasses.*
+   * *Code Locations: defined in [Class BaseAdaptor](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java) and [Class ChatAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java) and [Class ExerciseRecordAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java) and [Class UserAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java) and [Class BlacklistUserAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BlacklistUserAdapter.java)
    * *Reasons:*
       * used to define the skeleton of an algorithm in a superclass but allows subclasses to override specific steps of the algorithm without changing its structure. This promotes code reuse and allows for variation in behavior among subclasses while maintaining a common workflow.
 
@@ -282,15 +309,22 @@ Using tokenized search enriches the possibility and accuracy of current search f
 
 ### Basic Features
 1. [LogIn]. Description of the feature ... (easy)
-   * Code: [Class X, methods Z, Y](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and Class Y, ...
+   * Code: [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
    * Description of feature: ... <br>
    * Description of your implementation: ... <br>
 
-2. [DataFiles]. Description  ... ... (...)
-   * Code to the Data File [users_interaction.json](link-to-file), [search-queries.xml](link-to-file), ...
-   * Link to the Firebase repo: ...
+2. [DataFiles]. 2500 chat messages are created and uploaded into the database of firebase.
+   * Chat data is structured as [Message Class](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/Message.java) and upload to firestore.
+   * Link to the Firebase repo: [COMP6442](https://console.firebase.google.com/u/1/project/comp6442-e1d42/overview)
+   * The data is generated by a simple script [create_chat](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/script/create_chat.py), and uploaded to firestore via firebase admin SDK.]
+   * The script randomly pick two users from all users, register them as friends if they are not, and pick random line from a article. It uses these information to create a message instance for uploading.
 
-3. ...
+3. [LoadShowData] User are capable of getting various information by accessing certain section of the application.
+   * The information of current user's own profile are loaded from firestore and shown in [UserProfileActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)
+   * Chat messages are shown in [ChatActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)
+   * User's previous exercise records are shown in [ExerciseRecordActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java)
+   * Detail information of each record is shown in [ExerciseRecordDetailActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
+   * User's friends are shown in [FriendListActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java) and blacklist members are shown in [BackListActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java)
    <br>
 4. ....
     <br>
@@ -328,10 +362,12 @@ Feature Category: Greater Data Usage, Handling and Sophistication<br>
    * Description of your implementation: Use FusedLocationProviderClient to obtain the user's location information, and according to user current location on the map. <br>
 <br>
 
-5.[Data-Graphical] Create a Graphical report viewer to see a report of some useful data from your app. No marks will be awarded if the report is non-graphical. (medium)
-
-   * Code: [Class MapsActivity,methods captureMapSnapshot, uploadMapSnapshotToFirebase](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java#L332-L370) lines of 332 to 370
-   * Description of your implementation: the graphical is generated by captureMapSnapshot method and stored to firebase by uploadMapSnapshotToFirebase function<br><br>
+5.[Data-Graphical] Create a Graphical report viewer to see a report of some useful data from your app.
+   * An image of previous exercise route on the map is shown in [Class MapsActivity,methods captureMapSnapshot, uploadMapSnapshotToFirebase](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java#L332-L370) lines of 332 to 370
+   * The graphical is generated by captureMapSnapshot method and stored to firebase by uploadMapSnapshotToFirebase function<br>
+   * A line chart with seven days of exercise statistics is presented at the bottom of [ExerciseRecord](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java) page.
+   * It runs through all records, gets the summary of data in last 7 days, and make them into a line chart.
+<br>
 
 <hr>
 
