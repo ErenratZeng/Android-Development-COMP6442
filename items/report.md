@@ -122,9 +122,10 @@ Note that the core criteria of contribution is based on `code contribution` (the
          [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java),
          [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java),
          [activity_chat.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_login.xml)
-       - Feature Search: Search user by username with AVL tree-
+       - Feature Search: Search user by username or tokens(see [Parser](#parser)) with AVL tree.
          [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java),
-         [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java)
+         [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java), [Tokenizer.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Tokenizer.java), [Parser.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Parser.java)
+       - Feature Search-Filter: Sort and filter the search result [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java).
        - User adapter to create list to display users in search result and friends list -
          [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java), 
        - Chat adapter to display messages in list [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
@@ -311,7 +312,7 @@ Using tokenized search enriches the possibility and accuracy of current search f
 1. [LogIn]. Description of the feature ... (easy)
    * Code: [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
    * Description of feature: ... <br>
-   * Description of your implementation: ... <br>
+   * Description of your implementation: ...<br>
 
 2. [DataFiles]. 2500 chat messages are created and uploaded into the database of firebase.
    * Chat data is structured as [Message Class](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/Message.java) and upload to firestore.
@@ -430,15 +431,38 @@ Feature Category: Greater Data Usage, Handling and Sophistication<br>
 *[What features have you tested? What is your testing coverage?]*
 *Please provide some screenshots of your testing summary, showing the achieved testing coverage. Feel free to provide further details on your tests.*
 
-*Here is an example:*
+*Please use [Scripted configuration](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/.run/Tests%20in%20'com.example.kangarun'.run.xml) to run coverage tests. This is to resolve a conflict between RobolectricTestRunner and Jacoco*
 
-1. Tests for Search
-   - Code: [TokenizerTest Class, entire file](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java) for the [Tokenizer Class, entire file](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43)
-   - *Number of test cases: ...*
-   - *Code coverage: ...*
-   - *Types of tests created and descriptions: ...*
+*All coverages are for methods*
 
-2. xxx
+1. Tests for Tokenizer and Parser
+   - Code: [TokenizerAndParserTest](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/test/java/com/example/kangarun/TokenizerAndParserTest.java) for [Tokenizer.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Tokenizer.java), [Parser.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Parser.java), which are used in search.
+   - *Number of test cases: 9*
+   - *Code coverage: 100% for Tokenizer and 100% for Parser*
+   - *Types of tests created and descriptions: unit tests for tokenizer and parser respectively, including edge cases and invalid input. Also include a main integrated test to test them together.*
+
+2. Tests for avl tree search
+   - Code: [UserAVLTest](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/test/java/com/example/kangarun/UserAVLTest.java) for [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java), which is used in search related features.
+   - *Number of test cases: 6*
+   - *Code coverage: 80%. The visualise method of the tree structure is not tested*
+   - *Types of tests created and descriptions: The tests focus on search methods. The tests setup with some nodes inserted, then test search result with simple or tokens query*
+
+3. Tests for User class
+    - Code: [UserTest](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/test/java/com/example/kangarun/UserTest.java) for [User.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java).
+    - *Number of test cases: 3*
+    - *Code coverage: 53%. All methods, except those related to Firebase, are tested*
+    - *Types of tests created and descriptions: Unit tests cover the constructor, gender comparison algorithm, and class comparator. Basic tests for getters and setters are integrated within these tests.*
+
+4. Test for exercise record
+    - Code: [ExerciseRecordTest](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/test/java/com/example/kangarun/ExerciseRecordTest.java) for [ExerciseRecordActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/ExerciseRecordActivity.java).
+    - *Number of test cases: one comprehensive*
+    - *Code coverage: 35%.*
+    - *Types of tests created and descriptions: the test utilizes the Mockito framework to create mock DocumentSnapshot instances from the Firebase API, simulating the retrieval of exercise record data such as user IDs, dates, durations, and distances. This firebase-related test is not required, but we would like to show our attempt to it*
+
+Coverage Screenshot:
+
+![Coverage](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/tree/main/items/media/coverage.png)
+
 
 ...
 

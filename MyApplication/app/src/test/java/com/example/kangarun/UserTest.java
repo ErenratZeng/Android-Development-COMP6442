@@ -11,12 +11,24 @@ public class UserTest {
         user = new User();
         user.setUsername("testUsername");
         user.setEmail("testEmail");
+        user.setHeight(133);
+        user.setWeight(70);
+    }
+
+    @Test
+    public void testAttributes() {
+        Assert.assertEquals("testUsername", user.getUsername());
+        Assert.assertEquals("testEmail", user.getEmail());
+        Assert.assertEquals(133, user.getHeight(), 0.0);
+        Assert.assertEquals(70, user.getWeight(), 0.0);
     }
 
     @Test
     public void testConstructor() {
-        Assert.assertEquals("testUsername", user.getUsername());
-        Assert.assertEquals("testEmail", user.getEmail());
+        User user1 = new User("username", "email", "Female");
+        Assert.assertEquals("username", user1.getUsername());
+        Assert.assertEquals("email", user1.getEmail());
+        Assert.assertEquals("Female", user1.getGender());
     }
 
     @Test
