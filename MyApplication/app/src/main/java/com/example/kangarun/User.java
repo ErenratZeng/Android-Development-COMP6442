@@ -1,7 +1,5 @@
 package com.example.kangarun;
 
-import static com.example.kangarun.activity.LoginActivity.currentUser;
-
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -154,27 +152,11 @@ public class User implements Serializable, Comparable<User> {
     }
 
 
-    public void unBlock(String id) {
-        if (blockList.remove(id)) {
-            saveBlockListToStorage();
-        }
-    }
-
-    private void saveBlockListToStorage() {
-        String uid = getCurrentUserId();
-        if (uid != null) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("user").document(uid).update("blockList", blockList)
-                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Block list updated successfully!"))
-                    .addOnFailureListener(e -> Log.e(TAG, "Error updating block list", e));
-        }
-    }
-
-    public boolean compareGender(String g){
-        if (gender == null){
+    public boolean compareGender(String g) {
+        if (gender == null) {
             return g.equals("Other") || g.equals("All Genders");
         }
-        if (g.equals("All Genders")){
+        if (g.equals("All Genders")) {
             return true;
         }
         if (g.equals("Male") || g.equals("Female")) {
@@ -183,29 +165,6 @@ public class User implements Serializable, Comparable<User> {
             return !gender.equals("Male") && !gender.equals("Female");
         } else {
             throw new RuntimeException("invalid gender input");
-        }
-    }
-
-    public void uploadProfile() {
-        String uid = currentUser.getUserId();
-        if (uid != null) {
-            Map<String, Object> userProfile = new HashMap<>();
-            userProfile.put("username", getUsername());
-            userProfile.put("gender", getGender());
-            userProfile.put("height", getHeight());
-            userProfile.put("weight", getWeight());
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("user").document(uid).set(userProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error writing document", e);
-                }
-            });
         }
     }
 
@@ -235,16 +194,6 @@ public class User implements Serializable, Comparable<User> {
             });
         }
     }
-
-    //print user details
-    public void printUser() {
-        System.out.println("User ID: " + userId);
-        System.out.println("Username: " + username);
-        System.out.println("Email: " + email);
-        System.out.println("Friends List: " + friendsList.toString());
-        System.out.println("Activity History: " + activityHistory.toString());
-    }
-
 
     @Override
     public int compareTo(User o) {

@@ -13,13 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.kangarun.R;
 import com.example.kangarun.User;
@@ -43,7 +39,7 @@ import java.util.Map;
  * @author Qiutong Zeng u7724723,Bingnan Zhao u6508459
  */
 public class UpdateProfileActivity extends AppCompatActivity {
-    private EditText  editTextUserName, editTextGender, editTextWeight, editTextHeight;
+    private EditText editTextUserName, editTextGender, editTextWeight, editTextHeight;
     private TextView textemail;
     private Button uploadImageButton, uploadInfoButton;
     private ImageView profile_image_view;
@@ -67,6 +63,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+
+        // Back button
+        ImageView imageBack = findViewById(R.id.imageBack);
+        imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = firebaseFirestore.collection("user").document(User.getCurrentUserId());

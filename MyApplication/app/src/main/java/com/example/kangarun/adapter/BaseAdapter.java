@@ -1,7 +1,5 @@
 package com.example.kangarun.adapter;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public abstract class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
     protected abstract T createView(ViewGroup parent, int viewType);
+
     protected abstract void bindView(T holder, int position);
+
     protected abstract int getDataCount();
+
     protected int getViewType(int position) {
         return 0;
     }
@@ -36,6 +37,7 @@ public abstract class BaseAdapter<T extends RecyclerView.ViewHolder> extends Rec
     public int getItemViewType(int position) {
         return getViewType(position);
     }
+
     protected int getLayoutId(int viewType) {
         return 0;
     }

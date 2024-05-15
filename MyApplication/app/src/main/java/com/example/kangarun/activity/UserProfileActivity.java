@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,18 +22,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.squareup.picasso.Picasso;
-import com.google.firebase.firestore.WriteBatch;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Qiutong Zeng u7724723,Bingnan Zhao u6508459,Yan Jin u7779907, Runyao Wang u6812566
@@ -85,7 +78,7 @@ public class UserProfileActivity extends AppCompatActivity {
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(value == null){
+                if (value == null) {
                     Log.e("NULL USER", "value is null, skip it");
                     return;
                 }

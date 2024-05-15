@@ -26,7 +26,6 @@ public class ExerciseRecordTest {
         DocumentSnapshot doc2 = mock(DocumentSnapshot.class);
         DocumentSnapshot doc3 = mock(DocumentSnapshot.class);
 
-        // 配置模拟对象的行为
         when(doc1.contains("uid")).thenReturn(true);
         when(doc1.getString("uid")).thenReturn("1");
         when(doc1.contains("date")).thenReturn(true);
