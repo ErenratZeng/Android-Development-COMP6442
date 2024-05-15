@@ -14,9 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kangarun.activity.ExerciseRecordDetailActivity;
 import com.example.kangarun.R;
-import com.example.kangarun.User;
+import com.example.kangarun.activity.ExerciseRecordDetailActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -49,17 +48,16 @@ public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.Rec
         String date = document.getString("date");
 
         double distance = document.getDouble("distance");
-        // 格式化距离
-        DecimalFormat dfDistance = new DecimalFormat("#.##"); // 设置精度到小数点后两位
-        String formattedDistance = dfDistance.format(distance); // 将距离格式化为字符串
+
+        DecimalFormat dfDistance = new DecimalFormat("#.##");
+        String formattedDistance = dfDistance.format(distance);
 
         String duration = document.getString("duration");
         double calories = document.getDouble("calories");
-        String formattedCalories = dfDistance.format(calories); // 将距离格式化为字符串
+        String formattedCalories = dfDistance.format(calories);
 
         Log.d("Adapter", position + " " + date + " " + distance + " " + duration + " " + calories);
         String path = "exerciseRecord/" + currentUser.getUserId() + date + "/mapSnapshot.png";
-//        String path = "exerciseRecord/" + User.getCurrentUserId() + date + "/mapSnapshot.png";
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference imageRef = storageRef.child(path);
 
@@ -72,20 +70,19 @@ public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.Rec
             imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    // 创建 Intent 并开始新的 Activity
+
                     Intent intent = new Intent(holder.itemView.getContext(), ExerciseRecordDetailActivity.class);
                     intent.putExtra("date", date);
                     intent.putExtra("distance", formattedDistance);
                     intent.putExtra("duration", duration);
                     intent.putExtra("calories", formattedCalories);
-                    intent.putExtra("imagePath", uri.toString()); // 传递图片的下载 URL
+                    intent.putExtra("imagePath", uri.toString());
                     holder.itemView.getContext().startActivity(intent);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.e("FirebaseStorage", "Error getting the image URL", e);
-                    // 在这里处理错误，比如通知用户图片加载失败
                     Toast.makeText(holder.itemView.getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -106,7 +103,7 @@ public class ExerciseRecordAdapter extends BaseAdapter<ExerciseRecordAdapter.Rec
         Log.d("Adapter", "Updating data with " + newData.size() + " records");
         recordsList.clear();
         recordsList.addAll(newData);
-        notifyDataSetChanged();  // 通知数据已更改
+        notifyDataSetChanged();
     }
 
     @NonNull

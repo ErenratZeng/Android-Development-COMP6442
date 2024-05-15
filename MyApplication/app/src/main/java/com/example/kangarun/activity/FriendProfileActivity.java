@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kangarun.R;
 import com.example.kangarun.User;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -39,8 +38,8 @@ public class FriendProfileActivity extends AppCompatActivity {
     Button blockUserButton, addFriendButton;
     ImageView profile_image_view;
     StorageReference storageReference;
-    private FirebaseFirestore firebaseFirestore;
     String profileId, currentId;
+    private FirebaseFirestore firebaseFirestore;
 
     public FriendProfileActivity() {
 
@@ -50,7 +49,7 @@ public class FriendProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_profile);
-        User user = (User) getIntent().getSerializableExtra("user",User.class);
+        User user = (User) getIntent().getSerializableExtra("user", User.class);
 
         username = findViewById(R.id.username);
         useremail = findViewById(R.id.useremail);
@@ -145,6 +144,7 @@ public class FriendProfileActivity extends AppCompatActivity {
         });
 
     }
+
     private void setupAddFriendButton(DocumentReference profileDocRef) {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +198,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.e("BlockUser", "Error blocking user", e));
     }
+
     private void unblockUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         currentDocRef.update("blockList", FieldValue.arrayRemove(profileId))

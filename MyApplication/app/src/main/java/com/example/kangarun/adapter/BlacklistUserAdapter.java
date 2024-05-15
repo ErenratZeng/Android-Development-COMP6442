@@ -1,21 +1,17 @@
 package com.example.kangarun.adapter;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kangarun.R;
 import com.example.kangarun.User;
 import com.example.kangarun.UserListener;
 import com.example.kangarun.databinding.ItemContainerBlacklistUserBinding;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
 /**
  * @author Yan Jin u7779907, Bingnan Zhao u6508459
  */

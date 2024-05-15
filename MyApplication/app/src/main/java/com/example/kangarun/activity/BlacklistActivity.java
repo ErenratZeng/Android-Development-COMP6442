@@ -16,14 +16,12 @@ import com.example.kangarun.User;
 import com.example.kangarun.UserListener;
 import com.example.kangarun.adapter.BlacklistUserAdapter;
 import com.example.kangarun.databinding.ActivityBlacklistBinding;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Yan Jin u7779907

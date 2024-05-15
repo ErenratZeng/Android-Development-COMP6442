@@ -6,6 +6,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -22,7 +23,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.kangarun.R;
-import com.example.kangarun.User;
 import com.example.kangarun.databinding.ActivityMapsBinding;
 import com.example.kangarun.utils.PermissionUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -42,6 +42,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,10 +51,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import android.graphics.Bitmap;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * @author Heng Sun u7611510, Bingnan Zhao u6508459
@@ -65,7 +62,6 @@ public class MapsActivity extends AppCompatActivity
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
-    //    private FusedLocationProviderClient mFusedLocationProviderClient;
     public static final String TAG = "MapActivity";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -84,8 +80,6 @@ public class MapsActivity extends AppCompatActivity
     private String duration;
     private String exerciseDate;
     private double calories;
-
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -311,7 +305,6 @@ public class MapsActivity extends AppCompatActivity
      * @return Calories burned
      */
     private double calculateCalories(double distanceMeters, long timeMillis, double weightKg) {
-        double distanceKm = distanceMeters / 1000.0; // convert distance to kilometers
         double timeHours = timeMillis / 3600000.0; // convert time to hours
         double speedMinPer400m = (timeMillis / 60000.0) / (distanceMeters / 400.0); // calculate speed（minutes per 400 meters）
 
@@ -337,11 +330,10 @@ public class MapsActivity extends AppCompatActivity
         mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
             @Override
             public void onSnapshotReady(Bitmap bitmap) {
-                // 将 Bitmap 转换为 byte[]
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
-                // 调用上传方法
+
                 uploadMapSnapshotToFirebase(byteArray);
             }
         });
@@ -349,7 +341,6 @@ public class MapsActivity extends AppCompatActivity
 
     private void uploadMapSnapshotToFirebase(byte[] imageBytes) {
         String filePath = "exerciseRecord/" + currentUser.getUserId() + exerciseDate + "/mapSnapshot.png";
-//        String filePath = "exerciseRecord/" + User.getCurrentUserId() + exerciseDate + "/mapSnapshot.png";
         StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(filePath);
 
         // upload to Firebase Storage
@@ -358,7 +349,6 @@ public class MapsActivity extends AppCompatActivity
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Log.d("FirebaseStorage", "Snapshot uploaded successfully!");
-                        // 可以选择在这里获取下载 URL 或在其他位置获取
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -389,9 +379,6 @@ public class MapsActivity extends AppCompatActivity
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap map) {
-        // TODO: Before enabling the My Location layer, you must request
-        // location permission from the user. This sample does not include
-        // a request for location permission.
         mMap = map;
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);

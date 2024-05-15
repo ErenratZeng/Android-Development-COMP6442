@@ -3,15 +3,12 @@ package com.example.kangarun.activity;
 import static com.example.kangarun.activity.LoginActivity.currentUser;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kangarun.Message;
@@ -19,18 +16,13 @@ import com.example.kangarun.R;
 import com.example.kangarun.User;
 import com.example.kangarun.adapter.ChatAdapter;
 import com.example.kangarun.databinding.ActivityChatBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,11 +38,6 @@ public class ChatActivity extends AppCompatActivity {
     private User receiver;
     private List<Message> messageList;
     private ChatAdapter adapter;
-    private List<String> currentUserBlockList;
-    private List<String> receiverBlockList;
-    private boolean isCurrentUserBlockListLoaded = false;
-    private boolean isReceiverBlockListLoaded = false;
-
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -78,6 +65,10 @@ public class ChatActivity extends AppCompatActivity {
             binding.chatRecycleView.setVisibility(View.VISIBLE);
         }
     };
+    private List<String> currentUserBlockList;
+    private List<String> receiverBlockList;
+    private boolean isCurrentUserBlockListLoaded = false;
+    private boolean isReceiverBlockListLoaded = false;
     private FirebaseFirestore db;
 
     @Override
@@ -145,20 +136,20 @@ public class ChatActivity extends AppCompatActivity {
             // Ensure both block lists are loaded
             return;
         }
-            String senderId = currentUser.getUserId();
-            String receiverId = receiver.getUserId();
+        String senderId = currentUser.getUserId();
+        String receiverId = receiver.getUserId();
 
-            if (receiverBlockList != null && receiverBlockList.contains(senderId)) {
-                Log.d(TAG, "Sender is blocked by the receiver. Message not sent.");
-                Toast.makeText(ChatActivity.this, "You are blocked by this user.", Toast.LENGTH_SHORT).show();
-            } else if (currentUserBlockList != null && currentUserBlockList.contains(receiverId)) {
-                Log.d(TAG, "Receiver is blocked by the sender. Message not sent.");
-                Toast.makeText(ChatActivity.this, "You have blocked this user.", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.d(TAG, "Neither user is blocked. Sending message...");
-                sendMessage();
-            }
+        if (receiverBlockList != null && receiverBlockList.contains(senderId)) {
+            Log.d(TAG, "Sender is blocked by the receiver. Message not sent.");
+            Toast.makeText(ChatActivity.this, "You are blocked by this user.", Toast.LENGTH_SHORT).show();
+        } else if (currentUserBlockList != null && currentUserBlockList.contains(receiverId)) {
+            Log.d(TAG, "Receiver is blocked by the sender. Message not sent.");
+            Toast.makeText(ChatActivity.this, "You have blocked this user.", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.d(TAG, "Neither user is blocked. Sending message...");
+            sendMessage();
         }
+    }
 
 
     private void loadBlockLists() {
@@ -209,11 +200,6 @@ public class ChatActivity extends AppCompatActivity {
                 .whereEqualTo("senderId", receiver.getUserId())
                 .whereEqualTo("receiverId", currentUser.getUserId())
                 .addSnapshotListener(eventListener);
-    }
-
-    private Bitmap getBitmapFromEncoded(String encoded) {
-        byte[] bytes = Base64.getDecoder().decode(encoded);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
     private String getDateTime(Date date) {
