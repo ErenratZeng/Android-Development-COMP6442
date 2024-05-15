@@ -74,6 +74,7 @@ dependencies {
     implementation("com.github.dhaval2404:imagepicker:2.1")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.github.Hitomis:CircleMenu:v1.1.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation ("org.mockito:mockito-core:4.0.0")
     testImplementation ("org.robolectric:robolectric:4.7.3")
