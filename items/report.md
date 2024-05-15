@@ -461,7 +461,7 @@ Feature Category: Greater Data Usage, Handling and Sophistication<br>
 
 Coverage Screenshot:
 
-![Coverage](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/tree/main/items/media/coverage.png)
+![Coverage](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/media/images/coverage.png)
 
 
 ...
@@ -473,7 +473,7 @@ Coverage Screenshot:
 
 ### Meetings Records
 * Link to the minutes of your meetings like above. There must be at least 4 team meetings.
-  (each commited within 2 days aftre the meeting)
+  (each commited within 2 days after the meeting)
 * Your meetings should also have a reasonable date spanning across Week 6 to 11.*
 
 
