@@ -461,7 +461,7 @@ Feature Category: Greater Data Usage, Handling and Sophistication<br>
 
 Coverage Screenshot:
 
-![Coverage](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/media/images/coverage.png)
+![Coverage](./media/images/coverage.png)
 
 
 ...
