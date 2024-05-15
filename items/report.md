@@ -51,13 +51,13 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
 ## Team Members and Roles
 The key area(s) of responsibilities for each member
 
-| UID      |   Name   |                             Role |
-|:---------|:--------:|---------------------------------:|
-| u7724723 | Qiutong Zeng | Responsible for Database Management, User profile, Firebase Auth |
-| u7611510 | Heng Sun | Responsible for exercise feature |
-| u6812566 | Runyao Wang | Responsible for Message, Search and Social Network |
-| u6508459 | Bingnan Zhao |                        [role] |
-| u7779907 |  Yan Jin  |                           [role] |
+| UID      |   Name   |                                                                  Role |
+|:---------|:--------:|----------------------------------------------------------------------:|
+| u7724723 | Qiutong Zeng |      Responsible for Database Management, User profile, Firebase Auth |
+| u7611510 | Heng Sun |                                      Responsible for exercise feature |
+| u6812566 | Runyao Wang |                    Responsible for Message, Search and Social Network |
+| u6508459 | Bingnan Zhao | Responsible for exercise records and firestore and data upload script |
+| u7779907 |  Yan Jin  |                                                                [role] |
 
 
 ## Summary of Individual Contributions
@@ -127,11 +127,23 @@ Note that the core criteria of contribution is based on `code contribution` (the
    - **Code and App Design**
        - Use Recycle view and adapter to display list items (user list, messages)<br><br>
 
-5. **uid**  I have xx% contribution, as follows: <br>
+5. **u6508459, Bingnan ZHao**  I have xx% contribution, as follows: <br>
    - **Code Contribution in the final App**
-       - xxx
+       - Feature Exercise Record: Check exercise history in different orders.
+         [ExerciseRecordActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java)
+         [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
+       - Template method for adapters
+         [BaseAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java)
+         [BlacklistUserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BlacklistUserAdapter.java)
+         [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
+         [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
+         [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
+       - Script to create test messages
+         [create_chat.py](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/script/create_chat.py)
    - **Code and App Design**
-       - Use Recycle view to display list items (user list, messages)
+       - Designed template method and proposed the use of singleton
+       - UI for maps activity and exercise record activity.
+
 ## Application Description
 Kangarun is a sports-centric social application designed for tracking your every workout. With our app, you can log your exercise duration, calories burned, distance covered, and even visualize your route through map images. You can add your workout buddies to the app, chat with them, hang out, and exercise together.
 
