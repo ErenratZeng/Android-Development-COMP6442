@@ -40,6 +40,7 @@ public class ExerciseRecordActivity extends AppCompatActivity {
     private boolean distanceDescending;
     private boolean durationDescending;
 
+    private List<DocumentSnapshot> allRecords;
     public List<DocumentSnapshot> list;
     public List<DocumentSnapshot> dateDeslist;
     public List<DocumentSnapshot> dateAsclist;
@@ -83,19 +84,19 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         CollectionReference records = db.collection("exerciseRecord");
+        allRecords = new ArrayList<>();
         LoginState currentUser = LoginState.getInstance();
         String uid = currentUser.getUserId();
         Log.d("ExerciseRecord", "uid:" + uid);
         if (uid != null) {
-            Query userRecords = records.whereEqualTo("uid", uid);
-            userRecords.get().addOnCompleteListener(task -> {
+            records.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        list.add(document);
+                    allRecords.clear();
+                    for (DocumentSnapshot document : task.getResult()) {
+                        allRecords.add(document);
+                        loadUserRecords();
                     }
-                    Log.d("Firestore", "Total documents fetched: " + list.size());
-                    implementSortLists();
-                    adapter.updateData(dateDescending? dateDeslist : dateAsclist);
+                    Log.d("Firestore", "Total documents fetched: " + allRecords.size());
                 } else {
                     Log.d("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -137,6 +138,23 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         });
 
         EdgeToEdge.enable(this);
+    }
+
+    public void loadUserRecords() {
+        LoginState currentUser = LoginState.getInstance();
+        String uid = currentUser.getUserId();
+        Log.d("ExerciseRecord", "uid:" + uid);
+        if (uid != null) {
+            list.clear();
+            for (DocumentSnapshot document : allRecords) {
+                if (uid.equals(document.getString("uid"))) {
+                    list.add(document);
+                }
+            }
+            Log.d("Firestore", "Total user documents fetched: " + list.size());
+            implementSortLists();
+            adapter.updateData(dateDescending ? dateDeslist : dateAsclist);
+        }
     }
 
     public void implementSortLists() {
