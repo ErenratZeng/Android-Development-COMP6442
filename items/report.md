@@ -254,9 +254,12 @@ Here is a partial (short) example for the subsection `Data Structures`:*
       * *It is more efficient than Arraylist for search with a time complexity O(log(n))*
       * *The tree is created upon app start to reduce the number of requests to firebase*
 
-2. ...
-
-3. ...
+2. *ArrayList*
+   * *Objective: Used for managing dynamic collections of user-generated content such as records or messages.*
+   * *Code Locations: [FriendListActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java), [BlacklistActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java)*
+   * *Reasons:*
+     * *Allows for flexible size adjustments, accommodating an unpredictable number of posts or comments dynamically loaded from Firebase.*
+     * *Provides efficient random access to elements, which is advantageous when displaying or sorting posts in the user feed.*
 
 <hr>
 
