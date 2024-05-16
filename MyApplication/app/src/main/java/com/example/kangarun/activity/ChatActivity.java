@@ -113,7 +113,6 @@ public class ChatActivity extends AppCompatActivity {
             if (documentSnapshot.exists()) {
                 currentUserBlockList = (List<String>) documentSnapshot.get("blockList");
                 isCurrentUserBlockListLoaded = true;
-                attemptSendMessage(); // Attempt to send message after loading block list
             } else {
                 Log.e(TAG, "Current user's block list not found.");
             }
@@ -124,7 +123,6 @@ public class ChatActivity extends AppCompatActivity {
             if (documentSnapshot.exists()) {
                 receiverBlockList = (List<String>) documentSnapshot.get("blockList");
                 isReceiverBlockListLoaded = true;
-                attemptSendMessage(); // Attempt to send message after loading block list
             } else {
                 Log.e(TAG, "Receiver's block list not found.");
             }
