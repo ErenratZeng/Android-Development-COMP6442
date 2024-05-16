@@ -33,7 +33,7 @@ public class ExerciseRecordDetailActivity extends AppCompatActivity {
         String imagePath = getIntent().getStringExtra("imagePath");
 
         textViewDate.setText("Date " + date);
-        textViewDistance.setText("Distance: " + distance + " km");
+        textViewDistance.setText("Distance: " + distance + " m");
         textViewDuration.setText("Duration: " + duration);
         textViewCalories.setText("Calories: " + calories + " kcal");
 
