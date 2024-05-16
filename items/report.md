@@ -44,13 +44,13 @@
 ## Team Members and Roles
 The key area(s) of responsibilities for each member
 
-| UID      |   Name   |                                 Role                                  |
-|:---------|:--------:|:---------------------------------------------------------------------:|
-| u7724723 | Qiutong Zeng |   Responsible for Database Management, User profile, Firebase Auth    |
-| u7611510 | Heng Sun      |                   Responsible for exercise feature and exercise detail recoreds                   |
-| u6812566 | Runyao Wang |          Responsible for Message, Search and Social Network           |
-| u6508459 | Bingnan Zhao | Responsible for exercise records and firestore and data upload script |
-| u7779907 |  Yan Jin  |     Responsible for Login and both p2p and privacy Block function     |
+| UID      |   Name   |                                              Role                                               |
+|:---------|:--------:|:-----------------------------------------------------------------------------------------------:|
+| u7724723 | Qiutong Zeng |                Responsible for Database Management, User profile, Firebase Auth                 |
+| u7611510 | Heng Sun      |                  Responsible for exercise feature and exercise detail recoreds                  |
+| u6812566 | Runyao Wang |                       Responsible for Message, Search and Social Network                        |
+| u6508459 | Bingnan Zhao |              Responsible for exercise records and firestore and data upload script              |
+| u7779907 |  Yan Jin  |                  Responsible for Login and both p2p and privacy Block function                  |
 
 
 ## Summary of Individual Contributions
@@ -241,18 +241,11 @@ This is an important section of your report and should include all technical dec
       * *The tree is created upon app start to reduce the number of requests to firebase*
 
 2. *ArrayList*
-    * *Objective: Used for storing user information for the search feature.*
-
-    * *Code Locations: Defined in [UserArrayList.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserArrayList.java); processed using [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java).*
-
-    * *Reasons:*
-      - It is suitable for scenarios where the dataset is small or rarely updated.
-      - Provides fast access to elements by index.
-      - Simplicity in implementation and usage.
-      - It is more memory-efficient compared to AVL trees for small datasets.
-
-
-3. ...
+   * *Objective: Used for managing dynamic collections of user-generated content such as records or messages.*
+   * *Code Locations: [FriendListActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java), [BlacklistActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java)*
+   * *Reasons:*
+     * *Allows for flexible size adjustments, accommodating an unpredictable number of posts or comments dynamically loaded from Firebase.*
+     * *Provides efficient random access to elements, which is advantageous when displaying or sorting posts in the user feed.*
 
 <hr>
 
