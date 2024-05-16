@@ -1,19 +1,7 @@
 # [G48 - Kangarun] Report
 
-The following is a report template to help your team successfully provide all the details necessary for your report in a structured and organised manner. Please give a straightforward and concise report that best demonstrates your project. Note that a good report will give a better impression of your project to the reviewers.
 
-Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submission (like the current sentence), otherwise it hampers the professionality in your documentation.
-
-*Here are some tips to write a good report:*
-
-* `Bullet points` are allowed and strongly encouraged for this report. Try to summarise and list the highlights of your project (rather than give long paragraphs).*
-
-* *Try to create `diagrams` for parts that could greatly benefit from it.*
-
-* *Try to make your report `well structured`, which is easier for the reviewers to capture the necessary information.*
-
-*We give instructions enclosed in square brackets [...] and examples for each sections to demonstrate what are expected for your project report. Note that they only provide part of the skeleton and your description should be more content-rich. Quick references about markdown by [CommonMark](https://commonmark.org/help/)*
-
+#### Statement: We used API 34 to build the app, using API 33 might result in incompatibility
 ## Table of Contents
 
 - [\[G48 - Kangarun\] Report](#g48---kangarun-report)
@@ -59,7 +47,7 @@ The key area(s) of responsibilities for each member
 | UID      |   Name   |                                 Role                                  |
 |:---------|:--------:|:---------------------------------------------------------------------:|
 | u7724723 | Qiutong Zeng |   Responsible for Database Management, User profile, Firebase Auth    |
-| u7611510 | Heng Sun      |                   Responsible for exercise feature                    |
+| u7611510 | Heng Sun      |                   Responsible for exercise feature and exercise detail recoreds                   |
 | u6812566 | Runyao Wang |          Responsible for Message, Search and Social Network           |
 | u6508459 | Bingnan Zhao | Responsible for exercise records and firestore and data upload script |
 | u7779907 |  Yan Jin  |     Responsible for Login and both p2p and privacy Block function     |
@@ -117,9 +105,11 @@ Note that the core criteria of contribution is based on `code contribution` (the
        - Feature Data-graphical: get user exercise record from firebase,
        display exercise record in detail including exercise path img,distance,duration,date
          - [ExerciseRecordDetailActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
-         - [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)<br>
+         - [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
+        - Implementing the login state as a singleton ensures consistent access and efficient resource management throughout the application.
+          - [LoginState,java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/LoginState.java?ref_type=heads)<br>
    - **Code and App Design**
-       - proposed using AVL tree to store the friend relationship data structure, which can reduce the query waiting time<br><br>
+       - proposed using AVL tree to store the friend relationship data structure, which can reduce the query waiting time <br><br>
 
 4. **u6812566, Runyao Wang**  I have xx% contribution, as follows: <br>
    - **Code Contribution in the final App**
@@ -241,11 +231,7 @@ This is an important section of your report and should include all technical dec
 
 ### Data Structures
 
-*[What data structures did your team utilise? Where and why?]*
 
-Here is a partial (short) example for the subsection `Data Structures`:*
-
-*I used the following data structures in my project:*
 
 1. *AVL Tree*
    * *Objective: used for storing user information for search feature.*
@@ -254,7 +240,17 @@ Here is a partial (short) example for the subsection `Data Structures`:*
       * *It is more efficient than Arraylist for search with a time complexity O(log(n))*
       * *The tree is created upon app start to reduce the number of requests to firebase*
 
-2. ...
+2. *ArrayList*
+    * *Objective: Used for storing user information for the search feature.*
+
+    * *Code Locations: Defined in [UserArrayList.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserArrayList.java); processed using [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java).*
+
+    * *Reasons:*
+      - It is suitable for scenarios where the dataset is small or rarely updated.
+      - Provides fast access to elements by index.
+      - Simplicity in implementation and usage.
+      - It is more memory-efficient compared to AVL trees for small datasets.
+
 
 3. ...
 
@@ -445,19 +441,9 @@ Using tokenized search enriches the possibility and accuracy of current search f
 
 ## Summary of Known Errors and Bugs
 
-*[Where are the known errors and bugs? What consequences might they lead to?]*
-*List all the known errors and bugs here. If we find bugs/errors that your team does not know of, it shows that your testing is not thorough.*
-
-*Here is an example:*
-
 1. *Bug 1:*
-   - *The length of chat message container is fixed. It may looks weird in landscape mode.*
-   - The reason of fixed container width is to eliminate extra spaces with *wrap_content(0dp)* in Recycle View.
-
-2. *Bug 2:*
-   - The circle menu button icon may remain small size after return to this activity from chat activity sometime.
-   - It's only a UI bug, might be caused by conflict between android SDK and OpenGL. It won't cause further problem. 
-3. ...
+   - *The button on home page sometimes gets smaller*
+   - The reason it gets smaller is because we used third party library to achiece dynamic effect, but it seems that the third party library has some bug we can't fix.
 
 <br> <hr>
 
