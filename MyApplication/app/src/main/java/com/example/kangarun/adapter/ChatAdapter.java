@@ -18,6 +18,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
+ * ChatAdapter is responsible for displaying chat messages in a RecyclerView.
+ * It handles both sent and received messages, showing different layouts for each type.
  * @author Runyao Wang u6812566
  */
 public class ChatAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
@@ -33,6 +35,12 @@ public class ChatAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         this.senderId = senderId;
     }
 
+    /**
+     * Creates a new view holder based on the view type.
+     * @param parent The parent view group.
+     * @param viewType The type of the view.
+     * @return A new instance of the view holder.
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder createView(@NonNull ViewGroup parent, int viewType) {
@@ -50,6 +58,12 @@ public class ChatAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     }
 
+    /**
+     * Binds data to the view holder.
+     *
+     * @param holder The view holder.
+     * @param position The position of the item in the data set.
+     */
     @Override
     public void bindView(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_SENT) {
@@ -59,11 +73,20 @@ public class ChatAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         }
     }
 
+    /**
+     * Gets the number of items in the data set.
+     * @return The number of items in the data set.
+     */
     @Override
     public int getDataCount() {
         return messageList.size();
     }
 
+    /**
+     * Returns the view type of the item at the specified position.
+     * @param position The position of the item within the adapter's data set.
+     * @return The view type of the item at the specified position.
+     */
     @Override
     public int getItemViewType(int position) {
         if (messageList.get(position).senderId.equals(senderId)) {
@@ -95,6 +118,11 @@ public class ChatAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             binding = receivedMessageBinding;
         }
 
+        /**
+         * Binds a message to the view holder and loads the receiver's profile image.
+         * @param m The message to bind.
+         * @param receiverId The ID of the receiver.
+         */
         void setMessage(Message m, String receiverId) {
             binding.textMessage.setText(m.messageContent);
             binding.textTime.setText(m.datetime);
