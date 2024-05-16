@@ -48,34 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         buttonCreateAccount = findViewById(R.id.buttonCreateAccount);
         progressBar = findViewById(R.id.progressBar);
 
-        //TODO These code below are test only
-        buttonAutoLogin = findViewById(R.id.buttonAutoLogin);
-        buttonAutoLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (progressBar.getVisibility() == View.INVISIBLE) {
-                    progressBar.setVisibility(View.VISIBLE);
-                } else {
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
-                editTextUserEmail.setText("sb@gmail.com");
-                editTextPassword.setText("sbsbsb");
-                String email = editTextUserEmail.getText().toString().trim();
-                String password = editTextPassword.getText().toString().trim();
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            currentUser.setUserId(User.getCurrentUserId());
-                            Toast.makeText(LoginActivity.this, "Login in Successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        }
-                    }
-                });
-            }
-        });
-        //TODO Test code END here
-
         // Set up the login button with click listener
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
