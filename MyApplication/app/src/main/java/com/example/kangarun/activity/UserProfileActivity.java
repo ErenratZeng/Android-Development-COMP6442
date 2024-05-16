@@ -60,8 +60,10 @@ public class UserProfileActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        // Fetching current user ID
         currentId = currentUser != null ? currentUser.getUserId() : null;
         StorageReference profileRef = storageReference.child("user/" + User.getCurrentUserId() + "/profile.jpg");
+        // Get user's avatar
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -111,6 +113,9 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Load and display the user's profile data from Firestore.
+     */
     private void loadUserProfile(String userId) {
         StorageReference profileRef = storageReference.child("user/" + userId + "/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(uri -> Picasso.get().load(uri).into(profile_image_view))
@@ -128,38 +133,13 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method to handle the user blacklisting operation.
+     */
     private void blacklistUser() {
         Log.d("BlacklistUser", "User blacklisted successfully!");
         Toast.makeText(UserProfileActivity.this, "User blacklisted", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), BlacklistActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Uri uri = data.getData();
-        uploadPictureToFirebase(uri);
-    }
-
-    private void uploadPictureToFirebase(Uri pictureUri) {
-        StorageReference fileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
-        fileRef.putFile(pictureUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(UserProfileActivity.this, "Picture uploaded", Toast.LENGTH_SHORT).show();
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profile_image_view);
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(UserProfileActivity.this, "Picture uploaded failed", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

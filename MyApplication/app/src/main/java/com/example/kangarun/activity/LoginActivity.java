@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * @author Qiutong Zeng u7724723,Runyao Wang u6812566,Heng Sun u7611510
+ * LoginActivity handles user login functionality with Firebase authentication.
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -75,14 +76,17 @@ public class LoginActivity extends AppCompatActivity {
         });
         //TODO Test code END here
 
+        // Set up the login button with click listener
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Toggle progress bar visibility
                 if (progressBar.getVisibility() == View.INVISIBLE) {
                     progressBar.setVisibility(View.VISIBLE);
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);
                 }
+                // Get user inputs
                 String email = editTextUserEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
 

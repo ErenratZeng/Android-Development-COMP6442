@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * @author Qiutong Zeng u7724723
+ * RegisterActivity handles the user registration process using Firebase authentication.
+ * Users can enter their details such as email, password, username, gender, weight, and height.
  */
 public class RegisterActivity extends AppCompatActivity {
 
@@ -49,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Get user inputs from EditText fields
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
                 String userName = editTextUserName.getText().toString();
@@ -56,12 +59,14 @@ public class RegisterActivity extends AppCompatActivity {
                 weight = 0;
                 height = 0;
 
+                // Attempt to parse weight, show toast message if input is invalid
                 try {
                     weight = Double.parseDouble(editTextWeight.getText().toString());
                 } catch (NumberFormatException e) {
                     Toast.makeText(RegisterActivity.this, "Invalid weight", Toast.LENGTH_SHORT).show();
                 }
 
+                // Attempt to parse height, show toast message if input is invalid
                 try {
                     height = Double.parseDouble(editTextHeight.getText().toString());
                 } catch (NumberFormatException e) {
@@ -83,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
+                            // Set user ID in LoginState
                             currentUser.setUserId(User.getCurrentUserId());
                             User newUser = new User();
                             newUser.setUsername(userName);

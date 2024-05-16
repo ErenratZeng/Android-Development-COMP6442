@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                currentUser.setUserId("");
+                currentUser.setUserId(""); // Clear the current user ID
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
             }
@@ -63,9 +63,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         tree = new UserAVLTree();
-        loadUsersIntoAVL(tree);
-        circleMenu = (CircleMenu) findViewById(R.id.circle_menu);
+        loadUsersIntoAVL(tree); // Load user data into AVL tree
 
+        circleMenu = (CircleMenu) findViewById(R.id.circle_menu);
+        // Configure circle menu with main and sub-menu options
         circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.drawable.icon_menu, R.drawable.exit)
                 .addSubMenu(Color.parseColor("#30A400"), R.drawable.search)
                 .addSubMenu(Color.parseColor("#FF4B32"), R.drawable.chat)
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onMenuSelected(int index) {
+                        // Handle menu selection to start different activities
                         switch (index) {
                             case 0:
                                 Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
@@ -105,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onMenuOpened() {
-                        Log.d("Qiutong", "Error Here");
                     }
 
                     @Override
@@ -118,23 +119,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     public void onBackPressed() {
-//        Toast.makeText(this, "You cannot return to last page", Toast.LENGTH_SHORT).show();
         //Ban return button
+        super.onBackPressed();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // Set the profile image from Firebase storage
         setProfileImage();
     }
 
     private void setProfileImage() {
+        // Locate the user's profile image from Firebase storage
         StorageReference profileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                // Load and set the user's profile image using Picasso
                 Picasso.get().load(uri).into(profileButton);
             }
         });

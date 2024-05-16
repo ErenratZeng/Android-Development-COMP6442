@@ -37,6 +37,7 @@ import java.util.Map;
 
 /**
  * @author Qiutong Zeng u7724723,Bingnan Zhao u6508459
+ * UpdateProfileActivity allows users to update their profile information and profile avatar.
  */
 public class UpdateProfileActivity extends AppCompatActivity {
     private EditText editTextUserName, editTextGender, editTextWeight, editTextHeight;
@@ -80,7 +81,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 editTextHeight.setText(String.valueOf(value.getDouble("height")));
             }
         });
-
+        // Get user's avatar
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -91,6 +92,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         uploadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Using ImagePicker to handle image selection and cropping
                 ImagePicker.with(UpdateProfileActivity.this)
                         .crop(1f, 1f)                //Crop image to 1:1
                         .compress(240)            //Compress image file size
@@ -102,6 +104,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         uploadInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Collect and parse user input
                 String userName = editTextUserName.getText().toString();
                 String gender = editTextGender.getText().toString();
                 weight = Double.parseDouble(editTextWeight.getText().toString());
@@ -120,6 +123,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 }
                 DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentUser.getUserId());
 
+                // Update Firestore document with new user data
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("username", userName);
                 updates.put("gender", gender);
@@ -150,6 +154,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
         uploadPictureToFirebase(uri);
     }
 
+    /**
+     * Uploads a selected picture to Firebase Storage and updates the profile image view.
+     */
     private void uploadPictureToFirebase(Uri pictureUri) {
         StorageReference fileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");
         fileRef.putFile(pictureUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
