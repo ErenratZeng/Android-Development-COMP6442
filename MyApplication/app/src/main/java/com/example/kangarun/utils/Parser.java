@@ -9,10 +9,9 @@ import java.util.regex.Pattern;
  * @author Runyao Wang u6812566
  */
 public class Parser {
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
     private static final String GENDER_REGEX = "^[mfo]$";
 
-    // Parse the query and return null if invalid
+    // Parse the query into map and return null if invalid
     public static Map<String, String> parse(Map<String, String> tokens) throws IllegalArgumentException {
         Map<String, String> result = new HashMap<>();
         for (Map.Entry<String, String> entry : tokens.entrySet()) {
@@ -51,6 +50,7 @@ public class Parser {
         return gender.matches(GENDER_REGEX);
     }
 
+    // used for test
     public static Map<String, String> processQuery(String query) {
         Map<String, String> tokens = Tokenizer.tokenize(query);
         if (tokens == null) {
