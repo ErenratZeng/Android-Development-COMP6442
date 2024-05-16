@@ -126,6 +126,7 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     }
 
+    // Click delete friend
     private void setupDeleteFriendButton(DocumentReference profileDocRef) {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         addFriendButton.setOnClickListener(v -> {
@@ -145,6 +146,7 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     }
 
+    // Click add friend
     private void setupAddFriendButton(DocumentReference profileDocRef) {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
@@ -187,9 +189,21 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     private void blockUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
+        DocumentReference profileDocRef = firebaseFirestore.collection("user").document(profileId);
+        profileDocRef.update("friendList", FieldValue.arrayRemove(currentId))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("Friend", "Friend removed successfully!");
+                })
+                .addOnFailureListener(e -> Log.e("Friend", "Error removing friend", e));
+        currentDocRef.update("friendList", FieldValue.arrayRemove(profileId))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("Friend", "Friend removed successfully!");
+                })
+                .addOnFailureListener(e -> Log.e("Friend", "Error removing friend", e));
+        addFriendButton.setText("Add Friend");
+        setupAddFriendButton(profileDocRef);
         currentDocRef.update(
-                        "blockList", FieldValue.arrayUnion(profileId),
-                        "friendList", FieldValue.arrayRemove(profileId)
+                        "blockList", FieldValue.arrayUnion(profileId)
                 )
                 .addOnSuccessListener(aVoid -> {
                     Log.d("BlockUser", "User blocked successfully!");
