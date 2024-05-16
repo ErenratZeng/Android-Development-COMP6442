@@ -65,6 +65,11 @@ public class ExerciseRecordActivity extends AppCompatActivity {
     private ImageView imageBack;
     private LineChart chart;
 
+    /**
+     * Initializes the activity with necessary views, adapters, and database connections.
+     * Sets up the UI components such as RecyclerView, Chart, and Buttons, and initializes Firebase instances.
+     * Sets listeners for system window insets, handles Firestore data fetching, and initializes sort functionalities.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +156,13 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
     }
 
+    /**
+     * Updates and styles the chart based on a list of Firestore document snapshots.
+     * This method processes the data into chart entries, sets the visual aspects of the chart,
+     * and refreshes the display.
+     *
+     * @param recordsList List of DocumentSnapshot objects to be transformed into chart data.
+     */
     private void updateChart(List<DocumentSnapshot> recordsList) {
         List<Entry> entries = extractEntriesFromRecords(recordsList);
         LineDataSet dataSet = new LineDataSet(entries, "Daily Distance");
@@ -170,6 +182,14 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         chart.invalidate();
     }
 
+    /**
+     * Converts a list of DocumentSnapshot into chart entries based on daily distances.
+     * This method aggregates distances per day for the past week and formats them into
+     * chart entries。
+     *
+     * @param recordsList The list of Firestore DocumentSnapshot to be processed.
+     * @return A list of Entry objects, each representing a day's total distance over the past week.
+     */
     private List<Entry> extractEntriesFromRecords(List<DocumentSnapshot> recordsList) {
         Map<Integer, Float> dailyDistances = new LinkedHashMap<>();
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -206,6 +226,11 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         return entries;
     }
 
+    /**
+     * The method retrieves the current user's ID, filters the documents from {@code allRecords}
+     * to find those that belong to the user, and updates the UI components accordingly. If the
+     * user ID is not found, no action is taken.
+     */
     public void loadUserRecords() {
         LoginState currentUser = LoginState.getInstance();
         String uid = currentUser.getUserId();
@@ -223,6 +248,10 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sorts records by date, distance, and duration in both ascending and descending orders.
+     * Initializes sorted lists from a base list and applies custom comparators for each category.
+     */
     public void implementSortLists() {
         dateDeslist = new ArrayList<>(list);
         distanceDeslist = new ArrayList<>(list);
@@ -262,6 +291,13 @@ public class ExerciseRecordActivity extends AppCompatActivity {
         Collections.reverse(durationDeslist);
     }
 
+    /**
+     * Toggles the sort direction indicator on buttons related to sorting.
+     * This method updates the visual indicator for sorting direction (ascending or descending) on a specified button.
+     *
+     * @param descending Indicates the sort direction; true for descending, false for ascending.
+     * @param button The button on which to display the sort direction indicator.
+     */
     private void toggleSortDirection(boolean descending, Button button) {
         sortByDateButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         sortByDistanceButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
