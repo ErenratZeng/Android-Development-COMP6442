@@ -421,6 +421,8 @@ Feature Category: Greater Data Usage, Handling and Sophistication<br>
    - The reason of fixed container width is to eliminate extra spaces with *wrap_content(0dp)* in Recycle View.
 
 2. *Bug 2:*
+   - The circle menu button icon may remain small size after return to this activity from chat activity sometime.
+   - It's only a UI bug, might be caused by conflict between android SDK and OpenGL. It won't cause further problem. 
 3. ...
 
 <br> <hr>
