@@ -56,13 +56,13 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
 ## Team Members and Roles
 The key area(s) of responsibilities for each member
 
-| UID      |   Name   |                                                                  Role |
-|:---------|:--------:|:----------------------------------------------------------------------:|
-| u7724723 | Qiutong Zeng |      Responsible for Database Management, User profile, Firebase Auth |
-| u7611510 | Heng Sun      |Responsible for exercise feature               |
-| u6812566 | Runyao Wang |                    Responsible for Message, Search and Social Network |
+| UID      |   Name   |                                 Role                                  |
+|:---------|:--------:|:---------------------------------------------------------------------:|
+| u7724723 | Qiutong Zeng |   Responsible for Database Management, User profile, Firebase Auth    |
+| u7611510 | Heng Sun      |                   Responsible for exercise feature                    |
+| u6812566 | Runyao Wang |          Responsible for Message, Search and Social Network           |
 | u6508459 | Bingnan Zhao | Responsible for exercise records and firestore and data upload script |
-| u7779907 |  Yan Jin  |                                          [role] |
+| u7779907 |  Yan Jin  |     Responsible for Login and both p2p and privacy Block function     |
 
 
 ## Summary of Individual Contributions
