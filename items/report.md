@@ -336,12 +336,15 @@ Using tokenized search enriches the possibility and accuracy of current search f
 
 3. [LoadShowData] User are capable of getting various information by accessing certain section of the application.
    * The information of current user's own profile are loaded from firestore and shown in [UserProfileActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)
-   * Chat messages are shown in [ChatActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)
-   * User's previous exercise records are shown in [ExerciseRecordActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java)
+   * Chat messages are loaded and shown in [ChatActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)
+   * User's previous exercise records are loaded and shown in [ExerciseRecordActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java)
    * Detail information of each record is shown in [ExerciseRecordDetailActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
    * User's friends are shown in [FriendListActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java) and blacklist members are shown in [BackListActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java)
    <br>
-4. ....
+4. [DataStream] Real-time synchronization and uploading of user data to Firebase.
+    * Chat messages are created and uploaded to firebase in [ChatActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)
+    * Adding or removing a user from friend or block list is synchronized with firebase in [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+    * When a user completes an exercise session, the details of the session (e.g., duration, distance, route map) are uploaded to Firebase. [ExerciseRecordActivity](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java)
     <br>
 5. [Search]. Users are able to search other users by username or tokens.
     * Code: [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java), [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java), [Tokenizer.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Tokenizer.java), [Parser.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Parser.java)
@@ -437,7 +440,12 @@ Using tokenized search enriches the possibility and accuracy of current search f
 1. *Bug 1:*
    - *The button on home page sometimes gets smaller*
    - The reason it gets smaller is because we used third party library to achiece dynamic effect, but it seems that the third party library has some bug we can't fix.
-
+2. *Bug 2:*
+    - *The length of chat message container is fixed. It may looks weird in landscape mode.*
+    - The reason of fixed container width is to eliminate extra spaces with *wrap_content(0dp)* in Recycle View.
+3. *Error 1*
+    - *An error message appears in the logcat when attempting to request a user's profile picture if it has not been set.*
+    - The default profile picture will be applied with the error. It does not affect any functionality.
 <br> <hr>
 
 
@@ -495,8 +503,10 @@ Coverage Screenshot:
 - *[Team Meeting 1](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240411.md)*
 - *[Team Meeting 2](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240415.md)*
 - *[Team Meeting 3](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240422.md)*
-- [Team Meeting 4](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240429.md)
-- ... (Add any descriptions if needed) ...
+- *[Team Meeting 4](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240429.md)*
+- *[Team Meeting 5](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240506.md)*
+- *[Team Meeting 6](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240513.md)*
+
 
 <hr>
 
