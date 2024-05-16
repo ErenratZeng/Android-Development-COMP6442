@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * BlacklistActivity manages the display and interaction with the user's list of blocked users.
  * @author Yan Jin u7779907
  */
 public class BlacklistActivity extends AppCompatActivity implements UserListener {
@@ -37,10 +38,13 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
         binding = ActivityBlacklistBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Setup the back button to close the activity
         ImageView imageBack = findViewById(R.id.imageBack);
         imageBack.setOnClickListener(v -> {
             getOnBackPressedDispatcher().onBackPressed();
         });
+
+        // Fetch blocked users if the current user is valid
         if (currentUser != null && currentUser.getUserId() != null) {
             getBlockedUsers();
             setListeners();
@@ -50,10 +54,12 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
         }
     }
 
+    // Set listener for the back button in the app's UI
     private void setListeners() {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
     }
 
+    // Retrieve the list of user IDs that the current user has blocked
     private void getBlockedUsers() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user").document(currentUser.getUserId()).get().addOnCompleteListener(task -> {
@@ -72,9 +78,9 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
         });
     }
 
+    // Fetch details of blocked users from Firestore
     private void fetchBlockedUsersDetails(List<String> blockList) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String currentUid = currentUser.getUserId();
         db.collection("user").get().addOnCompleteListener(t -> {
             if (t.isSuccessful() && t.getResult() != null) {
                 List<User> users = new ArrayList<>();
@@ -95,6 +101,7 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
         });
     }
 
+    // Update the user interface to display the list of blocked users or a message if no users are blocked
     private void updateUI() {
         if (!blockedUsers.isEmpty()) {
             BlacklistUserAdapter adapter = new BlacklistUserAdapter(blockedUsers, this);
@@ -111,10 +118,10 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
 
     @Override
     public void onUserClicked(User user) {
-
+        // Can be used for future user interactions in the blacklist
     }
 
-
+    // Unblocks a user when they are clicked in the UI
     @Override
     public void onUserUnblocked(User user) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

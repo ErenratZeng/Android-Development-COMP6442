@@ -56,13 +56,13 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
 ## Team Members and Roles
 The key area(s) of responsibilities for each member
 
-| UID      |   Name   |                                                                  Role |
-|:---------|:--------:|:----------------------------------------------------------------------:|
-| u7724723 | Qiutong Zeng |      Responsible for Database Management, User profile, Firebase Auth |
-| u7611510 | Heng Sun      |Responsible for exercise feature               |
-| u6812566 | Runyao Wang |                    Responsible for Message, Search and Social Network |
+| UID      |   Name   |                                 Role                                  |
+|:---------|:--------:|:---------------------------------------------------------------------:|
+| u7724723 | Qiutong Zeng |   Responsible for Database Management, User profile, Firebase Auth    |
+| u7611510 | Heng Sun      |                   Responsible for exercise feature                    |
+| u6812566 | Runyao Wang |          Responsible for Message, Search and Social Network           |
 | u6508459 | Bingnan Zhao | Responsible for exercise records and firestore and data upload script |
-| u7779907 |  Yan Jin  |                                          [role] |
+| u7779907 |  Yan Jin  |     Responsible for Login and both p2p and privacy Block function     |
 
 
 ## Summary of Individual Contributions
@@ -143,7 +143,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
    - **Code and App Design**
        - Use Recycle view and adapter to display list items (user list, messages)<br><br>
 
-5. **u6508459, Bingnan ZHao**  I have xx% contribution, as follows: <br>
+5. **u6508459, Bingnan Zhao**  I have xx% contribution, as follows: <br>
    - **Code Contribution in the final App**
        - Feature Exercise Record: Check exercise history in different orders.
           - [ExerciseRecordActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java)
@@ -159,6 +159,22 @@ Note that the core criteria of contribution is based on `code contribution` (the
    - **Code and App Design**
        - Designed template method and proposed the use of singleton
        - UI for maps activity and exercise record activity.
+
+6. **u7779907, Yan Jin**  I have xx% contribution, as follows: <br>
+    - **Code Contribution in the final App**
+        - LoginActivity.java: Developed the base structure for user login functionality.
+          [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
+          [WelcomeActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/WelcomeActivity.java)
+        - Feature P2P-Block: Developed user blocking functionality to prevent direct messaging
+          [BlacklistActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java)
+          [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+          [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)
+        - Feature Privacy-Block: Implemented content blocking to prevent users from viewing certain profiles or content
+          [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java)
+          [FriendListActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java)
+    - **Code and App Design**
+        - Developed the UI for displaying the list of blocked users, incorporating features for easy unblocking. 
+        - Ensured that the blacklist interface aligns with the overall design and usability standards of the Kangarun app.
 
 ## Application Description
 Kangarun is a sports-centric social application designed for tracking your every workout. With our app, you can log your exercise duration, calories burned, distance covered, and even visualize your route through map images. You can add your workout buddies to the app, chat with them, hang out, and exercise together.
