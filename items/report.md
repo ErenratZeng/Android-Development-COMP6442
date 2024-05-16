@@ -434,9 +434,6 @@ Using tokenized search enriches the possibility and accuracy of current search f
     - Correction:
       Create an AVL tree for specific type User. It is significantly easier to invoke and readability improved. (https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/53262b4b45eae4306f61cb2f934c41727372c747)
       <br>
-* code smell 5: Upload avatar issue
-   - An crash appears when user try to upload avatar, but user only open the folder and quit.
-  - The reason it crashed is because there is no fail listener added to the inner layer. We found it after the Java code deadline (https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/commit/ddaecb1aab91ba62abb47ef22d15732a15ea3549)
 
 ## Summary of Known Errors and Bugs
 
