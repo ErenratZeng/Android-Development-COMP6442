@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //Ban return button
-        super.onBackPressed();
     }
 
     @Override
