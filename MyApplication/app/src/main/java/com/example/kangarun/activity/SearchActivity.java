@@ -90,6 +90,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         setupGenderFilter();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Get block list
         db.collection("user")
                 .document(currentUser.getUserId())
                 .get()
@@ -127,6 +128,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         });
     }
 
+    // Do search
     private void searchUsers(String query) {
         boolean invalid = false;
         List<User> users = new ArrayList<>();
@@ -158,7 +160,9 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         createUserView(userList, query, invalid);
     }
 
+    // put users into recycle view list
     private void createUserView(List<User> users, String query, boolean invalid) {
+        // If there is result
         if (!users.isEmpty()) {
             UserAdapter adapter = new UserAdapter(users, this);
             binding.userRecyclerView.setAdapter(adapter);
@@ -166,6 +170,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             if (query != null) {
                 Toast.makeText(getApplicationContext(), "Search <" + query + "> success", Toast.LENGTH_SHORT).show();
             }
+            // If no result
         } else {
             binding.userRecyclerView.setVisibility(View.GONE);
             if (invalid) {
@@ -179,6 +184,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
     private void setupGenderFilter() {
         Spinner spinner = findViewById(R.id.genderFilter);
+        // Set spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.gender_options,
@@ -187,7 +193,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
+            @Override // on gender selected
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedGender = parent.getItemAtPosition(position).toString();
                 Log.d("Selected gender", selectedGender);

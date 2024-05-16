@@ -95,6 +95,7 @@ public class UserAVLTree {
         return (n == null) ? 0 : height(n.left) - height(n.right);
     }
 
+    // Normal search for username
     public List<User> searchPartial(String query) {
         List<User> results = new ArrayList<>();
         searchPartialHelper(root, query.toLowerCase(), results);
@@ -110,6 +111,7 @@ public class UserAVLTree {
         searchPartialHelper(node.right, query, results);
     }
 
+    // Token search by query
     public List<User> searchToken(Map<String, String> query) {
         List<User> results = new ArrayList<>();
         searchTokenHelper(root, query, results);

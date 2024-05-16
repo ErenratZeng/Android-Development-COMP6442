@@ -76,8 +76,9 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        // Back button
         binding.imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        // Send button
         binding.layoutSend.setOnClickListener(v -> attemptSendMessage());
 
         receiver = getIntent().getSerializableExtra("user", com.example.kangarun.User.class);

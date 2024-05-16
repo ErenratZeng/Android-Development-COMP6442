@@ -9,9 +9,11 @@ import java.util.Map;
 public class Tokenizer {
     // Tokenize the query and return null if invalid
     public static Map<String, String> tokenize(String input) {
+        // If query doesn't contains =, it is a normal search
         if (!input.contains("=")) {
             return null;
         }
+        // Tokenize by semicolon
         Map<String, String> tokens = new HashMap<>();
         String[] parts = input.split(";");
         for (String part : parts) {
