@@ -323,10 +323,10 @@ Using tokenized search enriches the possibility and accuracy of current search f
 *List all features you have completed in their separate categories with their featureId. THe features must be one of the basic/custom features, or an approved feature from Voice Four Feature.*
 
 ### Basic Features
-1. [LogIn]. Description of the feature ... (easy)
-   * Code: [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
-   * Description of feature: ... <br>
-   * Description of your implementation: ...<br>
+1. [LogIn]. Allows users to log into the Kangarun application using their credentials, ensuring authenticated access to personalized content.
+    * Code: [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
+    * Developed the basic structure for user login functionality using Firebase authentication.<br>
+    * Integrated Firebase authentication to verify user credentials and ensure secure access.<br>
 
 2. [DataFiles]. 2500 chat messages are created and uploaded into the database of firebase.
    * Chat data is structured as [Message Class](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/Message.java) and upload to firestore.
@@ -380,17 +380,17 @@ Using tokenized search enriches the possibility and accuracy of current search f
     * It is based on Firestore for persistent and real-time data synchronization, ensuring that messages are consistently updated and displayed. The messages are displayed by a recycle view adapter to handle asynchronous data loading and UI updates to provide a responsive user experience.<br><br>
 
    [P2P-Block]
-    * Code: [Class X, entire file](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and Class Y, ...
-    * [Class B](../src/path/to/class/file.java#L30-85): methods A, B, C, lines of code: 30 to 85
-    * Description of your implementation: ...
+    * Code:[FriendListActivity.java](uhttps://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java)
+    * [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)
+    * Description of your implementation: Implemented the blacklist activity to display a list of blocked users and manage block/unblock functionality. Integrated with Firebase to fetch and update the block list in real-time.
+    * Added block/unblock functionality in the friend profile activity to allow users to manage their block list directly from the user's profile.
       <br><br>
 5. Feature Category: Privacy<br>
    [Privacy-Block]
-    * Code: [Class X, entire file](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and Class Y, ...
-    * [Class B](../src/path/to/class/file.java#L30-85): methods A, B, C, lines of code: 30 to 85
-    * Description of your implementation: ... <br><br>
-
-<hr>
+    * Code: [BlacklistActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java)
+    * [activity_blacklist.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/res/layout/activity_blacklist.xml)
+    * Description of your implementation: Modified the friend list activity to exclude blocked users from appearing in the friend list and search results.
+    * Managed the block list through Firebase integration and dynamically updated the user interface based on the current block list. <br><br>
 
 ### Surprise Features
 #### Code smells
