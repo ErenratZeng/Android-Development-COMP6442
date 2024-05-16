@@ -19,6 +19,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
+ * This class represents a User in the application.
+ * It includes user details such as username, email, gender, weight, height, friends list, and block list.
+ * The class also provides methods for user operations like blocking other users and uploading user profiles to Firestore.
  * @author Runyao Wang u6812566, Qiutong Zeng u7724723
  */
 
@@ -45,6 +48,10 @@ public class User implements Serializable, Comparable<User> {
     }
 
 
+    /**
+     * Gets the ID of the currently authenticated user.
+     * @return The user ID of the current user, or null if no user is authenticated.
+     */
     public static String getCurrentUserId() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -112,7 +119,12 @@ public class User implements Serializable, Comparable<User> {
         return blockList;
     }
 
-
+    /**
+     * Blocks a user with the given ID and updates the block list in Firestore.
+     *
+     * @param id The ID of the user to be blocked.
+     * @param onSuccessListener The success listener to handle successful block operations.
+     */
     public void block(String id, OnSuccessListener<Void> onSuccessListener) {
         if (!blockList.contains(id)) {
             blockList.add(id);
@@ -127,7 +139,11 @@ public class User implements Serializable, Comparable<User> {
         }
     }
 
-    // Compare user's gender with given type. The give type can only be Male, Female or Other
+    /**
+     * Compares the user's gender with a given gender type.
+     * @param g The gender type to compare with. It can be "Male", "Female", or "Other".
+     * @return true if the user's gender matches the given type, otherwise false.
+     */
     public boolean compareGender(String g) {
         // null gender if the user doesn't provide gender. It should be classified as other
         if (gender == null) {
@@ -147,6 +163,9 @@ public class User implements Serializable, Comparable<User> {
         }
     }
 
+    /**
+     * Uploads the user's profile data to Firestore.
+     */
     public void uploadNewuserProfile() {
         String uid = getCurrentUserId();
         if (uid != null) {
@@ -174,6 +193,12 @@ public class User implements Serializable, Comparable<User> {
         }
     }
 
+    /**
+     * Compares this user with another user for order.
+     *
+     * @param o The other user to be compared.
+     * @return A negative integer, zero, or a positive integer as this user is less than, equal to, or greater than the specified user.
+     */
     @Override
     public int compareTo(User o) {
         return this.username.compareTo(o.username);
