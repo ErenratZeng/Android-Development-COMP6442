@@ -97,57 +97,65 @@ Note that the core criteria of contribution is based on `code contribution` (the
     - [You are welcome to provide anything that you consider as a contribution to the project or team.] e.g., APK, setups, firebase* <br><br>
 2. **u7724723, Qiutong Zeng**  I have % contribution, as follows: <br>
    - **Code Contribution in the final App**
-      - Feature FB-Auth: Use firebase to verify user login and add register info to Firestore - [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java) & [RegisterActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/RegisterActivity.java)
-      - Feature FB-Persist: Use firebase to persist user profile - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) & [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
-      - Feature Data-Profile: Display personal information and an avatar for each user - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java)-  [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+      - Feature FB-Auth: Use firebase to verify user login and add register info to Firestore 
+        - [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java) & [RegisterActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/RegisterActivity.java)
+      - Feature FB-Persist: Use firebase to persist user profile 
+        - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) & [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+      - Feature Data-Profile: Display personal information and an avatar for each user 
+        - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) &  [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
    - **Code and App Design**
        - Implement media file display and upload through Picasso and imagepicker
-       - Conceptualize the GUI of the entire app 
+       - Conceptualize the UI design of the entire app 
        - Implement circular Menu through CircleMenur<br><br>
 
 3. **u7611510, HengSun**  I have % contribution, as follows: <br>
    - **Code Contribution in the final App**
-       - Feature Data-GPS: use Google Maps api to display map, locate the movement position in real time, 
-       continuously draw poly line according to the user's position in the map,  calculate the movement distance, time, 
-       and calories in real time - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
-       - Feature FB-Persist: use firebase to persist user exercise record - class MapsActivity: [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
+       - Feature Data-GPS: use Google Maps api to display map, locate the movement position in real time, continuously draw poly line according to the user's position in the map,  calculate the movement distance, time, and calories in real time 
+         - [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
+       - Feature FB-Persist: use firebase to persist user exercise record
+         - [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java)
        - Feature Data-graphical: get user exercise record from firebase,
-       display exercise record in detail including exercise path img,distance,duration,date - class ExerciseRecordDetailActivity:[ExerciseRecordDetailActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
-       -class ExerciseRecordAdaptor:[ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)<br>
+       display exercise record in detail including exercise path img,distance,duration,date
+         - [ExerciseRecordDetailActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
+         - [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)<br>
    - **Code and App Design**
        - proposed using AVL tree to store the friend relationship data structure, which can reduce the query waiting time<br><br>
 
 4. **u6812566, Runyao Wang**  I have xx% contribution, as follows: <br>
    - **Code Contribution in the final App**
        - Feature P2P-DM: Real-time messaging implementation and relative UI -
-         [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java),
-         [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java),
-         [activity_chat.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_login.xml)
+         - [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java),
+         - [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java),
+         - [activity_chat.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_login.xml)
        - Feature Search: Search user by username or tokens(see [Parser](#parser)) with AVL tree.
-         [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java),
-         [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java), [Tokenizer.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Tokenizer.java), [Parser.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Parser.java)
-       - Feature Search-Filter: Sort and filter the search result [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java).
+         - [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java),
+         - [UserAVLTree.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/UserAVLTree.java), [Tokenizer.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Tokenizer.java), [Parser.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Parser.java)
+       - Feature Search-Filter: Sort and filter the search result 
+         - [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java).
        - User adapter to create list to display users in search result and friends list -
-         [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java), 
-       - Chat adapter to display messages in list [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
-       - Add/delete friend [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
-       - Friend list [FriendListActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java)
+         - [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java), 
+       - Chat adapter to display messages in list 
+         - [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
+       - Add/delete friend 
+         - [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+       - Friend list 
+         - [FriendListActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java)
    - **Code and App Design**
        - Use Recycle view and adapter to display list items (user list, messages)<br><br>
 
 5. **u6508459, Bingnan ZHao**  I have xx% contribution, as follows: <br>
    - **Code Contribution in the final App**
        - Feature Exercise Record: Check exercise history in different orders.
-         [ExerciseRecordActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java)
-         [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
+          - [ExerciseRecordActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java)
+          - [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
        - Template method for adapters
-         [BaseAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java)
-         [BlacklistUserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BlacklistUserAdapter.java)
-         [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
-         [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
-         [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
+          - [BaseAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java)
+          - [BlacklistUserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BlacklistUserAdapter.java)
+          - [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
+          - [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
+          - [UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java)
        - Script to create test messages
-         [create_chat.py](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/script/create_chat.py)
+          - [create_chat.py](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/script/create_chat.py)
    - **Code and App Design**
        - Designed template method and proposed the use of singleton
        - UI for maps activity and exercise record activity.
