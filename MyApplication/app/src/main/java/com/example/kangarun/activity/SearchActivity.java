@@ -31,6 +31,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * SearchActivity handles user search functionality within the app.
+ * It allows users to search for other users by username or email,
+ * filter results by gender, and sort the results by username or email.
+ * Users can also navigate to the profile of any user they select from the search results.
+ * It ensures that blocked users are not displayed in the search results.
  * @author Runyao Wang u6812566,Bingnan Zhao u6508459
  */
 public class SearchActivity extends AppCompatActivity implements UserListener {
@@ -128,7 +133,10 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         });
     }
 
-    // Do search
+    /**
+     * Performs a user search based on the given query.
+     * @param query The search query entered by the user.
+     */
     private void searchUsers(String query) {
         boolean invalid = false;
         List<User> users = new ArrayList<>();
@@ -160,7 +168,12 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         createUserView(userList, query, invalid);
     }
 
-    // put users into recycle view list
+    /**
+     * Updates the user RecyclerView with the given list of users.
+     * @param users The list of users to display.
+     * @param query The search query, used for displaying success or failure messages.
+     * @param invalid Indicates if the query was invalid.
+     */
     private void createUserView(List<User> users, String query, boolean invalid) {
         // If there is result
         if (!users.isEmpty()) {
@@ -182,6 +195,9 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         }
     }
 
+    /**
+     * Sets up the gender filter spinner.
+     */
     private void setupGenderFilter() {
         Spinner spinner = findViewById(R.id.genderFilter);
         // Set spinner

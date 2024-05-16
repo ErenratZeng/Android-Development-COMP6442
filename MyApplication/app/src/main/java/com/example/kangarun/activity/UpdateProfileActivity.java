@@ -156,6 +156,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     /**
      * Uploads a selected picture to Firebase Storage and updates the profile image view.
+     *
+     * @param pictureUri the link to the picture path
      */
     private void uploadPictureToFirebase(Uri pictureUri) {
         StorageReference fileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");

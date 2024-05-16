@@ -126,7 +126,10 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     }
 
-    // Click delete friend
+    /**
+     * Configures the delete friend button to remove the current user from the friend's friend list.
+     * @param profileDocRef The document reference of the profile user.
+     */
     private void setupDeleteFriendButton(DocumentReference profileDocRef) {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         addFriendButton.setOnClickListener(v -> {
@@ -146,7 +149,10 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     }
 
-    // Click add friend
+    /**
+     * Configures the add friend button to add the current user to the friend's friend list.
+     * @param profileDocRef The document reference of the profile user's Firestore document.
+     */
     private void setupAddFriendButton(DocumentReference profileDocRef) {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +193,9 @@ public class FriendProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Configures the block user functionality to remove the friend from both users' friend lists and add to the block list.
+     */
     private void blockUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         DocumentReference profileDocRef = firebaseFirestore.collection("user").document(profileId);
@@ -213,6 +222,9 @@ public class FriendProfileActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Log.e("BlockUser", "Error blocking user", e));
     }
 
+    /**
+     * Configures the unblock user functionality to remove the user from the current user's block list.
+     */
     private void unblockUser() {
         DocumentReference currentDocRef = firebaseFirestore.collection("user").document(currentId);
         currentDocRef.update("blockList", FieldValue.arrayRemove(profileId))

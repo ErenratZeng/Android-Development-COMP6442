@@ -59,7 +59,9 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
         binding.imageBack.setOnClickListener(v -> onBackPressed());
     }
 
-    // Retrieve the list of user IDs that the current user has blocked
+    /**
+    Retrieve the list of user IDs that the current user has blocked
+    */
     private void getBlockedUsers() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user").document(currentUser.getUserId()).get().addOnCompleteListener(task -> {
@@ -78,7 +80,10 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
         });
     }
 
-    // Fetch details of blocked users from Firestore
+    /**
+     * Fetch details of blocked users from Firestore
+     * @param blockList user's blocklist from firestore
+     */
     private void fetchBlockedUsersDetails(List<String> blockList) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user").get().addOnCompleteListener(t -> {
@@ -101,7 +106,9 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
         });
     }
 
-    // Update the user interface to display the list of blocked users or a message if no users are blocked
+    /**
+     * Update the user interface to display the list of blocked users or a message if no users are blocked
+     */
     private void updateUI() {
         if (!blockedUsers.isEmpty()) {
             BlacklistUserAdapter adapter = new BlacklistUserAdapter(blockedUsers, this);
@@ -121,7 +128,10 @@ public class BlacklistActivity extends AppCompatActivity implements UserListener
         // Can be used for future user interactions in the blacklist
     }
 
-    // Unblocks a user when they are clicked in the UI
+    /**
+     *  Unblocks a user when they are clicked in the UI
+     * @param user user in friend list position
+     */
     @Override
     public void onUserUnblocked(User user) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

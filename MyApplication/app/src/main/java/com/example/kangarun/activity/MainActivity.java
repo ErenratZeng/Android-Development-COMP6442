@@ -75,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
                 .addSubMenu(Color.parseColor("#F7AD19"), R.drawable.profile)
                 .setOnMenuSelectedListener(new OnMenuSelectedListener() {
 
+                    /**
+                     * Handles navigation based on circle menu selection.
+                     * @param index The index of the selected menu item.
+                     */
                     @Override
                     public void onMenuSelected(int index) {
                         // Handle menu selection to start different activities
@@ -119,10 +123,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Ban return button
+     */
     @Override
     public void onBackPressed() {
-        //Ban return button
     }
 
     @Override
@@ -132,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
         setProfileImage();
     }
 
+    /**
+     * Set user's profile image from Firebase storage
+     */
     private void setProfileImage() {
         // Locate the user's profile image from Firebase storage
         StorageReference profileRef = storageReference.child("user/" + currentUser.getUserId() + "/profile.jpg");

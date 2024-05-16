@@ -98,6 +98,9 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initializes components and loads user block lists.
+     */
     private void init() {
         messageList = new ArrayList<>();
         adapter = new ChatAdapter(
@@ -129,6 +132,10 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Attempts to send a message after loading block lists.
+     * Checks if users have blocked each other before sending a message.
+     */
     private void attemptSendMessage() {
         loadBlockLists();
         if (!isCurrentUserBlockListLoaded || !isReceiverBlockListLoaded) {
@@ -150,7 +157,9 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Loads block lists for both the current user and the receiver from Firestore.
+     */
     private void loadBlockLists() {
         // Load current user's block list
         db.collection("user").document(currentUser.getUserId()).get().addOnSuccessListener(documentSnapshot -> {
@@ -173,6 +182,10 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sends a chat message to Firestore.
+     * Adds a new document to the 'collection_chat' collection with the message details.
+     */
     private void sendMessage() {
         HashMap<String, Object> message = new HashMap<>();
         message.put("senderId", currentUser.getUserId());
@@ -190,6 +203,9 @@ public class ChatActivity extends AppCompatActivity {
         binding.inputMessage.setText(null);
     }
 
+    /**
+     * Listens for new messages between the current user and the receiver.
+     */
     private void listenMessage() {
         db.collection("collection_chat")
                 .whereEqualTo("senderId", currentUser.getUserId())
@@ -200,7 +216,11 @@ public class ChatActivity extends AppCompatActivity {
                 .whereEqualTo("receiverId", currentUser.getUserId())
                 .addSnapshotListener(eventListener);
     }
-
+    /**
+     * Converts a Date object to a formatted string.
+     * @param date the Date object to format
+     * @return a formatted string representing the date and time
+     */
     private String getDateTime(Date date) {
         return new SimpleDateFormat("yyyy MM-dd - hh:mm a", Locale.getDefault()).format(date);
     }

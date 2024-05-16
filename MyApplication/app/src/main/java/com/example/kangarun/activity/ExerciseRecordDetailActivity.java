@@ -40,5 +40,10 @@ public class ExerciseRecordDetailActivity extends AppCompatActivity {
         // Load images from Firebase Storage
         Picasso.get().load(imagePath).into(imageViewMapSnapshot);
 
+        ImageView imageBack = findViewById(R.id.imageBack);
+        imageBack.setOnClickListener(v -> {
+            getOnBackPressedDispatcher().onBackPressed();
+        });
+
     }
 }

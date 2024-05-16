@@ -40,6 +40,9 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
         binding.imageBack.setOnClickListener(v -> onBackPressed());
     }
 
+    /**
+     * Fetches and displays the list of friends from Firestore, excluding any blocked users.
+     */
     private void getUsers() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String currentUid = currentUser.getUserId();
@@ -90,7 +93,10 @@ public class FriendListActivity extends AppCompatActivity implements UserListene
         }).addOnFailureListener(e -> Log.e("getUser", "Error fetching current user data", e));
     }
 
-
+    /**
+     * Placeholder method for unblocking users. Currently does not perform any operations.
+     * @param user The user to potentially unblock.
+     */
     @Override
     public void onUserClicked(User user) {
         Intent intent = new Intent(getApplicationContext(), FriendProfileActivity.class);
