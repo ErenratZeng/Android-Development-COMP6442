@@ -91,4 +91,26 @@ The default profile picture will be applied with the error. It does not affect a
  Error 3:
 An white sreen flash with return to welcome page will happen when user leave username and password empty and press login
  This issue might cause crash, but most of time it won't
-    
+
+## Dependencies
+
+This project uses the following third-party libraries:
+
+- **lottie-android** (com.airbnb.android:lottie:3.4.0)
+  - Licensed under the Apache License, Version 2.0. See the [LICENSE](https://github.com/airbnb/lottie-android/blob/master/LICENSE) for details.
+
+- **Material Components For Android** (com.google.android.material:material:1.11.0)
+  - Licensed under the Apache License, Version 2.0. See the [LICENSE](https://github.com/material-components/material-components-android/blob/master/LICENSE) for details.
+
+- **ImagePicker** (com.github.dhaval2404:imagepicker:2.1)
+  - Licensed under the Apache License, Version 2.0. See the [LICENSE](https://github.com/Dhaval2404/ImagePicker/blob/master/LICENSE) for details.
+
+- **picasso** (com.squareup.picasso:picasso:2.8)
+  - Licensed under the Apache License, Version 2.0. See the [LICENSE](https://github.com/square/picasso/blob/master/LICENSE.txt) for details.
+
+- **MPAndroidChart** (com.github.PhilJay:MPAndroidChart:v3.1.0)
+  - Licensed under the Apache License, Version 2.0. See the [LICENSE](https://github.com/PhilJay/MPAndroidChart/blob/master/LICENSE) for details.
+
+## License
+
+This project is licensed under the Apache License, Version 2.0. See the [LICENSE](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/LICENSE.txt) file for details.
