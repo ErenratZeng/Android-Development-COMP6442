@@ -33,9 +33,27 @@ collaboration:
 # add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external code)
 code:
-  - comment:
-    url:
-    licence:
+  - comment: Loading animation
+    url: https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/raw/loading_animation.json
+    licence: Apache 2.0
+  - comment: Some icons
+    url: https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/tree/main/MyApplication/app/src/main/res/drawable/ic_*
+    licence: Apache 2.0
+  - comment: Get image from system to upload as profile image
+    url: https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UpdateProfileActivity.java
+    licence: Apache 2.0
+  - comment: Save screen shots and load to display
+    url: https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UpdateProfileActivity.java
+         https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java
+         https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java
+         https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java
+         https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java
+         https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java
+         https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MainActivity.java
+    licence: Apache 2.0
+  - comment: Draw line chart
+    url: https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java
+    licence: Apache 2.0
 
 
 # add as many "url+licence+comment" entries as necessary
