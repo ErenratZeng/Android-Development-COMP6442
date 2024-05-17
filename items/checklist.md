@@ -23,7 +23,7 @@ in the templates for both report and meeting minutes before submitting.
 - [x] The UID, name and roles (team structure) of all group members.
 - [x] A summary of individual contributions is well detailed by each member, with links to the key code contributions.
 - [x] A description of your application.
-- [ ] Examples/use cases of your application.
+- [x] Examples/use cases of your application.
 - [x] A UML diagram of your application (e.g. class diagram).
 - [x] A description of the application design (with a diagram if necessary).
 - [x] A description of design decisions made in regard to the data structures, tokenizers, parsers, design patterns and any other items you feel are relevant.
