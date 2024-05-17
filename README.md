@@ -19,7 +19,7 @@ chat, and exercise together.
 <hr> 
 
 ## **Download**
-<a href ="www.google.com"><img src="items/media/images/get-it-on-android.png" width="237" height="81" /> 
+<a href ="items/Kangrun_app_release.apk"><img src="items/media/images/get-it-on-android.png" width="237" height="81" /> 
 </a>
 <hr> 
 <div style="display:inline-block">
