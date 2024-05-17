@@ -56,21 +56,6 @@ The key area(s) of responsibilities for each member
 
 ## Summary of Individual Contributions
 
-Specific details of individual contribution of each member to the project.
-
-Each team member is responsible for writing **their own subsection**.
-
-A generic summary will not be acceptable and may result in a significant lose of marks.
-
-*[Summarise the contributions made by each member to the project, e.g. code implementation, code design, UI design, report writing, etc.]*
-
-*[Code Implementation. Which features did you implement? Which classes or methods was each member involved in? Provide an approximate proportion in pecentage of the contribution of each member to the whole code implementation, e.g. 30%.]*
-
-*you should ALSO provide links to the specified classes and/or functions*
-Note that the core criteria of contribution is based on `code contribution` (the technical developing of the App).
-
-*Here is an example: (Note that you should remove the entire section (e.g. "others") if it is not applicable)*
-
 1. **u7779907, Yan Jin**  I have 20% contribution, as follows: <br>
     - **Code Contribution in the final App**
         - LoginActivity.java: Developed the base structure for user login functionality.
@@ -94,9 +79,16 @@ Note that the core criteria of contribution is based on `code contribution` (the
         - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) & [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
       - Feature Data-Profile: Display personal information and an avatar for each user 
         - [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java) &  [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+      - Update avatar for user
+        - [UpdateProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UpdateProfileActivity.java)
    - **Code and App Design**
        - Implement media file display and upload through Picasso and imagepicker
        - Conceptualize the UI design of the entire app 
+         - [activity_main.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_main.xml)
+         - [activity_login.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_login.xml)
+         - [activity_update_profile.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_update_profile.xml)
+         - [activity_user_profile.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_user_profile.xml)
+         - [activity_friend_profile.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_friend_profile.xml)
        - Implement circular Menu through CircleMenur<br><br>
 
 3. **u7611510, HengSun**  I have 20% contribution, as follows: <br>
@@ -110,7 +102,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
          - [ExerciseRecordDetailActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordDetailActivity.java)
          - [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java)
         - Implementing the login state as a singleton ensures consistent access and efficient resource management throughout the application.
-          - [LoginState,java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/LoginState.java?ref_type=heads)<br>
+          - [LoginState,java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/LoginState.java)<br>
    - **Code and App Design**
        - proposed using AVL tree to store the friend relationship data structure, which can reduce the query waiting time <br><br>
 
@@ -203,18 +195,9 @@ Kangarun is a sports-centric social application designed for tracking your every
 <hr>
 
 ## Code Design and Decisions
+<br>
 
-This is an important section of your report and should include all technical decisions made. Well-written justifications will increase your marks for both the report as well as for the relevant parts (e.g., data structure). This includes, for example,
 
-- Details about the parser (describe the formal grammar and language used)
-
-- Decisions made (e.g., explain why you chose one or another data structure, why you used a specific data model, etc.)
-
-- Details about the design patterns used (where in the code, justification of the choice, etc)
-
-*Please give clear and concise descriptions for each subsections of this part. It would be better to list all the concrete items for each subsection and give no more than `5` concise, crucial reasons of your design.
-
-<hr>
 
 ### Data Structures
 
@@ -257,19 +240,19 @@ This is an important section of your report and should include all technical dec
 
 1. *Singleton Pattern*
    * *Objective: used for storing user information for all features that needs user information.*
-   * *Code Locations: defined in [Class LoginState, methods getInstance](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/LoginState.java) 
+   * *Code Locations: defined in [LoginState.java, methods getInstance](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/LoginState.java) 
    * *Reasons:*
       * used to ensure that a class has only one instance and provides a global point of access to that instance. It is useful to control access to a shared resource or manage global state within an application.
 
 2. *DAO Pattern*
    * *Objective: storing data access object.*
-   * *Code Locations: defined in [Class User](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java) and [Class Message](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/AdminUser.java)
+   * *Code Locations: defined in [User.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/User.java) & [Message.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/AdminUser.java)
    * *Reasons:*
       * used to separate the business logic from the data persistence logic, promoting better code organization and maintainability. It abstracts the database operations, providing a clean interface for accessing and manipulating data, which enhances code readability and reusability.
 
 3. *Template Pattern*
    * *Objective: used to promote code reuse by placing the common structure in the base adapter, while specific details are implemented in the subclasses.*
-   * *Code Locations: defined in [Class BaseAdaptor](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java) and [Class ChatAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java) and [Class ExerciseRecordAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java) and [Class UserAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java) and [Class BlacklistUserAdapter](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BlacklistUserAdapter.java)
+   * *Code Locations: defined in [BaseAdaptor.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BaseAdapter.java) & [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java) & [ExerciseRecordAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ExerciseRecordAdapter.java) &[UserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/UserAdapter.java) & [BlacklistUserAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/BlacklistUserAdapter.java)
    * *Reasons:*
       * used to define the skeleton of an algorithm in a superclass but allows subclasses to override specific steps of the algorithm without changing its structure. This promotes code reuse and allows for variation in behavior among subclasses while maintaining a common workflow.
 
@@ -314,16 +297,9 @@ Using tokenized search enriches the possibility and accuracy of current search f
 
 <hr>
 
-### Others
-
-*[What other design decisions have you made which you feel are relevant? Feel free to separate these into their own subheadings.]*
-
-<br>
-<hr>
 
 ## Implemented Features
-*[What features have you implemented? where, how, and why?]* <br>
-*List all features you have completed in their separate categories with their featureId. THe features must be one of the basic/custom features, or an approved feature from Voice Four Feature.*
+<br>
 
 ### Basic Features
 1. [LogIn]. Allows users to log into the Kangarun application using their credentials, ensuring authenticated access to personalized content.
@@ -357,15 +333,20 @@ Using tokenized search enriches the possibility and accuracy of current search f
    <br>
 ### Custom Features
 1. Feature Category: Search-related features<br>
-   [Search-Filter]. Sort and filter the search result (easy)
+   [Search-Filter]. Sort and filter the search result
     * Code: [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java)
     * Sort button to sort by username or email. Filter button for user-selected gender.
     * Based on O(n logn) Collеctions.sort()
       <br><br>
 2. Feature Category: Greater Data Usage, Handling and Sophistication<br>
-   [Data-GPS] Use GPS information based on location data in your App. (easy)
+   [Data-Profile] Create a Profile Page for Users or any Entities, which contains a media file 
+    * Code: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java#L65-72)
+    * Used the external library (Following the open source agreement) Picasso to read and display images.
+    <br>
+
+   [Data-GPS] Use GPS information based on location data in your App.
     * Code: [Class MapsActivity, method getCurrentLocation](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java#L238-L250)
-    * Description of your implementation: Use FusedLocationProviderClient to obtain the user's location information, and according to user current location on the map. <br><br>
+    * Use FusedLocationProviderClient to obtain the user's location information, and according to user current location on the map. <br><br>
 
    [Data-Graphical] Create a Graphical report viewer to see a report of some useful data from your app.
     * An image of previous exercise route on the map is shown in [Class MapsActivity,methods captureMapSnapshot, uploadMapSnapshotToFirebase](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java#L332-L370) lines of 332 to 370
@@ -374,10 +355,18 @@ Using tokenized search enriches the possibility and accuracy of current search f
     * It runs through all records, gets the summary of data in last 7 days, and make them into a line chart.<br><br>
 
 3. Feature Category: Firebase Integration <br>
-   [FB-Auth] Description of the feature
-    * Code: [Class X, entire file](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and Class Y, ...
-    * [Class B](../src/path/to/class/file.java#L30-85): methods A, B, C, lines of code: 30 to 85
-    * Description of your implementation: ... <br><br>
+   [FB-Auth] Use Firebase to implement User Authentication/Authorisation
+      * Code: [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java) & [RegisterActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/RegisterActivity.java)
+      * By using firebase Authentication, the user's login verification password and email address are implemented, ensuring security. This is somewhat more secure than local authentication.
+    <br>
+
+   [FB-Persist] Use Firebase to persist all data used in your app
+      * Code: [UserProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/UserProfileActivity.java), [MapsActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/MapsActivity.java#L100-144), [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java#L66-99), [ExerciseRecordActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ExerciseRecordActivity.java#L74-157), [BlacklistActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java#L65-107), [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java#L104), [FriendListActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java#L46-94), [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java) & [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java#L97-134)
+      * We store all the user data, sport record, friend list, black list, history chat and image in the firestore & firebase storage. 
+      <br>
+               
+    
+  
 
 4. Feature Category: Peer to Peer Messaging <br>
    [P2P-DM]. Users can chat with other users in a real-time direct message. (hard)
@@ -500,24 +489,18 @@ Coverage Screenshot:
 ## Team Management
 
 ### Meetings Records
-* Link to the minutes of your meetings like above. There must be at least 4 team meetings.
-  (each commited within 2 days after the meeting)
-* Your meetings should also have a reasonable date spanning across Week 6 to 11.*
 
-
-- *[Team Meeting 1](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240411.md)*
-- *[Team Meeting 2](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240415.md)*
-- *[Team Meeting 3](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240422.md)*
-- *[Team Meeting 4](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240429.md)*
-- *[Team Meeting 5](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240506.md)*
-- *[Team Meeting 6](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240513.md)*
+- *[Team Meeting 1 11th Apr - Stu Vac](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240411.md)*
+- *[Team Meeting 2 15th Apr - Week 7](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240415.md)*
+- *[Team Meeting 3 22nd Apr - Week 8](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240422.md)*
+- *[Team Meeting 4 29th Apr - Week 9](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240429.md)*
+- *[Team Meeting 5 6th May - Week 10](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240506.md)*
+- *[Team Meeting 6 13th May - Week 11](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/items/meeting20240513.md)*
 
 
 <hr>
 
 ### Conflict Resolution Protocol
-*[Write a well defined protocol your team can use to handle conflicts. That is, if your group has problems, what is the procedure for reaching consensus or solving a problem?
-(If you choose to make this an external document, link to it here)]*
 
 This shall include an agreed procedure for situations including (but not limited to):
 - if a member fails to meet the initial plan and/or deadlines，We will first check whether the assigned task is too complicated or too many assignments, which leads to failure to complete, or other assignments take up too much time. If it is the above situation, we will catch up with the progress, if not, then the failure to complete the task on time will be reflected in the final score
