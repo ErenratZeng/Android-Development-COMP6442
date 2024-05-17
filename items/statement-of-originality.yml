@@ -66,11 +66,14 @@ assets:
 
 # for each member, sign by inputting your name and uid here (remove any empty "name+uid" entries)
 members:
-  - name:
-    uid:
-  - name:
-    uid:
-  - name:
-    uid:
-  - name:
-    uid:
+  - name: Qiutong Zeng
+    uid: u7724723
+  - name: Heng Sun
+    uid: u7611510
+  - name: Runyao Wang
+    uid: u6812566
+  - name: Bingnan Zhao
+    uid: u6508459
+  - name: Yan Jin
+    uid: u7779907
+
