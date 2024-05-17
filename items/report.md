@@ -234,6 +234,22 @@ This is an important section of your report and should include all technical dec
      * *Allows for flexible size adjustments, accommodating an unpredictable number of posts or comments dynamically loaded from Firebase.*
      * *Provides efficient random access to elements, which is advantageous when displaying or sorting posts in the user feed.*
 
+3. *Map*
+   * *Objective: used for tokenizing and parsing user input data for structured processing.*
+   * *Code Locations: [tokenizer](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Tokenizer.java) and [parser](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/utils/Parser.java)*
+   * *Reasons:*
+     * *The Map structure allows for efficient storage and retrieval of key-value pairs, making it ideal for managing tokenized input data.*
+     * *It enables easy management of key-value pairs, ensuring that data is structured and can be quickly accessed or modified.*
+     * *The Map structure can handle varying amounts of data and can be easily scaled to accommodate more keys and values as needed.*
+
+4. *HashMap*
+   * *Objective: used for constructing a message payload to be sent to Firestore for chat functionality.*
+   * *Code Locations: [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)*
+   * *Reasons:*
+     * *The HashMap allows for easy construction of a message payload with dynamic key-value pairs, making it flexible to add or modify data fields as needed.*
+     * *The HashMap structure is compatible with Firestore's data model, making it straightforward to convert the map into a Firestore document.*
+     * *Provides efficient insertion and lookup operations, ensuring quick access and modification of message data.*
+
 <hr>
 
 ### Design Patterns
