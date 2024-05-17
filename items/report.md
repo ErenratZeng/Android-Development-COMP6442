@@ -370,21 +370,22 @@ Using tokenized search enriches the possibility and accuracy of current search f
   
 
 4. Feature Category: Peer to Peer Messaging <br>
-   [P2P-DM]. Users can chat with other users in a real-time direct message. (hard)
+   [P2P-DM] Users can chat with other users in a real-time direct message
     * Code: [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java),
       [activity_chat.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/res/layout/activity_login.xml), [ChatAdapter.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/-/blob/main/MyApplication/app/src/main/java/com/example/kangarun/adapter/ChatAdapter.java)
     * It is based on Firestore for persistent and real-time data synchronization, ensuring that messages are consistently updated and displayed. The messages are displayed by a recycle view adapter to handle asynchronous data loading and UI updates to provide a responsive user experience.<br><br>
 
-   [P2P-Block]
+   [P2P-Block] Provide users with the ability to ‘block’ and prevent another user from direct messaging
+them
     * Code:[FriendListActivity.java](uhttps://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java)
     * [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)
     * Description of your implementation: Implemented the blacklist activity to display a list of blocked users and manage block/unblock functionality. Integrated with Firebase to fetch and update the block list in real-time.
     * Added block/unblock functionality in the friend profile activity to allow users to manage their block list directly from the user's profile.
       <br><br>
-5. Feature Category: Privacy<br>
-   [Privacy-Block]
-    * Code: [BlacklistActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java)
-    * [activity_blacklist.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/res/layout/activity_blacklist.xml)
+1. Feature Category: Privacy<br>
+   [Privacy-Block] Provide content providers (or users) with the ability to ‘block’ users (or
+contents/profiles). The user shall then not be able to view the relevant contents from search results. 
+    * Code: [BlacklistActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java), [activity_blacklist.xml](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/res/layout/activity_blacklist.xml)
     * Description of your implementation: Modified the friend list activity to exclude blocked users from appearing in the friend list and search results.
     * Managed the block list through Firebase integration and dynamically updated the user interface based on the current block list. <br><br>
 
@@ -433,14 +434,22 @@ Using tokenized search enriches the possibility and accuracy of current search f
    - *The button on home page sometimes gets smaller*
    - The reason it gets smaller is because we used third party library to achiece dynamic effect, but it seems that the third party library has some bug we can't fix.
 2. *Bug 2:*
-    - *The length of chat message container is fixed. It may looks weird in landscape mode.*
+   - *The length of chat message container is fixed. It may looks weird in landscape mode.*
     - The reason of fixed container width is to eliminate extra spaces with *wrap_content(0dp)* in Recycle View.
-3. *Error 1:*
+3. *Bug 3:*
+   - When user finished upload avatar, if user return to last page, they won't see the avatar update, but when they return to the main page, they will see the update.
+    
+4. *Error 1:*
     - An crash appears when user try to upload avatar, but user only open the folder and quit.
     - The reason it crashed is because there is no fail listener added to the inner layer.
-4. *Error 2:*
-    - *An error message appears in the logcat when attempting to request a user's profile picture if it has not been set.*
+5. *Error 2:*
+   - *An error message appears in the logcat when attempting to request a user's profile picture if it has not been set.*
     - The default profile picture will be applied with the error. It does not affect any functionality.
+6. *Error 3:*
+   - An white sreen flash with return to welcome page will happen when user leave username and password empty and press login
+   - This issue might cause crash, but most of time it won't
+    
+  
 <br> <hr>
 
 
