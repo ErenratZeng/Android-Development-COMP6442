@@ -438,16 +438,19 @@ contents/profiles). The user shall then not be able to view the relevant content
     - The reason of fixed container width is to eliminate extra spaces with *wrap_content(0dp)* in Recycle View.
 3. *Bug 3:*
    - When user finished upload avatar, if user return to last page, they won't see the avatar update, but when they return to the main page, they will see the update.
-    
-4. *Error 1:*
+4. *Bug 4:*
+   - *There will be a 404 error when trying to display profile image when that user actually have no profile image in database*
+
+5. *Error 1:*
     - An crash appears when user try to upload avatar, but user only open the folder and quit.
     - The reason it crashed is because there is no fail listener added to the inner layer.
-5. *Error 2:*
+6. *Error 2:*
    - *An error message appears in the logcat when attempting to request a user's profile picture if it has not been set.*
     - The default profile picture will be applied with the error. It does not affect any functionality.
-6. *Error 3:*
+7. *Error 3:*
    - An white sreen flash with return to welcome page will happen when user leave username and password empty and press login
    - This issue might cause crash, but most of time it won't
+
     
   
 <br> <hr>
