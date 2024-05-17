@@ -1,11 +1,12 @@
 # [G48 - Kangarun] Report
 
 
-#### Statement: We used API 34 to build the app, using API 33 might result in incompatibility
+### <font color=red> <center> Statement:This project is using API 34 to build the app, using API 33 might result in incompatibility </center> </font>
+
 ## Table of Contents
 
-- [\[G48 - Kangarun\] Report](#g48---kangarun-report)
-      - [Statement: We used API 34 to build the app, using API 33 might result in incompatibility](#statement-we-used-api-34-to-build-the-app-using-api-33-might-result-in-incompatibility)
+- [[G48 - Kangarun] Report](#g48---kangarun-report)
+      - [Statement](#statement-we-used-api-34-to-build-the-app-using-api-33-might-result-in-incompatibility)
   - [Table of Contents](#table-of-contents)
   - [Administrative](#administrative)
   - [Team Members and Roles](#team-members-and-roles)
