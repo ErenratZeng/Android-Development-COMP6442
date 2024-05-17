@@ -71,18 +71,18 @@ Note that the core criteria of contribution is based on `code contribution` (the
 
 *Here is an example: (Note that you should remove the entire section (e.g. "others") if it is not applicable)*
 
-1. **u7779907, Yan Jin**  I have xx% contribution, as follows: <br>
+1. **u7779907, Yan Jin**  I have 20% contribution, as follows: <br>
     - **Code Contribution in the final App**
         - LoginActivity.java: Developed the base structure for user login functionality.
-          [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
-          [WelcomeActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/WelcomeActivity.java)
+          - [LoginActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/LoginActivity.java)
+          - [WelcomeActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/WelcomeActivity.java)
         - Feature P2P-Block: Developed user blocking functionality to prevent direct messaging
-          [BlacklistActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java)
-          [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
-          [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)
+          - [BlacklistActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/BlacklistActivity.java)
+          - [FriendProfileActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendProfileActivity.java)
+          - [ChatActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/ChatActivity.java)
         - Feature Privacy-Block: Implemented content blocking to prevent users from viewing certain profiles or content
-          [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java)
-          [FriendListActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java)
+          - [SearchActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/SearchActivity.java)
+          - [FriendListActivity.java](https://gitlab.cecs.anu.edu.au/u7724723/gp-24s1/blob/main/MyApplication/app/src/main/java/com/example/kangarun/activity/FriendListActivity.java)
     - **Code and App Design**
         - Developed the UI for displaying the list of blocked users, incorporating features for easy unblocking. 
         - Ensured that the blacklist interface aligns with the overall design and usability standards of the Kangarun app.
