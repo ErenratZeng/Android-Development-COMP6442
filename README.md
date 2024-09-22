@@ -2,13 +2,7 @@
 <div align=center><img src="MyApplication/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" width="300" height="300" /> 
 
 # **G48 - Kangarun**
-**Team Members
-u7724723	Qiutong Zeng
-u7611510	Heng Sun
-u6812566	Runyao Wang
-u6508459	Bingnan Zhao
-u7779907	Yan Jin**
-<hr> 
+
 
 ### <font color=red> <center> Statement:This project is using API 34 to build the app, using API 33 might result in incompatibility </center> </font>
 <hr> 
